@@ -17,19 +17,17 @@ gtag("config", "G-EE3J9BQ2RW");
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial;
   margin: 0;
-  padding: 0;
   background:
     repeating-linear-gradient(45deg, rgba(255,255,255,0.04), rgba(255,255,255,0.04) 10px, rgba(0,0,0,0.03) 10px, rgba(0,0,0,0.03) 20px),
-    radial-gradient(circle at top, rgba(255,255,255,0.35), rgba(0,0,0,0.35)),
     linear-gradient(180deg, #c2a06a, #7d5a30);
 }
 
 .main {
   max-width: 420px;
-  margin: 64px auto;
+  margin: 60px auto;
   background: #fff6e4;
-  padding: 32px 22px 36px;
-  border-radius: 22px;
+  padding: 30px;
+  border-radius: 20px;
   text-align: center;
 }
 
@@ -40,70 +38,29 @@ body {
   margin-bottom: 14px;
 }
 
-h1 {
-  margin: 14px 0 10px;
-  font-size: 23px;
-  color: #3b2414;
-}
+h1 { font-size: 22px; color: #3b2414; }
 
-p {
-  margin: 6px 0;
-  color: #5b442e;
-  font-size: 14px;
-}
+p { font-size: 14px; color: #5b442e; }
 
-.btn-group {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 24px;
-}
-
-a.btn {
-  width: 100%;
-  max-width: 320px;
-  margin: 10px 0;
-  padding: 15px;
-  background: linear-gradient(180deg, #c03a2b, #8f2319);
+.btn {
+  display: block;
+  margin: 12px 0;
+  padding: 14px;
+  border-radius: 14px;
+  background: #c03a2b;
   color: #fff;
-  font-size: 16px;
-  border-radius: 16px;
   text-decoration: none;
 }
 
-a.btn.secondary {
-  background: linear-gradient(180deg, #8a7660, #66503a);
-}
-
-/* 公告 */
-#notice {
-  position: fixed;
-  inset: 0;
-  background: rgba(25,15,5,0.8);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-}
-
-.notice-box {
-  background: #fff6e4;
-  width: 90%;
-  max-width: 360px;
-  padding: 26px;
-  border-radius: 20px;
-  text-align: center;
-}
-
-/* 版本弹窗 */
+/* 弹窗 */
 #versionModal {
   display: none;
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.92);
-  z-index: 10000;
+  z-index: 9999;
   overflow-y: auto;
-  padding: 40px 0;
+  padding: 30px 0;
 }
 
 .modal-content {
@@ -112,47 +69,28 @@ a.btn.secondary {
   margin: auto;
 }
 
-.modal-content img {
-  width: 100%;
-  border-radius: 12px;
-}
+.modal-content img { width: 100%; border-radius: 12px; }
 
 .modal-text {
   background: #fff6e4;
-  padding: 18px;
-  margin-top: 12px;
+  padding: 16px;
+  margin-top: 10px;
   border-radius: 12px;
   white-space: pre-line;
   font-size: 14px;
-  line-height: 1.7;
 }
 
 .close-btn {
   position: fixed;
   right: 20px;
   top: 20px;
-  width: 42px;
-  height: 42px;
+  width: 40px;
+  height: 40px;
   background: red;
   color: #fff;
   border-radius: 50%;
   text-align: center;
-  line-height: 42px;
-  font-size: 22px;
-  cursor: pointer;
-}
-
-#toast {
-  position: fixed;
-  left: 50%;
-  bottom: 22px;
-  transform: translateX(-50%);
-  background: rgba(0,0,0,0.78);
-  color: #fff;
-  padding: 10px 14px;
-  border-radius: 12px;
-  font-size: 13px;
-  display: none;
+  line-height: 40px;
 }
 </style>
 </head>
@@ -160,45 +98,27 @@ a.btn.secondary {
 <body>
 
 <div class="main">
+
 <img class="game-icon" src="ST.jpg">
 
 <h1>率土之滨热血福利服1折版</h1>
 
-<p>🔥 开区稳定 · 长期运营</p>
-<p>🔥 独家资源 3月下旬全民内测</p>
-<p>🔥 3月21日左右开放账号注册资格 同时开放代理端测试 预计代理测试5-7天之后开放全民内测</p>
-<p>🔥 ↓强烈建议保存好此下载地址 方便掌握第一手开服消息！</p>
+<p>🔥 长期稳定 · 高爆福利</p>
+<p>🔥 不肝不氪 · 散人逆袭</p>
 
-<div class="btn-group">
-
-<a class="btn secondary"
+<a class="btn"
 href="https://qun.qq.com/universal-share/share?ac=1&authKey=JAAxXnQOTjw8AmPoY4T85ARdL8%2FRt0%2BI34O81lIucehnKbymJoSHKeukATkqfa2U&busi_data=eyJncm91cENvZGUiOiIxMDE1MjY3ODg2IiwidG9rZW4iOiJ6YkN5eTV3c01JQ1BMSnNETTRQMmpLV2dIM2xNZzhYS0hwaVFwMjE1Mk5USytXbWdUWURMQ1lRVWcxY3NPeUJxIiwidWluIjoiMzI0Njc0NTU5NyJ9&data=u2PZ78EPYp1HtaNV628wI55Ggt_8c4fZHUQcBIO99gNKSIJKTO6EMyk3GvMW-LFkOARDclOimRcj4D6DEtA3_Q&svctype=4&tempid=h5_group_info"
-target="_blank"
-onclick="return openQQGroup(event);">
-💰 游戏下载点这里 💰
+onclick="trackDownload()">
+💰 点击下载游戏
 </a>
 
-<a class="btn secondary" href="javascript:void(0);" onclick="openVersion()">
+<a class="btn" href="javascript:void(0);" onclick="openVersion()">
 📜 查看版本设定
 </a>
 
 </div>
-</div>
 
-<!-- 公告 -->
-<div id="notice">
-<div class="notice-box">
-<h3>📢 军令公告</h3>
-<p>
-本服为长期稳定畅玩服<br>
-各位大佬请进群等候<br>
-3月下旬开启全民首次内测
-</p>
-<button onclick="closeNotice()">我已知晓</button>
-</div>
-</div>
-
-<!-- 版本弹窗 -->
+<!-- 弹窗 -->
 <div id="versionModal">
 <div class="close-btn" onclick="closeVersion()">×</div>
 
@@ -253,55 +173,56 @@ onclick="return openQQGroup(event);">
 </div>
 </div>
 
-<div id="toast"></div>
-
 <script>
 
-function closeNotice(){
-document.getElementById("notice").style.display="none";
-}
-
+/* 弹窗 */
 function openVersion(){
 document.getElementById("versionModal").style.display="block";
-document.body.style.overflow="hidden";
 }
 
 function closeVersion(){
 document.getElementById("versionModal").style.display="none";
-document.body.style.overflow="auto";
 }
 
-/* 3秒自动弹（不会和公告冲突） */
+/* 1.5秒自动弹 */
 setTimeout(function(){
-var notice=document.getElementById("notice");
-if(notice && notice.style.display!=="none") return;
 openVersion();
-},3000);
+},1500);
 
-function isWeChat(){
-return /MicroMessenger/i.test(navigator.userAgent);
+/* ===== 渠道统计 ===== */
+
+// 获取渠道
+function getChannel(){
+const url=new URL(window.location.href);
+return url.searchParams.get("channel")||"direct";
 }
 
-function showToast(msg){
-var t=document.getElementById("toast");
-t.textContent=msg;
-t.style.display="block";
-setTimeout(()=>t.style.display="none",2200);
-}
+// 记录访问
+(function(){
+let channel=getChannel();
+let data=JSON.parse(localStorage.getItem("stats")||"{}");
 
-function copyText(text){
-navigator.clipboard.writeText(text);
-}
+if(!data[channel]) data[channel]={visit:0,click:0};
 
-function openQQGroup(e){
-var groupCode="1015267886";
-if(isWeChat()){
-e.preventDefault();
-showToast("请用浏览器打开，群号已复制");
-copyText(groupCode);
-return false;
-}
-return true;
+data[channel].visit++;
+
+localStorage.setItem("stats",JSON.stringify(data));
+
+console.log("渠道统计:",data);
+})();
+
+// 点击统计
+function trackDownload(){
+let channel=getChannel();
+let data=JSON.parse(localStorage.getItem("stats")||"{}");
+
+if(!data[channel]) data[channel]={visit:0,click:0};
+
+data[channel].click++;
+
+localStorage.setItem("stats",JSON.stringify(data));
+
+console.log("点击统计:",data);
 }
 
 </script>
