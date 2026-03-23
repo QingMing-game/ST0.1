@@ -15,17 +15,21 @@ gtag("config", "G-EE3J9BQ2RW");
 
 <style>
 
-/* ===== 背景优化（核心） ===== */
+/* ===== 背景（已修复） ===== */
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial;
   margin: 0;
 
-  /* 👉 替换成你的GitHub GIF */
-  background: url("你的GIF地址") no-repeat center center fixed;
+  /* ✅ 正确GIF地址 */
+  background-color: #000;
+  background-image: url("https://raw.githubusercontent.com/QingMing-game/ST0.1/main/BKG.gif");
+  background-repeat: no-repeat;
+  background-position: center center;
   background-size: cover;
+  background-attachment: fixed;
 }
 
-/* 暗层提升质感 */
+/* 遮罩提升质感 */
 body::before{
   content: "";
   position: fixed;
@@ -34,7 +38,7 @@ body::before{
   z-index: -1;
 }
 
-/* ===== 主内容卡片（毛玻璃） ===== */
+/* 主卡片 */
 .main {
   max-width: 420px;
   margin: 60px auto;
@@ -46,7 +50,6 @@ body::before{
   backdrop-filter: blur(10px);
 }
 
-/* ===== 原样保留 ===== */
 .game-icon {
   width: 92px;
   height: 92px;
@@ -55,7 +58,6 @@ body::before{
 }
 
 h1 { font-size: 22px; color: #3b2414; }
-
 p { font-size: 14px; color: #5b442e; }
 
 .btn {
@@ -68,7 +70,7 @@ p { font-size: 14px; color: #5b442e; }
   text-decoration: none;
 }
 
-/* ===== 弹窗 ===== */
+/* 弹窗 */
 #versionModal {
   display: none;
   position: fixed;
@@ -109,7 +111,7 @@ p { font-size: 14px; color: #5b442e; }
   line-height: 40px;
 }
 
-/* ===== 📱 手机端优化 ===== */
+/* 📱 手机适配 */
 @media (max-width:768px){
   body{
     background-position: center top;
@@ -213,7 +215,6 @@ onclick="trackDownload()">
 
 <script>
 
-/* 弹窗 */
 function openVersion(){
 document.getElementById("versionModal").style.display="block";
 }
@@ -222,13 +223,9 @@ function closeVersion(){
 document.getElementById("versionModal").style.display="none";
 }
 
-/* 1.5秒自动弹 */
-setTimeout(function(){
-openVersion();
-},1500);
+setTimeout(openVersion,1500);
 
-/* ===== 渠道统计 ===== */
-
+/* 渠道统计 */
 function getChannel(){
 const url=new URL(window.location.href);
 return url.searchParams.get("channel")||"direct";
@@ -243,8 +240,6 @@ if(!data[channel]) data[channel]={visit:0,click:0};
 data[channel].visit++;
 
 localStorage.setItem("stats",JSON.stringify(data));
-
-console.log("渠道统计:",data);
 })();
 
 function trackDownload(){
@@ -256,8 +251,6 @@ if(!data[channel]) data[channel]={visit:0,click:0};
 data[channel].click++;
 
 localStorage.setItem("stats",JSON.stringify(data));
-
-console.log("点击统计:",data);
 }
 
 </script>
