@@ -5,149 +5,131 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>率土国际服·热血福利服</title>
 
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag("js", new Date());
+gtag("config", "G-EE3J9BQ2RW");
+</script>
+
 <style>
 
-/* ===== 🎬 视频背景 ===== */
-video.bg-video{
+/* ===== 背景（已修复） ===== */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial;
+  margin: 0;
+
+  /* ✅ 正确GIF地址 */
+  background-color: #000;
+  background-image: url("https://raw.githubusercontent.com/QingMing-game/ST0.1/main/BKG.gif");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+/* 遮罩提升质感 */
+body::before{
+  content: "";
   position: fixed;
   inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: -2;
+  background: rgba(0,0,0,0.55);
+  z-index: -1;
 }
 
-/* 暗层 */
-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.5);
-  z-index:-1;
+/* 主卡片 */
+.main {
+  max-width: 420px;
+  margin: 60px auto;
+  padding: 30px;
+  border-radius: 20px;
+  text-align: center;
+
+  background: rgba(255, 246, 228, 0.9);
+  backdrop-filter: blur(10px);
 }
 
-body{
-  margin:0;
-  font-family:Arial;
+.game-icon {
+  width: 92px;
+  height: 92px;
+  border-radius: 22px;
+  margin-bottom: 14px;
 }
 
-/* ===== 🔘 中心按钮 ===== */
-.center-btn{
-  position:fixed;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  width:80px;
-  height:80px;
-  border-radius:50%;
-  background:#c03a2b;
-  color:#fff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:14px;
-  cursor:pointer;
-  transition:0.3s;
-  z-index:10;
+h1 { font-size: 22px; color: #3b2414; }
+p { font-size: 14px; color: #5b442e; }
+
+.btn {
+  display: block;
+  margin: 12px 0;
+  padding: 14px;
+  border-radius: 14px;
+  background: #c03a2b;
+  color: #fff;
+  text-decoration: none;
 }
 
-.center-btn.active{
-  transform:translate(-50%,-50%) rotate(45deg);
+/* 弹窗 */
+#versionModal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.92);
+  z-index: 9999;
+  overflow-y: auto;
+  padding: 30px 0;
 }
 
-/* ===== 📦 展开内容 ===== */
-.panel{
-  position:fixed;
-  bottom:0;
-  left:0;
-  width:100%;
-  max-width:500px;
-  margin:auto;
-  right:0;
-
-  background:rgba(255,246,228,0.9);
-  backdrop-filter:blur(10px);
-
-  border-radius:20px 20px 0 0;
-  padding:20px;
-
-  transform:translateY(100%);
-  transition:0.4s;
+.modal-content {
+  width: 95%;
+  max-width: 500px;
+  margin: auto;
 }
 
-.panel.show{
-  transform:translateY(0);
+.modal-content img { width: 100%; border-radius: 12px; }
+
+.modal-text {
+  background: #fff6e4;
+  padding: 16px;
+  margin-top: 10px;
+  border-radius: 12px;
+  white-space: pre-line;
+  font-size: 14px;
 }
 
-.btn{
-  display:block;
-  margin:10px 0;
-  padding:14px;
-  border-radius:12px;
-  background:#c03a2b;
-  color:#fff;
-  text-align:center;
-  text-decoration:none;
+.close-btn {
+  position: fixed;
+  right: 20px;
+  top: 20px;
+  width: 40px;
+  height: 40px;
+  background: red;
+  color: #fff;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 40px;
 }
 
-/* ===== 📱 自适应 ===== */
-@media (min-width:768px){
-  .center-btn{
-    width:100px;
-    height:100px;
+/* 📱 手机适配 */
+@media (max-width:768px){
+  body{
+    background-position: center top;
+  }
+
+  .main{
+    margin: 30px 15px;
+    padding: 20px;
+  }
+
+  h1{
+    font-size:18px;
+  }
+
+  .btn{
+    padding: 12px;
     font-size:16px;
   }
-
-  .panel{
-    max-width:420px;
-    left:auto;
-    right:40px;
-    bottom:40px;
-    border-radius:20px;
-  }
-}
-
-/* ===== 弹窗（带GIF背景） ===== */
-#versionModal{
-  display:none;
-  position:fixed;
-  inset:0;
-  z-index:9999;
-}
-
-/* GIF背景 */
-.modal-bg{
-  position:absolute;
-  inset:0;
-  background:url("https://raw.githubusercontent.com/QingMing-game/ST0.1/main/BKG.gif") center/cover no-repeat;
-  filter:brightness(0.4);
-}
-
-.modal-content{
-  position:relative;
-  width:95%;
-  max-width:500px;
-  margin:50px auto;
-}
-
-.modal-text{
-  background:#fff6e4;
-  padding:15px;
-  border-radius:10px;
-  white-space:pre-line;
-}
-
-.close-btn{
-  position:fixed;
-  right:20px;
-  top:20px;
-  width:40px;
-  height:40px;
-  background:red;
-  color:#fff;
-  border-radius:50%;
-  text-align:center;
-  line-height:40px;
 }
 
 </style>
@@ -155,66 +137,121 @@ body{
 
 <body>
 
-<!-- 🎬 视频 -->
-<video class="bg-video" autoplay muted loop playsinline>
-  <source src="https://raw.githubusercontent.com/QingMing-game/ST0.1/main/VD1.mp4" type="video/mp4">
-</video>
+<div class="main">
 
-<!-- 🔘 中心按钮 -->
-<div class="center-btn" onclick="togglePanel()">点击</div>
+<img class="game-icon" src="ST.jpg">
 
-<!-- 📦 内容面板 -->
-<div class="panel" id="panel">
-
-<h3>率土之滨热血福利服1折版</h3>
+<h1>率土之滨热血福利服1折版</h1>
 
 <p>🔥 独家资源 3月21日左右开放代理端测试 预计代理测试7天之后开放全民内测</p>
 <p>🔥 ↓强烈建议保存好此下载地址 方便掌握第一手开服消息！</p>
 
 <a class="btn"
-href="https://qun.qq.com/universal-share/share?ac=1&authKey=JAAxXnQOTjw8AmPoY4T85ARdL8%2FRt0%2BI34O81lIucehnKbymJoSHKeukATkqfa2U&busi_data=eyJncm91cENvZGUiOiIxMDE1MjY3ODg2IiwidG9rZW4iOiJ6YkN5eTV3c01JQ1BMSnNETTRQMmpLV2dIM2xNZzhYS0hwaVFwMjE1Mk5USytXbWdUWURMQ1lRVWcxY3NPeUJxIiwidWluIjoiMzI0Njc0NTU5NyJ9&data=u2PZ78EPYp1HtaNV628wI55Ggt_8c4fZHUQcBIO99gNKSIJKTO6EMyk3GvMW-LFkOARDclOimRcj4D6DEtA3_Q&svctype=4&tempid=h5_group_info">
+href="https://qun.qq.com/universal-share/share?ac=1&authKey=JAAxXnQOTjw8AmPoY4T85ARdL8%2FRt0%2BI34O81lIucehnKbymJoSHKeukATkqfa2U&busi_data=eyJncm91cENvZGUiOiIxMDE1MjY3ODg2IiwidG9rZW4iOiJ6YkN5eTV3c01JQ1BMSnNETTRQMmpLV2dIM2xNZzhYS0hwaVFwMjE1Mk5USytXbWdUWURMQ1lRVWcxY3NPeUJxIiwidWluIjoiMzI0Njc0NTU5NyJ9&data=u2PZ78EPYp1HtaNV628wI55Ggt_8c4fZHUQcBIO99gNKSIJKTO6EMyk3GvMW-LFkOARDclOimRcj4D6DEtA3_Q&svctype=4&tempid=h5_group_info"
+onclick="trackDownload()">
 💰 点击下载游戏
 </a>
 
-<a class="btn" onclick="openVersion()">📜 查看版本设定</a>
+<a class="btn" href="javascript:void(0);" onclick="openVersion()">
+📜 查看版本设定
+</a>
 
 </div>
 
 <!-- 弹窗 -->
 <div id="versionModal">
-<div class="modal-bg"></div>
 <div class="close-btn" onclick="closeVersion()">×</div>
 
 <div class="modal-content">
+<img src="promo.jpg">
+
 <div class="modal-text">
-
 【版本设定】
-（你原来的内容全部保留）
+ 开区公告
+【率土国际服·热血福利服】正式开区！
+全网独家福利｜极速赛季｜超高爆率｜不肝不氪
 
+上线即领
+88888虎符 + 五星自选×3 + 满战法经验
+全武将开放抽取，无屏蔽、无暗箱！
+ 
+私服专属倍率
+资源产量×5｜建筑速度×3｜征兵速度×3
+体力消耗减半｜行军速度提升｜战损大幅降低
+ 
+开服7天狂欢活动
+ 
+1. 首充任意金额 → 送核心国家队一套
+2. 势力冲榜 → 前10名送绝版称号+海量虎符
+3. 首占城池 → 联盟全员发放高额奖励
+4. 每日签到 → 天天领五星碎片+资源
+5. 战功排行 → 每日结算，奖励拿到手软
+ 
+21天极速赛季
+开荒→州战→洛阳→征服，节奏紧凑不拖沓
+征服盟/割据盟/群雄盟，人人有奖励，不打酱油！
+ 
+温馨提示
+禁止外挂、刷资源、违规行为，违者永久封禁
+绿色公平，快乐游戏！
+ 
+率土国际服·热血福利服今日新开！
+上线8万虎符+3个五星自选
+抽卡爆率拉满，国家队随便凑
+21天极速赛季，不肝不氪，打架超爽
+散人抱团、小盟也能逆袭！
+ 
+官方太累？来这里爽玩！
+率土老玩家专属福利服
+五星概率超高、核心将全开放
+资源翻倍、自动征兵、开荒无压力
+赛季短、节奏快、奖励拉满
+散人、小团队、休闲党都能玩！
+今日新区，等你来征服！
 </div>
+
 </div>
 </div>
 
 <script>
 
-function togglePanel(){
-  let panel=document.getElementById("panel");
-  let btn=document.querySelector(".center-btn");
-
-  panel.classList.toggle("show");
-  btn.classList.toggle("active");
-}
-
-/* 弹窗 */
 function openVersion(){
 document.getElementById("versionModal").style.display="block";
 }
+
 function closeVersion(){
 document.getElementById("versionModal").style.display="none";
 }
 
-/* 自动弹 */
 setTimeout(openVersion,1500);
+
+/* 渠道统计 */
+function getChannel(){
+const url=new URL(window.location.href);
+return url.searchParams.get("channel")||"direct";
+}
+
+(function(){
+let channel=getChannel();
+let data=JSON.parse(localStorage.getItem("stats")||"{}");
+
+if(!data[channel]) data[channel]={visit:0,click:0};
+
+data[channel].visit++;
+
+localStorage.setItem("stats",JSON.stringify(data));
+})();
+
+function trackDownload(){
+let channel=getChannel();
+let data=JSON.parse(localStorage.getItem("stats")||"{}");
+
+if(!data[channel]) data[channel]={visit:0,click:0};
+
+data[channel].click++;
+
+localStorage.setItem("stats",JSON.stringify(data));
+}
 
 </script>
 
