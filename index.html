@@ -7,18 +7,17 @@
 
 <style>
 
-/* ===== 🎬 视频背景优化 ===== */
+/* ===== 视频背景 ===== */
 video.bg-video{
   position: fixed;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 30%; /* 👉 保证人物不被裁 */
+  object-position: center 30%;
   z-index: -2;
 }
 
-/* 暗层 */
 body::before{
   content:"";
   position:fixed;
@@ -32,7 +31,7 @@ body{
   font-family:-apple-system, Arial;
 }
 
-/* ===== 🔘 按钮（自适应+高级感） ===== */
+/* ===== 中心按钮 ===== */
 .center-btn{
   position:fixed;
   top:50%;
@@ -43,57 +42,52 @@ body{
   height:clamp(70px, 12vw, 110px);
 
   border-radius:50%;
-  background:rgba(192,58,43,0.85);
-  backdrop-filter: blur(6px);
-
+  background:rgba(192,58,43,0.9);
   color:#fff;
-  font-size:clamp(12px, 2.5vw, 16px);
-  font-weight:bold;
 
   display:flex;
   align-items:center;
   justify-content:center;
+
+  font-size:clamp(13px,2.5vw,16px);
+  font-weight:bold;
 
   cursor:pointer;
   z-index:10;
 
   box-shadow:0 0 20px rgba(192,58,43,0.6);
 
-  animation:breathe 3.2s infinite ease-in-out,
-            glow 3.2s infinite;
+  animation:breathe 3s infinite ease-in-out,
+            glow 3s infinite;
 }
 
-/* 呼吸 */
 @keyframes breathe {
   0% { transform: translate(-50%, -50%) scale(1); }
   50% { transform: translate(-50%, -50%) scale(1.07); }
   100% { transform: translate(-50%, -50%) scale(1); }
 }
 
-/* 光晕 */
 @keyframes glow {
   0% { box-shadow:0 0 0 0 rgba(192,58,43,0.6); }
   70% { box-shadow:0 0 0 25px rgba(192,58,43,0); }
   100% { box-shadow:0 0 0 0 rgba(192,58,43,0); }
 }
 
-/* 点击状态 */
 .center-btn.active{
   transform: translate(-50%, -50%) rotate(45deg) scale(1.08);
 }
 
-/* ===== 📦 面板优化 ===== */
+/* ===== 面板 ===== */
 .panel{
   position:fixed;
   bottom:0;
   left:0;
   right:0;
 
-  width:100%;
   max-width:520px;
   margin:auto;
 
-  background:rgba(255,246,228,0.95);
+  background:rgba(255,246,228,0.96);
   backdrop-filter:blur(12px);
 
   border-radius:22px 22px 0 0;
@@ -101,6 +95,8 @@ body{
 
   transform:translateY(100%);
   transition:0.45s;
+
+  text-align:center;
 }
 
 .panel.show{
@@ -108,30 +104,29 @@ body{
 }
 
 .panel h3{
-  font-size:clamp(16px, 3vw, 20px);
+  margin-bottom:10px;
 }
 
 .panel p{
-  font-size:clamp(13px, 2.5vw, 15px);
+  margin:10px 0;
   line-height:1.6;
 }
 
 /* 按钮 */
 .btn{
   display:block;
-  margin:12px 0;
-  padding:clamp(12px, 2.5vw, 16px);
+  margin:14px auto;
+  width:90%;
+  max-width:300px;
+  padding:14px;
   border-radius:14px;
   background:#c03a2b;
   color:#fff;
-  text-align:center;
   text-decoration:none;
-  font-size:clamp(14px, 2.5vw, 16px);
 }
 
-/* ===== 📱 PC布局优化 ===== */
+/* PC */
 @media (min-width:768px){
-
   .panel{
     max-width:420px;
     right:40px;
@@ -139,10 +134,9 @@ body{
     bottom:40px;
     border-radius:20px;
   }
-
 }
 
-/* ===== 📜 弹窗优化 ===== */
+/* ===== 弹窗 ===== */
 #versionModal{
   display:none;
   position:fixed;
@@ -150,7 +144,6 @@ body{
   z-index:9999;
 }
 
-/* GIF背景 */
 .modal-bg{
   position:absolute;
   inset:0;
@@ -165,21 +158,22 @@ body{
   margin:40px auto;
 }
 
-/* 文本优化 */
 .modal-text{
   background:#fff6e4;
   padding:18px;
   border-radius:14px;
 
-  font-size:clamp(13px,2.5vw,15px);
+  font-size:14px;
   line-height:1.7;
 
-  max-height:75vh;
+  max-height:70vh;
   overflow:auto;
   white-space:pre-line;
+
+  padding-bottom:60px;
+  -webkit-overflow-scrolling: touch;
 }
 
-/* 关闭 */
 .close-btn{
   position:fixed;
   right:20px;
@@ -191,7 +185,6 @@ body{
   border-radius:50%;
   text-align:center;
   line-height:42px;
-  font-size:20px;
 }
 
 </style>
@@ -199,31 +192,26 @@ body{
 
 <body>
 
-<!-- 🎬 视频 -->
 <video class="bg-video" autoplay muted loop playsinline>
   <source src="https://raw.githubusercontent.com/QingMing-game/ST0.1/main/VD1.mp4" type="video/mp4">
 </video>
 
-<!-- 🔘 按钮 -->
 <div class="center-btn" onclick="togglePanel()">进入</div>
 
-<!-- 📦 面板 -->
 <div class="panel" id="panel">
 
-<h3>率土之滨热血福利服1折版</h3>
+<h3>🔥 率土之滨热血福利服 1折版</h3>
 
-<p>🔥 独家资源 3月21日左右开放代理端测试 预计代理测试7天之后开放全民内测</p>
-<p>🔥 ↓强烈建议保存好此下载地址 方便掌握第一手开服消息！</p>
+<p>✨ 独家资源开放中</p>
+<p>📅 预计3月底开启全民内测</p>
+<p>⚠️ 建议收藏本页面获取第一手开服消息</p>
 
-<a class="btn" href="你的原下载链接">
-💰 点击下载游戏
-</a>
+<a class="btn" href="你的原下载链接">点击下载游戏</a>
 
-<a class="btn" onclick="openVersion()">📜 查看版本设定</a>
+<a class="btn" onclick="openVersion()">查看版本设定</a>
 
 </div>
 
-<!-- 📜 弹窗 -->
 <div id="versionModal">
 <div class="modal-bg"></div>
 <div class="close-btn" onclick="closeVersion()">×</div>
@@ -231,48 +219,34 @@ body{
 <div class="modal-content">
 <div class="modal-text">
 
-【版本设定】
- 开区公告
-【率土国际服·热血福利服】正式开区！
-全网独家福利｜极速赛季｜超高爆率｜不肝不氪
+🔥【开区公告】
+率土国际服·热血福利服正式开启！
 
-上线即领
-88888虎符 + 五星自选×3 + 满战法经验
-全武将开放抽取，无屏蔽、无暗箱！
- 
-私服专属倍率
-资源产量×5｜建筑速度×3｜征兵速度×3
-体力消耗减半｜行军速度提升｜战损大幅降低
- 
-开服7天狂欢活动
- 
-1. 首充任意金额 → 送核心国家队一套
-2. 势力冲榜 → 前10名送绝版称号+海量虎符
-3. 首占城池 → 联盟全员发放高额奖励
-4. 每日签到 → 天天领五星碎片+资源
-5. 战功排行 → 每日结算，奖励拿到手软
- 
-21天极速赛季
-开荒→州战→洛阳→征服，节奏紧凑不拖沓
-征服盟/割据盟/群雄盟，人人有奖励，不打酱油！
- 
-温馨提示
-禁止外挂、刷资源、违规行为，违者永久封禁
-绿色公平，快乐游戏！
- 
-率土国际服·热血福利服今日新开！
-上线8万虎符+3个五星自选
-抽卡爆率拉满，国家队随便凑
-21天极速赛季，不肝不氪，打架超爽
-散人抱团、小盟也能逆袭！
- 
-官方太累？来这里爽玩！
-率土老玩家专属福利服
-五星概率超高、核心将全开放
-资源翻倍、自动征兵、开荒无压力
-赛季短、节奏快、奖励拉满
-散人、小团队、休闲党都能玩！
-今日新区，等你来征服！
+💰 上线福利：
+88888虎符 + ⭐五星自选×3 + 满战法经验
+全武将开放抽取，无暗箱！
+
+⚡ 专属倍率：
+资源×5｜建造×3｜征兵×3
+体力减半｜行军加速｜战损降低
+
+🎁 7天狂欢活动：
+① 首充送国家队  
+② 冲榜送称号  
+③ 占城发全盟奖励  
+④ 每日签到领资源  
+⑤ 战功排行天天结算  
+
+🚀 21天极速赛季：
+节奏紧凑，不肝不氪
+散人、小盟也能逆袭！
+
+⚠️ 公平环境：
+严禁外挂违规，永久封禁
+
+🔥 今日新区已开：
+高爆率｜资源翻倍｜开荒轻松
+老玩家专属福利服，直接爽玩！
 
 </div>
 </div>
