@@ -1,751 +1,671 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
 <title>情谊率土·热血福利服</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Ma+Shan+Zheng&family=ZCOOL+XiaoWei&family=Bebas+Neue&display=swap" rel="stylesheet">
-
 <style>
-:root {
-  --red:        #c0392b;
-  --red2:       #e74c3c;
-  --gold:       #c9922a;
-  --gold2:      #f0c96e;
-  --gold3:      #ffe8a0;
-  --cream:      #fff6e4;
-  --dark:       #120600;
-  --panel-bg:   rgba(14, 5, 0, 0.94);
-  --modal-bg:   rgba(10, 3, 0, 0.96);
-  --border:     rgba(192,146,42,0.35);
+/* ════════════════════════════════
+   变量
+════════════════════════════════ */
+:root{
+  --red:#b8311f; --red2:#d94030; --red3:#e05a4a;
+  --gold:#b8862a; --gold2:#e8bb5c; --gold3:#f8d888; --gold4:#fff0b8;
+  --cream:#fff8e8;
+  --panel:#0e0400f5; --modal:#090200f8;
+  --bd:rgba(184,134,42,0.32);
+  --bd2:rgba(184,134,42,0.18);
+  --ff-d:'Ma Shan Zheng',serif;
+  --ff-t:'ZCOOL XiaoWei','Noto Serif SC',serif;
+  --ff-b:'Noto Serif SC',serif;
+  --ff-n:'Bebas Neue',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
-  --font-display: 'Ma Shan Zheng', 'ZCOOL XiaoWei', serif;
-  --font-title:   'ZCOOL XiaoWei', 'Noto Serif SC', serif;
-  --font-body:    'Noto Serif SC', serif;
-  --font-num:     'Bebas Neue', monospace;
-}
+/* ════════════════════════════════
+   背景
+════════════════════════════════ */
+video.bg{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%;z-index:-2}
+body::before{content:"";position:fixed;inset:0;z-index:-1;
+  background:linear-gradient(180deg,rgba(6,0,0,.62) 0%,rgba(6,0,0,.2) 45%,rgba(6,0,0,.85) 100%)}
+body{margin:0;font-family:var(--ff-b);-webkit-font-smoothing:antialiased}
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* ════════════════════════════════
+   顶部标题
+════════════════════════════════ */
+.top{
+  position:fixed;top:max(16px,env(safe-area-inset-top));
+  left:50%;transform:translateX(-50%);
+  z-index:20;text-align:center;pointer-events:none;
+  width:max-content;
+}
+.top-title{
+  font-family:var(--ff-d);font-size:clamp(20px,5.2vw,34px);
+  color:var(--gold2);letter-spacing:6px;white-space:nowrap;
+  text-shadow:0 0 28px rgba(232,187,92,.7),0 0 60px rgba(184,134,42,.3),1px 2px 0 #000;
+}
+.top-rule{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:6px}
+.top-rule-line{height:1px;width:32px;background:linear-gradient(to right,transparent,var(--gold));opacity:.5}
+.top-rule-line.r{background:linear-gradient(to left,transparent,var(--gold))}
+.top-sub{font-family:var(--ff-b);font-size:clamp(9px,1.9vw,11px);color:rgba(255,248,232,.4);letter-spacing:5px}
 
-video.bg-video {
-  position: fixed; inset: 0; width: 100%; height: 100%;
-  object-fit: cover; object-position: center 30%; z-index: -2;
+/* ════════════════════════════════
+   中心按钮
+════════════════════════════════ */
+.enter-btn{
+  position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:clamp(86px,15vw,124px);height:clamp(86px,15vw,124px);
+  border-radius:50%;
+  background:radial-gradient(circle at 36% 30%,var(--red3),#8a1808);
+  border:2px solid var(--gold2);
+  outline:1px solid rgba(184,134,42,.18);outline-offset:7px;
+  color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  cursor:pointer;z-index:10;user-select:none;
+  animation:breathe 3.2s ease-in-out infinite,pulse 3.2s infinite;
+  transition:transform .35s cubic-bezier(.34,1.56,.64,1);
 }
-body::before {
-  content: ""; position: fixed; inset: 0;
-  background: linear-gradient(to bottom,
-    rgba(8,0,0,0.6) 0%, rgba(8,0,0,0.25) 40%, rgba(8,0,0,0.82) 100%);
-  z-index: -1;
+.enter-btn .ec{font-family:var(--ff-d);font-size:clamp(24px,5.2vw,32px);letter-spacing:4px;line-height:1;text-shadow:0 1px 5px rgba(0,0,0,.7)}
+.enter-btn .es{font-family:var(--ff-b);font-size:10px;letter-spacing:3px;opacity:.55}
+@keyframes breathe{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.07)}}
+@keyframes pulse{
+  0%{box-shadow:0 0 0 0 rgba(184,50,30,.65),0 0 0 0 rgba(184,134,42,.22)}
+  70%{box-shadow:0 0 0 28px rgba(184,50,30,0),0 0 0 14px rgba(184,134,42,0)}
+  100%{box-shadow:0 0 0 0 rgba(184,50,30,0),0 0 0 0 rgba(184,134,42,0)}
 }
-body { margin: 0; font-family: var(--font-body); -webkit-font-smoothing: antialiased; }
+.enter-btn.open{animation:none;transform:translate(-50%,-50%) rotate(45deg) scale(1.05);background:radial-gradient(circle,#555,#222)}
 
-/* ── 顶部标题 ── */
-.top-badge {
-  position: fixed; top: max(14px, env(safe-area-inset-top));
-  left: 50%; transform: translateX(-50%);
-  z-index: 20; text-align: center; pointer-events: none;
+/* ════════════════════════════════
+   面板
+════════════════════════════════ */
+.panel{
+  position:fixed;bottom:0;left:0;right:0;z-index:30;
+  max-width:500px;margin:0 auto;
+  background:var(--panel);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
+  border:1px solid var(--bd);border-bottom:none;border-radius:24px 24px 0 0;
+  padding:0 0 calc(env(safe-area-inset-bottom));
+  max-height:88vh;overflow-y:auto;-webkit-overflow-scrolling:touch;
+  transform:translateY(100%);transition:transform .45s cubic-bezier(.22,1,.36,1);
+  scrollbar-width:none;
 }
-.title-main {
-  font-family: var(--font-display);
-  font-size: clamp(20px, 5.5vw, 36px);
-  color: var(--gold2); letter-spacing: 5px; white-space: nowrap;
-  text-shadow: 0 0 30px rgba(240,201,110,0.65), 1px 2px 0 rgba(0,0,0,1);
-}
-.title-deco {
-  display: flex; align-items: center; justify-content: center;
-  gap: 10px; margin-top: 5px;
-}
-.deco-line {
-  height: 1px; width: 36px; opacity: 0.55;
-  background: linear-gradient(to right, transparent, var(--gold));
-}
-.deco-line.r { background: linear-gradient(to left, transparent, var(--gold)); }
-.title-sub {
-  font-family: var(--font-body); font-size: clamp(9px,2vw,11px);
-  color: rgba(255,246,228,0.45); letter-spacing: 5px;
-}
+.panel::-webkit-scrollbar{display:none}
+.panel.show{transform:translateY(0)}
 
-/* ── 中心按钮 ── */
-.center-btn {
-  position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%);
-  width: clamp(82px,15vw,122px); height: clamp(82px,15vw,122px);
-  border-radius: 50%;
-  background: radial-gradient(circle at 38% 32%, #e85a4a, #9e2215);
-  color: #fff; display: flex; flex-direction: column;
-  align-items: center; justify-content: center; gap: 1px;
-  cursor: pointer; z-index: 10;
-  border: 2px solid var(--gold);
-  outline: 1px solid rgba(192,146,42,0.2); outline-offset: 6px;
-  animation: breathe 3.2s infinite ease-in-out, ripple 3.2s infinite;
-  user-select: none;
-}
-.center-btn .cbtn-char {
-  font-family: var(--font-display);
-  font-size: clamp(22px,5vw,30px); letter-spacing: 3px; line-height: 1;
-}
-.center-btn .cbtn-sub {
-  font-family: var(--font-body);
-  font-size: clamp(9px,1.8vw,11px); letter-spacing: 2px; opacity: 0.65;
-}
-@keyframes breathe {
-  0%,100% { transform: translate(-50%,-50%) scale(1); }
-  50%      { transform: translate(-50%,-50%) scale(1.07); }
-}
-@keyframes ripple {
-  0%   { box-shadow: 0 0 0 0 rgba(192,58,43,0.65),0 0 0 0 rgba(212,166,74,0.2); }
-  70%  { box-shadow: 0 0 0 28px rgba(192,58,43,0),0 0 0 14px rgba(212,166,74,0); }
-  100% { box-shadow: 0 0 0 0 rgba(192,58,43,0),0 0 0 0 rgba(212,166,74,0); }
-}
-.center-btn.active {
-  animation: none;
-  transform: translate(-50%,-50%) rotate(45deg) scale(1.05);
-  background: radial-gradient(circle at 38% 32%, #666, #333);
-}
+/* 拖把手 */
+.p-handle{height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.p-handle::after{content:"";width:40px;height:4px;border-radius:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.4}
 
-/* ── 面板 ── */
-.panel {
-  position: fixed; bottom: 0; left: 0; right: 0; z-index: 30;
-  max-width: 520px; margin: 0 auto;
-  background: var(--panel-bg);
-  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--border); border-bottom: none;
-  border-radius: 22px 22px 0 0;
-  padding: 20px 20px calc(20px + env(safe-area-inset-bottom));
-  max-height: 86vh; overflow-y: auto; -webkit-overflow-scrolling: touch;
-  transform: translateY(100%); transition: transform 0.45s cubic-bezier(.22,1,.36,1);
-  text-align: center; scrollbar-width: none;
+/* 面板头 */
+.p-head{
+  padding:0 20px 16px;text-align:center;
+  border-bottom:1px solid var(--bd2);
 }
-.panel::-webkit-scrollbar { display: none; }
-.panel.show { transform: translateY(0); }
+.p-title{font-family:var(--ff-d);font-size:clamp(17px,4.2vw,22px);color:var(--gold2);letter-spacing:3px;text-shadow:0 0 18px rgba(232,187,92,.4)}
+.p-sub{font-family:var(--ff-b);font-size:11px;color:rgba(255,248,232,.35);letter-spacing:4px;margin-top:3px}
 
-.panel-handle {
-  width: 40px; height: 4px;
-  background: linear-gradient(to right, transparent, var(--gold), transparent);
-  border-radius: 2px; margin: 0 auto 16px; opacity: 0.45;
-}
-.panel-title {
-  font-family: var(--font-display);
-  font-size: clamp(18px,4.5vw,24px); color: var(--gold2);
-  letter-spacing: 3px; text-shadow: 0 0 20px rgba(240,201,110,0.45);
-  margin-bottom: 2px;
-}
-.panel-subtitle {
-  font-family: var(--font-body);
-  font-size: 11px; color: rgba(255,246,228,0.38);
-  letter-spacing: 4px; margin-bottom: 16px;
-}
+/* 倒计时区（面板） */
+.p-cd{padding:16px 20px;border-bottom:1px solid var(--bd2)}
+.p-cd-label{font-family:var(--ff-t);font-size:11px;color:rgba(255,248,232,.42);letter-spacing:3px;text-align:center;margin-bottom:12px}
 
-.divider {
-  display: flex; align-items: center; gap: 8px; margin: 14px 0;
+.cd-row{display:flex;justify-content:center;align-items:flex-start;gap:6px}
+.cd-unit{display:flex;flex-direction:column;align-items:center;gap:5px}
+.cd-box{
+  position:relative;
+  width:clamp(52px,12.5vw,66px);height:clamp(60px,14.5vw,76px);
+  border-radius:9px;overflow:hidden;
+  background:linear-gradient(160deg,#280700,#160300);
+  border:1px solid rgba(184,134,42,.42);
+  box-shadow:0 2px 0 rgba(0,0,0,.7),inset 0 1px 0 rgba(184,134,42,.1),0 0 20px rgba(184,50,30,.16);
+  display:flex;align-items:center;justify-content:center;
 }
-.divider::before,.divider::after {
-  content: ""; flex: 1; height: 1px;
-  background: linear-gradient(to right, transparent, var(--border));
+.cd-box::before{content:"";position:absolute;left:0;right:0;top:0;height:50%;background:rgba(255,255,255,.025);z-index:1}
+.cd-box::after{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:rgba(0,0,0,.55);z-index:2}
+.cd-n{
+  font-family:var(--ff-n);font-size:clamp(30px,8vw,42px);
+  color:#fff;letter-spacing:1px;line-height:1;position:relative;z-index:3;
+  text-shadow:0 0 16px rgba(255,80,50,.55),0 2px 4px rgba(0,0,0,.9);
 }
-.divider::after { background: linear-gradient(to left, transparent, var(--border)); }
-.divider-diamond {
-  width: 5px; height: 5px; background: var(--gold);
-  transform: rotate(45deg); opacity: 0.55; flex-shrink: 0;
+.cd-n.flip{animation:flip .18s ease}
+@keyframes flip{0%{transform:scaleY(.8);opacity:.3}100%{transform:scaleY(1);opacity:1}}
+.cd-lbl{font-family:var(--ff-t);font-size:clamp(10px,2vw,12px);color:rgba(255,248,232,.38);letter-spacing:2px}
+.cd-sep{
+  font-family:var(--ff-n);font-size:clamp(22px,5.5vw,30px);
+  color:var(--gold);opacity:.48;margin-top:clamp(12px,3vw,18px);line-height:1;
+  animation:blink 1s step-end infinite;
 }
+@keyframes blink{0%,49%{opacity:.48}50%,100%{opacity:.14}}
+.p-cd-date{font-family:var(--ff-t);font-size:11px;color:rgba(255,248,232,.28);letter-spacing:2px;text-align:center;margin-top:10px}
+.p-cd-date span{color:rgba(232,187,92,.5)}
 
-.info-row {
-  display: flex; align-items: flex-start; gap: 10px;
-  padding: 7px 0; color: rgba(255,246,228,0.85);
-  font-size: 13px; line-height: 1.65; text-align: left;
+/* 面板核心信息 */
+.p-info{padding:14px 20px;border-bottom:1px solid var(--bd2)}
+.info-item{display:flex;align-items:flex-start;gap:10px;padding:6px 0;color:rgba(255,248,232,.83);font-size:13px;line-height:1.65;text-align:left}
+.info-item + .info-item{border-top:1px solid rgba(255,248,232,.04)}
+.ib{
+  flex-shrink:0;width:26px;height:26px;border-radius:7px;margin-top:0;
+  background:linear-gradient(135deg,rgba(184,50,30,.35),rgba(100,15,5,.7));
+  border:1px solid rgba(184,134,42,.38);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--ff-t);font-size:12px;color:var(--gold2);
 }
-.icon-badge {
-  flex-shrink: 0; width: 24px; height: 24px; border-radius: 6px;
-  background: rgba(192,146,42,0.12);
-  border: 1px solid rgba(192,146,42,0.38);
-  display: flex; align-items: center; justify-content: center;
-  font-family: var(--font-title); font-size: 12px; color: var(--gold2);
-  margin-top: 1px;
-}
-.info-row strong { color: var(--gold2); font-weight: 600; }
+.info-item strong{color:var(--gold2);font-weight:600}
 
-/* ── 倒计时（重设计） ── */
-.countdown-wrap { margin: 16px 0; }
-.cd-header {
-  display: flex; align-items: center; justify-content: center; gap: 10px;
-  margin-bottom: 14px;
-}
-.cd-header-line {
-  flex: 1; height: 1px;
-  background: linear-gradient(to right, transparent, rgba(192,58,43,0.45));
-}
-.cd-header-line.r { background: linear-gradient(to left, transparent, rgba(192,58,43,0.45)); }
-.cd-header-text {
-  font-family: var(--font-title);
-  font-size: 11px; color: rgba(255,246,228,0.45);
-  letter-spacing: 3px; white-space: nowrap;
-}
+/* 面板按钮区 */
+.p-btns{padding:14px 20px;display:flex;flex-direction:column;gap:9px}
 
-.cd-cards {
-  display: flex; justify-content: center;
-  align-items: flex-start; gap: 5px;
+/* ════════════════════════════════
+   公用按钮样式
+════════════════════════════════ */
+.btn{
+  display:flex;align-items:center;justify-content:center;gap:9px;
+  width:100%;padding:14px 20px;border-radius:10px;
+  font-family:var(--ff-t);font-size:15px;letter-spacing:3px;
+  cursor:pointer;text-decoration:none;border:none;
+  transition:transform .14s,opacity .14s;
+  -webkit-tap-highlight-color:transparent;
 }
-.cd-block { display: flex; flex-direction: column; align-items: center; gap: 6px; }
-.cd-card {
-  position: relative;
-  width: clamp(56px,13.5vw,70px); height: clamp(64px,15.5vw,80px);
-  border-radius: 10px;
-  background: linear-gradient(160deg, #2c0a00 0%, #180400 100%);
-  border: 1px solid rgba(192,146,42,0.4);
-  box-shadow: 0 2px 0 rgba(0,0,0,0.7),
-              inset 0 1px 0 rgba(192,146,42,0.1),
-              0 0 22px rgba(192,58,43,0.18);
-  display: flex; align-items: center; justify-content: center; overflow: hidden;
+.btn:active{transform:scale(.97);opacity:.88}
+.btn-red{
+  background:linear-gradient(135deg,#c93520 0%,#8c1808 100%);
+  color:var(--gold3);border:1px solid rgba(184,134,42,.42);
+  box-shadow:0 3px 16px rgba(184,50,30,.4),inset 0 1px 0 rgba(255,255,255,.07);
 }
-.cd-card::after {
-  content: ""; position: absolute; left: 0; right: 0;
-  top: 50%; height: 1px; background: rgba(0,0,0,0.55); z-index: 2;
+.btn-blue{
+  background:linear-gradient(135deg,#1860b0,#0b4280);
+  color:#cce0ff;border:1px solid rgba(70,130,240,.28);
+  box-shadow:0 3px 14px rgba(11,66,128,.44);
 }
-.cd-card::before {
-  content: ""; position: absolute; left: 0; right: 0; top: 0;
-  height: 50%; background: rgba(255,255,255,0.025);
-  border-radius: 10px 10px 0 0; z-index: 1;
+.btn-ghost{
+  background:rgba(184,134,42,.07);
+  color:rgba(232,187,92,.72);border:1px solid rgba(184,134,42,.26);
 }
-.cd-num {
-  font-family: var(--font-num);
-  font-size: clamp(32px,8.5vw,46px);
-  color: #fff; letter-spacing: 1px; line-height: 1;
-  position: relative; z-index: 3;
-  text-shadow: 0 0 18px rgba(255,90,60,0.55), 0 2px 5px rgba(0,0,0,0.9);
-}
-.cd-num.tick { animation: numTick 0.17s ease; }
-@keyframes numTick {
-  0%   { transform: scaleY(0.82); opacity: 0.35; }
-  100% { transform: scaleY(1);    opacity: 1; }
-}
-.cd-label {
-  font-family: var(--font-title);
-  font-size: clamp(10px,2.2vw,12px);
-  color: rgba(255,246,228,0.4); letter-spacing: 2px;
-}
-.cd-colon {
-  font-family: var(--font-num);
-  font-size: clamp(24px,6vw,34px); color: var(--gold);
-  opacity: 0.5; margin-top: clamp(14px,3.5vw,20px); line-height: 1;
-  animation: blink 1s step-end infinite;
-}
-@keyframes blink {
-  0%,49%   { opacity: 0.5; }
-  50%,100% { opacity: 0.15; }
-}
-.cd-footer {
-  margin-top: 10px;
-  font-family: var(--font-title);
-  font-size: 11px; color: rgba(255,246,228,0.3); letter-spacing: 2px;
-}
-.cd-footer span { color: rgba(240,201,110,0.55); }
-
-.countdown-wrap.ended .cd-card {
-  border-color: rgba(60,200,80,0.4);
-  box-shadow: 0 0 22px rgba(60,200,80,0.18);
-}
-.countdown-wrap.ended .cd-num {
-  color: #8aff8a; text-shadow: 0 0 16px rgba(60,255,80,0.45);
-}
-.countdown-wrap.ended .cd-header-text { color: rgba(80,255,100,0.7); }
-
-/* ── 按钮 ── */
-.btn-primary, .btn-secondary, .btn-qq {
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-  width: 100%; max-width: 320px; margin: 9px auto;
-  padding: 14px 20px; border-radius: 10px;
-  font-family: var(--font-title); font-size: 15px; letter-spacing: 3px;
-  cursor: pointer; text-decoration: none; border: none;
-  transition: transform 0.15s, opacity 0.15s;
-  -webkit-tap-highlight-color: transparent;
-}
-.btn-primary {
-  background: linear-gradient(135deg, #d63a28 0%, #9e1e10 100%);
-  color: var(--gold3);
-  border: 1px solid rgba(192,146,42,0.45);
-  box-shadow: 0 3px 16px rgba(192,58,43,0.4), inset 0 1px 0 rgba(255,255,255,0.07);
-}
-.btn-secondary {
-  background: rgba(192,146,42,0.07);
-  color: rgba(240,201,110,0.75);
-  border: 1px solid rgba(192,146,42,0.28);
-}
-.btn-qq {
-  background: linear-gradient(135deg, #1a6bbf, #0d4a8a);
-  color: #cfe3ff;
-  border: 1px solid rgba(80,140,255,0.28);
-  box-shadow: 0 3px 14px rgba(13,74,138,0.45);
-}
-.btn-primary:active,.btn-secondary:active,.btn-qq:active { transform: scale(0.97); opacity: 0.88; }
-
-.btn-ic {
-  width: 20px; height: 20px; border-radius: 5px;
-  background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
-  display: flex; align-items: center; justify-content: center;
-  font-family: var(--font-title); font-size: 11px; flex-shrink: 0;
+.bi{
+  width:22px;height:22px;border-radius:6px;
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.14);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--ff-t);font-size:11px;flex-shrink:0;
 }
 
-/* ── 弹窗 ── */
-#versionModal {
-  display: none; position: fixed; inset: 0; z-index: 9999;
-  overflow-y: auto; -webkit-overflow-scrolling: touch;
-}
-.modal-bg {
-  position: fixed; inset: 0;
-  background: url("https://raw.githubusercontent.com/QingMing-game/ST0.1/main/BKG.gif") center/cover no-repeat;
-  filter: brightness(0.2); z-index: 0;
-}
-.modal-wrapper {
-  position: relative; z-index: 1; min-height: 100%;
-  display: flex; align-items: flex-start; justify-content: center;
-  padding: max(20px,env(safe-area-inset-top)) 14px max(20px,env(safe-area-inset-bottom));
-}
-.modal-card {
-  position: relative; width: 100%; max-width: 600px;
-  background: var(--modal-bg); border: 1px solid var(--border);
-  border-radius: 16px; overflow: hidden;
-}
-.close-btn {
-  position: absolute; top: 14px; right: 14px;
-  width: 32px; height: 32px;
-  background: rgba(192,58,43,0.7); border: 1px solid rgba(192,146,42,0.4);
-  color: var(--gold3); border-radius: 50%;
-  font-size: 18px; line-height: 32px; text-align: center;
-  cursor: pointer; z-index: 10; transition: background 0.2s;
-}
-.close-btn:hover { background: var(--red2); }
+/* ════════════════════════════════
+   弹窗
+════════════════════════════════ */
+#modal{display:none;position:fixed;inset:0;z-index:9999;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.m-bg{position:fixed;inset:0;background:url("https://raw.githubusercontent.com/QingMing-game/ST0.1/main/BKG.gif") center/cover;filter:brightness(.18);z-index:0}
+.m-wrap{position:relative;z-index:1;min-height:100%;display:flex;align-items:flex-start;justify-content:center;padding:max(18px,env(safe-area-inset-top)) 14px max(18px,env(safe-area-inset-bottom))}
+.m-card{position:relative;width:100%;max-width:600px;background:var(--modal);border:1px solid var(--bd);border-radius:18px;overflow:hidden}
 
-.modal-header {
-  background: linear-gradient(135deg, rgba(140,30,15,0.65) 0%, rgba(10,3,0,0.95) 100%);
-  border-bottom: 1px solid var(--border);
-  padding: 20px 52px 16px 20px; text-align: center;
+/* 关闭 */
+.m-close{
+  position:absolute;top:14px;right:14px;width:32px;height:32px;
+  background:rgba(184,50,30,.7);border:1px solid rgba(184,134,42,.38);
+  color:var(--gold3);border-radius:50%;font-size:18px;line-height:32px;
+  text-align:center;cursor:pointer;z-index:10;transition:background .2s;
 }
-.modal-header h2 {
-  font-family: var(--font-display);
-  font-size: clamp(18px,4.5vw,24px); color: var(--gold2);
-  letter-spacing: 4px; text-shadow: 0 0 20px rgba(240,201,110,0.4);
-}
-.modal-header p {
-  font-family: var(--font-body);
-  font-size: 11px; color: rgba(255,246,228,0.38);
-  letter-spacing: 2px; margin-top: 5px;
-}
+.m-close:hover{background:var(--red2)}
 
-.modal-body { padding: 18px 16px; }
+/* 弹窗头部 */
+.m-head{
+  background:linear-gradient(135deg,rgba(130,25,12,.72) 0%,rgba(9,2,0,.96) 100%);
+  border-bottom:1px solid var(--bd);
+  padding:22px 52px 0 22px;
+}
+.m-head-title{font-family:var(--ff-d);font-size:clamp(18px,4.5vw,24px);color:var(--gold2);letter-spacing:4px;text-shadow:0 0 20px rgba(232,187,92,.38);text-align:center}
+.m-head-sub{font-family:var(--ff-b);font-size:11px;color:rgba(255,248,232,.35);letter-spacing:2px;text-align:center;margin-top:5px}
 
-.sec { margin-bottom: 18px; }
-.sec-title {
-  display: flex; align-items: center; gap: 10px;
-  margin-bottom: 10px; padding-bottom: 7px;
-  border-bottom: 1px solid rgba(192,146,42,0.15);
+/* 弹窗内倒计时 */
+.m-cd{
+  padding:18px 20px 16px;
+  border-bottom:1px solid var(--bd2);
+  background:rgba(0,0,0,.25);
 }
-.sec-badge {
-  width: 26px; height: 26px; border-radius: 6px;
-  background: linear-gradient(135deg, rgba(192,58,43,0.5), rgba(120,20,8,0.8));
-  border: 1px solid rgba(192,146,42,0.4);
-  display: flex; align-items: center; justify-content: center;
-  font-family: var(--font-title); font-size: 13px; color: var(--gold2);
-  flex-shrink: 0; box-shadow: 0 0 8px rgba(192,58,43,0.2);
+.m-cd-top{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:14px}
+.m-cd-line{flex:1;height:1px;background:linear-gradient(to right,transparent,rgba(184,50,30,.45))}
+.m-cd-line.r{background:linear-gradient(to left,transparent,rgba(184,50,30,.45))}
+.m-cd-tag{font-family:var(--ff-t);font-size:11px;color:rgba(255,248,232,.42);letter-spacing:3px;white-space:nowrap}
+.m-cd-cards{display:flex;justify-content:center;align-items:flex-start;gap:7px}
+.m-cd-unit{display:flex;flex-direction:column;align-items:center;gap:5px}
+.m-cd-box{
+  position:relative;
+  width:clamp(58px,14vw,74px);height:clamp(68px,16vw,86px);
+  border-radius:10px;overflow:hidden;
+  background:linear-gradient(160deg,#2c0800,#170300);
+  border:1px solid rgba(184,134,42,.4);
+  box-shadow:0 3px 0 rgba(0,0,0,.6),inset 0 1px 0 rgba(184,134,42,.1),0 0 24px rgba(184,50,30,.18);
+  display:flex;align-items:center;justify-content:center;
 }
-.sec-name {
-  font-family: var(--font-title);
-  font-size: 15px; color: var(--gold2); letter-spacing: 2px;
+.m-cd-box::before{content:"";position:absolute;left:0;right:0;top:0;height:50%;background:rgba(255,255,255,.03);z-index:1}
+.m-cd-box::after{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:rgba(0,0,0,.55);z-index:2}
+.m-cd-n{
+  font-family:var(--ff-n);font-size:clamp(34px,9vw,50px);
+  color:#fff;letter-spacing:1px;line-height:1;position:relative;z-index:3;
+  text-shadow:0 0 20px rgba(255,90,55,.55),0 2px 6px rgba(0,0,0,.9);
 }
-.sec-tag {
-  margin-left: auto; font-family: var(--font-body);
-  font-size: 10px; color: rgba(255,246,228,0.3); letter-spacing: 1px;
-  border: 1px solid rgba(192,146,42,0.18); border-radius: 4px; padding: 1px 6px;
+.m-cd-n.flip{animation:flip .18s ease}
+.m-cd-lbl{font-family:var(--ff-t);font-size:clamp(10px,2.2vw,13px);color:rgba(255,248,232,.38);letter-spacing:2px}
+.m-cd-sep{
+  font-family:var(--ff-n);font-size:clamp(26px,6.5vw,38px);
+  color:var(--gold2);opacity:.5;margin-top:clamp(16px,3.8vw,22px);line-height:1;
+  animation:blink 1s step-end infinite;
 }
+.m-cd-date{font-family:var(--ff-t);font-size:11px;color:rgba(255,248,232,.28);letter-spacing:2px;text-align:center;margin-top:12px}
+.m-cd-date span{color:rgba(232,187,92,.55)}
 
-/* 礼包卡片 */
-.welcome-pack { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.pack-item {
-  display: flex; align-items: center; gap: 10px;
-  background: linear-gradient(135deg, rgba(180,40,20,0.1), rgba(10,3,0,0.55));
-  border: 1px solid rgba(192,146,42,0.18); border-radius: 10px; padding: 10px 12px;
+/* ended 状态 */
+.cd-ended .m-cd-box,.cd-ended .cd-box{
+  border-color:rgba(50,190,70,.42);
+  box-shadow:0 0 20px rgba(50,190,70,.2);
 }
-.pack-char {
-  width: 34px; height: 34px; flex-shrink: 0; border-radius: 8px;
-  background: linear-gradient(135deg, rgba(192,58,43,0.38), rgba(80,15,5,0.8));
-  border: 1px solid rgba(192,146,42,0.32);
-  display: flex; align-items: center; justify-content: center;
-  font-family: var(--font-title); font-size: 14px; color: var(--gold2);
-}
-.pack-num {
-  font-family: var(--font-num); font-size: 18px; color: var(--gold2);
-  letter-spacing: 1px; line-height: 1.1;
-}
-.pack-name {
-  font-family: var(--font-body); font-size: 11px;
-  color: rgba(255,246,228,0.42); margin-top: 2px;
-}
+.cd-ended .m-cd-n,.cd-ended .cd-n{color:#80f090;text-shadow:0 0 16px rgba(50,240,80,.5)}
+.cd-ended .m-cd-tag,.cd-ended .p-cd-label{color:rgba(80,240,100,.7)}
 
-/* 数值格 */
-.stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.stat-item {
-  background: rgba(192,146,42,0.06); border: 1px solid rgba(192,146,42,0.16);
-  border-radius: 10px; padding: 11px; text-align: center;
+/* 弹窗正文 */
+.m-body{padding:18px 16px}
+
+/* 区块 */
+.sec{margin-bottom:20px}
+.sec-hd{
+  display:flex;align-items:center;gap:10px;
+  margin-bottom:11px;padding-bottom:8px;
+  border-bottom:1px solid var(--bd2);
 }
-.stat-val {
-  font-family: var(--font-num); font-size: 26px; color: var(--gold2);
-  letter-spacing: 1px; line-height: 1;
+.sec-icon{
+  flex-shrink:0;width:28px;height:28px;border-radius:7px;
+  background:linear-gradient(135deg,rgba(184,50,30,.52),rgba(110,18,6,.85));
+  border:1px solid rgba(184,134,42,.42);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--ff-t);font-size:13px;color:var(--gold2);
+  box-shadow:0 0 8px rgba(184,50,30,.22);
 }
-.stat-key {
-  font-family: var(--font-body); font-size: 11px;
-  color: rgba(255,246,228,0.42); margin-top: 4px; letter-spacing: 1px;
+.sec-name{font-family:var(--ff-t);font-size:15px;color:var(--gold2);letter-spacing:2px}
+.sec-tag{
+  margin-left:auto;font-family:var(--ff-b);font-size:10px;
+  color:rgba(255,248,232,.28);letter-spacing:1px;
+  border:1px solid var(--bd2);border-radius:4px;padding:1px 7px;
 }
 
-.hl-box {
-  background: rgba(192,58,43,0.09); border: 1px solid rgba(192,58,43,0.22);
-  border-radius: 8px; padding: 10px 13px; margin-top: 8px;
-  font-family: var(--font-body); font-size: 12px;
-  color: rgba(255,246,228,0.6); line-height: 1.85;
+/* 礼包 2×2 */
+.pack-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pack-card{
+  display:flex;align-items:center;gap:10px;
+  background:linear-gradient(135deg,rgba(170,38,18,.1),rgba(8,2,0,.55));
+  border:1px solid var(--bd2);border-radius:10px;padding:11px 12px;
+}
+.pack-icon{
+  flex-shrink:0;width:36px;height:36px;border-radius:9px;
+  background:linear-gradient(135deg,rgba(184,50,30,.4),rgba(80,12,4,.85));
+  border:1px solid rgba(184,134,42,.32);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--ff-t);font-size:15px;color:var(--gold2);
+}
+.pack-val{font-family:var(--ff-n);font-size:20px;color:var(--gold2);letter-spacing:1px;line-height:1.1}
+.pack-sub{font-family:var(--ff-b);font-size:11px;color:rgba(255,248,232,.4);margin-top:2px}
+
+/* 数值网格 */
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+@media(max-width:380px){.stat-grid{grid-template-columns:repeat(2,1fr)}}
+.stat-cell{
+  background:rgba(184,134,42,.06);border:1px solid var(--bd2);
+  border-radius:9px;padding:10px 6px;text-align:center;
+}
+.stat-v{font-family:var(--ff-n);font-size:24px;color:var(--gold2);line-height:1}
+.stat-k{font-family:var(--ff-b);font-size:10px;color:rgba(255,248,232,.4);margin-top:4px;letter-spacing:1px}
+
+/* 说明框 */
+.note{
+  background:rgba(184,50,30,.09);border:1px solid rgba(184,50,30,.22);
+  border-radius:8px;padding:10px 13px;margin-top:8px;
+  font-family:var(--ff-b);font-size:12px;color:rgba(255,248,232,.58);line-height:1.88;
 }
 
 /* 列表 */
-.ann-list { list-style: none; display: flex; flex-direction: column; gap: 7px; }
-.ann-list li {
-  display: flex; gap: 9px;
-  font-family: var(--font-body); font-size: 13px;
-  color: rgba(255,246,228,0.78); line-height: 1.7;
+.ilist{list-style:none;display:flex;flex-direction:column;gap:7px}
+.ilist li{display:flex;gap:9px;font-family:var(--ff-b);font-size:13px;color:rgba(255,248,232,.78);line-height:1.7}
+.ilist li strong{color:var(--gold2);font-weight:600}
+.li-n{
+  flex-shrink:0;width:20px;height:20px;border-radius:50%;margin-top:2px;
+  background:rgba(184,50,30,.3);border:1px solid rgba(184,134,42,.28);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--ff-n);font-size:11px;color:var(--gold2);
 }
-.li-num {
-  flex-shrink: 0; width: 20px; height: 20px; border-radius: 50%;
-  background: rgba(192,58,43,0.3); border: 1px solid rgba(192,146,42,0.28);
-  display: flex; align-items: center; justify-content: center;
-  font-family: var(--font-num); font-size: 11px; color: var(--gold2);
-  margin-top: 2px;
-}
-.ann-list li strong { color: var(--gold2); font-weight: 600; }
 
 /* 时间线 */
-.timeline { display: flex; flex-direction: column; }
-.tl-item { display: flex; gap: 12px; position: relative; }
-.tl-item:not(:last-child)::before {
-  content: ""; position: absolute; left: 12px; top: 26px; bottom: 0;
-  width: 1px; background: linear-gradient(to bottom, rgba(192,146,42,0.3), rgba(192,146,42,0.04));
+.tl{display:flex;flex-direction:column}
+.tl-row{display:flex;gap:12px;position:relative}
+.tl-row:not(:last-child)::before{content:"";position:absolute;left:13px;top:28px;bottom:0;width:1px;background:linear-gradient(to bottom,rgba(184,134,42,.3),rgba(184,134,42,.04))}
+.tl-dot{
+  flex-shrink:0;margin-top:6px;width:27px;height:27px;border-radius:50%;
+  background:linear-gradient(135deg,var(--red2),var(--red));
+  border:2px solid var(--gold2);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--ff-n);font-size:12px;color:var(--gold2);
+  box-shadow:0 0 8px rgba(184,50,30,.45);z-index:1;
 }
-.tl-dot {
-  flex-shrink: 0; margin-top: 5px;
-  width: 25px; height: 25px; border-radius: 50%;
-  background: linear-gradient(135deg, var(--red2), var(--red));
-  border: 2px solid var(--gold);
-  display: flex; align-items: center; justify-content: center;
-  font-family: var(--font-num); font-size: 11px; color: var(--gold2);
-  box-shadow: 0 0 8px rgba(192,58,43,0.45); z-index: 1;
-}
-.tl-dot.final {
-  background: linear-gradient(135deg, var(--gold2), var(--gold));
-  border-color: var(--gold3); color: var(--dark);
-  box-shadow: 0 0 12px rgba(240,201,110,0.45);
-}
-.tl-body { padding-bottom: 16px; flex: 1; }
-.tl-days {
-  font-family: var(--font-num); font-size: 11px;
-  color: rgba(240,201,110,0.6); letter-spacing: 1px; margin-bottom: 2px;
-}
-.tl-phase {
-  font-family: var(--font-title); font-size: 14px; color: #fff; margin-bottom: 3px;
-}
-.tl-desc {
-  font-family: var(--font-body); font-size: 12px;
-  color: rgba(255,246,228,0.48); line-height: 1.75;
-}
+.tl-dot.fin{background:linear-gradient(135deg,var(--gold2),var(--gold));border-color:var(--gold4);color:var(--dark);box-shadow:0 0 12px rgba(232,187,92,.45)}
+.tl-b{padding-bottom:16px;flex:1}
+.tl-d{font-family:var(--ff-n);font-size:11px;color:rgba(232,187,92,.58);letter-spacing:1px;margin-bottom:2px}
+.tl-p{font-family:var(--ff-t);font-size:14px;color:#fff;margin-bottom:3px}
+.tl-s{font-family:var(--ff-b);font-size:12px;color:rgba(255,248,232,.46);line-height:1.75}
 
 /* 表格 */
-.rtable { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 12px; }
-.rtable th {
-  font-family: var(--font-title); font-weight: 400;
-  background: rgba(192,146,42,0.09); color: rgba(240,201,110,0.75);
-  letter-spacing: 1px; padding: 8px 10px; text-align: left;
-  border-bottom: 1px solid rgba(192,146,42,0.18);
-}
-.rtable td {
-  font-family: var(--font-body); padding: 8px 10px;
-  border-bottom: 1px solid rgba(255,255,255,0.04);
-  color: rgba(255,246,228,0.7);
-}
-.rtable tr:last-child td { border-bottom: none; }
-.td-gold { font-family: var(--font-title) !important; color: var(--gold2) !important; }
+.rt{width:100%;border-collapse:collapse;margin-top:8px;font-size:12px}
+.rt th{font-family:var(--ff-t);font-weight:400;background:rgba(184,134,42,.09);color:rgba(232,187,92,.72);letter-spacing:1px;padding:8px 10px;text-align:left;border-bottom:1px solid var(--bd2)}
+.rt td{font-family:var(--ff-b);padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.04);color:rgba(255,248,232,.68)}
+.rt tr:last-child td{border-bottom:none}
+.rt tr:hover td{background:rgba(255,255,255,.02)}
+.tdg{font-family:var(--ff-t) !important;color:var(--gold2) !important}
 
-.modal-footer {
-  padding: 14px 16px; padding-bottom: max(14px,env(safe-area-inset-bottom));
-  border-top: 1px solid var(--border);
-  display: flex; flex-direction: column;
-}
+/* 弹窗底部 */
+.m-foot{padding:14px 16px calc(14px + env(safe-area-inset-bottom));border-top:1px solid var(--bd);display:flex;flex-direction:column;gap:9px}
 
-/* ── PC ── */
-@media (min-width: 768px) {
-  .panel {
-    left: auto; right: 40px; bottom: 40px;
-    border-radius: 16px; border: 1px solid var(--border); max-height: 82vh;
-  }
+/* PC 右下角面板 */
+@media(min-width:768px){
+  .panel{left:auto;right:40px;bottom:40px;border-radius:18px;border:1px solid var(--bd);max-height:84vh}
+  .panel.show{transform:translateY(0)}
 }
-@media (max-width: 767px) {
-  .panel { border-radius: 22px 22px 0 0; border-bottom: none; }
+@media(max-width:767px){
+  .panel{border-radius:24px 24px 0 0;border-bottom:none}
 }
 </style>
 </head>
 <body>
 
-<video class="bg-video" autoplay muted loop playsinline>
+<video class="bg" autoplay muted loop playsinline>
   <source src="https://raw.githubusercontent.com/QingMing-game/ST0.1/main/VD1.mp4" type="video/mp4">
 </video>
 
-<div class="top-badge">
-  <div class="title-main">情谊率土·热血福利服</div>
-  <div class="title-deco">
-    <div class="deco-line"></div>
-    <span class="title-sub">HIGH WELFARE · SPECIAL SERVER</span>
-    <div class="deco-line r"></div>
+<!-- 顶部标题 -->
+<div class="top">
+  <div class="top-title">情谊率土·热血福利服</div>
+  <div class="top-rule">
+    <div class="top-rule-line"></div>
+    <span class="top-sub">HIGH WELFARE · SPECIAL SERVER</span>
+    <div class="top-rule-line r"></div>
   </div>
 </div>
 
-<div class="center-btn" id="centerBtn" onclick="togglePanel()">
-  <span class="cbtn-char">进入</span>
-  <span class="cbtn-sub">ENTER</span>
+<!-- 进入按钮 -->
+<div class="enter-btn" id="enterBtn" onclick="togglePanel()">
+  <span class="ec">进入</span>
+  <span class="es">ENTER</span>
 </div>
 
-<!-- 面板 -->
+<!-- ═══════════════ 面板 ═══════════════ -->
 <div class="panel" id="panel">
-  <div class="panel-handle"></div>
-  <div class="panel-title">情谊率土 · 热血福利服</div>
-  <div class="panel-subtitle">不肝 · 不氪 · 平衡 · 耐玩</div>
+  <div class="p-handle" onclick="togglePanel()"></div>
 
-  <!-- 倒计时 -->
-  <div class="countdown-wrap" id="cdWrap">
-    <div class="cd-header">
-      <div class="cd-header-line"></div>
-      <span class="cd-header-text" id="cdLabel">距正式开服还有</span>
-      <div class="cd-header-line r"></div>
+  <!-- 面板头 -->
+  <div class="p-head">
+    <div class="p-title">情谊率土 · 热血福利服</div>
+    <div class="p-sub">不肝 · 不氪 · 平衡 · 耐玩</div>
+  </div>
+
+  <!-- 面板倒计时 -->
+  <div class="p-cd">
+    <div class="p-cd-label" id="pLabel">距正式开服还有</div>
+    <div class="cd-row">
+      <div class="cd-unit">
+        <div class="cd-box"><span class="cd-n" id="p-d">--</span></div>
+        <span class="cd-lbl">天</span>
+      </div>
+      <div class="cd-sep">:</div>
+      <div class="cd-unit">
+        <div class="cd-box"><span class="cd-n" id="p-h">--</span></div>
+        <span class="cd-lbl">时</span>
+      </div>
+      <div class="cd-sep">:</div>
+      <div class="cd-unit">
+        <div class="cd-box"><span class="cd-n" id="p-m">--</span></div>
+        <span class="cd-lbl">分</span>
+      </div>
+      <div class="cd-sep">:</div>
+      <div class="cd-unit">
+        <div class="cd-box"><span class="cd-n" id="p-s">--</span></div>
+        <span class="cd-lbl">秒</span>
+      </div>
     </div>
-    <div class="cd-cards">
-      <div class="cd-block">
-        <div class="cd-card"><span class="cd-num" id="cd-d">--</span></div>
-        <span class="cd-label">天</span>
-      </div>
-      <div class="cd-colon">:</div>
-      <div class="cd-block">
-        <div class="cd-card"><span class="cd-num" id="cd-h">--</span></div>
-        <span class="cd-label">时</span>
-      </div>
-      <div class="cd-colon">:</div>
-      <div class="cd-block">
-        <div class="cd-card"><span class="cd-num" id="cd-m">--</span></div>
-        <span class="cd-label">分</span>
-      </div>
-      <div class="cd-colon">:</div>
-      <div class="cd-block">
-        <div class="cd-card"><span class="cd-num" id="cd-s">--</span></div>
-        <span class="cd-label">秒</span>
-      </div>
+    <div class="p-cd-date">开服时间 <span>2025年3月31日 16:00（北京时间）</span></div>
+  </div>
+
+  <!-- 面板核心信息 -->
+  <div class="p-info">
+    <div class="info-item">
+      <span class="ib">礼</span>
+      <span>上线即送 <strong>88888虎符</strong> + <strong>五星自选×3</strong> + 满战法经验 + 各类资源200万</span>
     </div>
-    <div class="cd-footer">开服时间 <span>2025年3月31日 00:00</span> · 21天极速赛季</div>
+    <div class="info-item">
+      <span class="ib">抽</span>
+      <span>五星概率 <strong>25%</strong>，十连<strong>必出五星</strong>，曹操/刘备/张机等全武将<strong>无屏蔽</strong></span>
+    </div>
+    <div class="info-item">
+      <span class="ib">速</span>
+      <span>资源<strong>×3</strong> · 建造<strong>×3</strong> · 征兵<strong>×3</strong> · 体力减半 · 战损降低<strong>30%</strong></span>
+    </div>
+    <div class="info-item">
+      <span class="ib">盟</span>
+      <span><strong>21天极速赛季</strong>，联盟平衡，散人小盟也能逆袭</span>
+    </div>
   </div>
 
-  <div class="divider"><div class="divider-diamond"></div></div>
-
-  <div class="info-row">
-    <span class="icon-badge">礼</span>
-    <span>上线即送 <strong>88888虎符</strong> + <strong>五星自选×3</strong> + <strong>满战法经验</strong> + 各类资源200万</span>
+  <!-- 按钮区 -->
+  <div class="p-btns">
+    <a class="btn btn-red" href="你的下载链接">
+      <span class="bi">载</span><span>立即预约下载</span>
+    </a>
+    <a class="btn btn-blue" href="https://qun.qq.com/universal-share/share?ac=1&authKey=JAAxXnQOTjw8AmPoY4T85ARdL8%2FRt0%2BI34O81lIucehnKbymJoSHKeukATkqfa2U&busi_data=eyJncm91cENvZGUiOiIxMDE1MjY3ODg2IiwidG9rZW4iOiJ6YkN5eTV3c01JQ1BMSnNETTRQMmpLV2dIM2xNZzhYS0hwaVFwMjE1Mk5USytXbWdUWURMQ1lRVWcxY3NPeUJxIiwidWluIjoiMzI0Njc0NTU5NyJ9&data=u2PZ78EPYp1HtaNV628wI55Ggt_8c4fZHUQcBIO99gNKSIJKTO6EMyk3GvMW-LFkOARDclOimRcj4D6DEtA3_Q&svctype=4&tempid=h5_group_info" target="_blank">
+      <span class="bi">群</span><span>加入玩家交流群</span>
+    </a>
+    <button class="btn btn-ghost" onclick="openModal()">
+      <span class="bi">设</span><span>查看完整版设定</span>
+    </button>
   </div>
-  <div class="info-row">
-    <span class="icon-badge">抽</span>
-    <span>五星概率 <strong>25%</strong>，十连<strong>必出五星</strong>，曹操/刘备/张机等全武将<strong>无屏蔽</strong></span>
-  </div>
-  <div class="info-row">
-    <span class="icon-badge">速</span>
-    <span>资源<strong>×3</strong> · 建造<strong>×3</strong> · 征兵<strong>×3</strong> · 体力减半 · 战损降低<strong>30%</strong></span>
-  </div>
-  <div class="info-row">
-    <span class="icon-badge">盟</span>
-    <span><strong>21天极速赛季</strong>，联盟平衡，散人小盟也能逆袭</span>
-  </div>
-
-  <div class="divider"><div class="divider-diamond"></div></div>
-
-  <a class="btn-primary" href="你的下载链接">
-    <span class="btn-ic">载</span><span>立即预约下载</span>
-  </a>
-  <a class="btn-qq" href="https://qun.qq.com/universal-share/share?ac=1&authKey=JAAxXnQOTjw8AmPoY4T85ARdL8%2FRt0%2BI34O81lIucehnKbymJoSHKeukATkqfa2U&busi_data=eyJncm91cENvZGUiOiIxMDE1MjY3ODg2IiwidG9rZW4iOiJ6YkN5eTV3c01JQ1BMSnNETTRQMmpLV2dIM2xNZzhYS0hwaVFwMjE1Mk5USytXbWdUWURMQ1lRVWcxY3NPeUJxIiwidWluIjoiMzI0Njc0NTU5NyJ9&data=u2PZ78EPYp1HtaNV628wI55Ggt_8c4fZHUQcBIO99gNKSIJKTO6EMyk3GvMW-LFkOARDclOimRcj4D6DEtA3_Q&svctype=4&tempid=h5_group_info" target="_blank">
-    <span class="btn-ic">群</span><span>加入玩家交流群</span>
-  </a>
-  <button class="btn-secondary" onclick="openVersion()">
-    <span class="btn-ic">设</span><span>查看完整版设定</span>
-  </button>
 </div>
 
-<!-- 弹窗 -->
-<div id="versionModal">
-  <div class="modal-bg"></div>
-  <div class="modal-wrapper">
-    <div class="modal-card">
-      <div class="close-btn" onclick="closeVersion()">×</div>
+<!-- ═══════════════ 弹窗 ═══════════════ -->
+<div id="modal">
+  <div class="m-bg"></div>
+  <div class="m-wrap">
+    <div class="m-card">
+      <div class="m-close" onclick="closeModal()">×</div>
 
-      <div class="modal-header">
-        <h2>情谊率土 · 热血福利服</h2>
-        <p>高福利爽服 · 21天极速赛季 · 3月31日正式开服</p>
+      <!-- 弹窗标题 -->
+      <div class="m-head">
+        <div class="m-head-title">情谊率土 · 热血福利服</div>
+        <div class="m-head-sub">高福利爽服 · 21天极速赛季</div>
+
+        <!-- 弹窗内倒计时 -->
+        <div class="m-cd">
+          <div class="m-cd-top">
+            <div class="m-cd-line"></div>
+            <span class="m-cd-tag" id="mLabel">距离开服还有</span>
+            <div class="m-cd-line r"></div>
+          </div>
+          <div class="m-cd-cards">
+            <div class="m-cd-unit">
+              <div class="m-cd-box"><span class="m-cd-n" id="m-d">--</span></div>
+              <span class="m-cd-lbl">天</span>
+            </div>
+            <div class="m-cd-sep">:</div>
+            <div class="m-cd-unit">
+              <div class="m-cd-box"><span class="m-cd-n" id="m-h">--</span></div>
+              <span class="m-cd-lbl">时</span>
+            </div>
+            <div class="m-cd-sep">:</div>
+            <div class="m-cd-unit">
+              <div class="m-cd-box"><span class="m-cd-n" id="m-m">--</span></div>
+              <span class="m-cd-lbl">分</span>
+            </div>
+            <div class="m-cd-sep">:</div>
+            <div class="m-cd-unit">
+              <div class="m-cd-box"><span class="m-cd-n" id="m-s">--</span></div>
+              <span class="m-cd-lbl">秒</span>
+            </div>
+          </div>
+          <div class="m-cd-date">正式开服 <span>2025年3月31日 16:00 · 北京时间</span></div>
+        </div>
       </div>
 
-      <div class="modal-body">
+      <!-- 弹窗正文 -->
+      <div class="m-body">
 
+        <!-- 上线大礼包 -->
         <div class="sec">
-          <div class="sec-title">
-            <div class="sec-badge">礼</div>
+          <div class="sec-hd">
+            <div class="sec-icon">礼</div>
             <span class="sec-name">上线大礼包</span>
-            <span class="sec-tag">直接到手</span>
+            <span class="sec-tag">上线直接到手</span>
           </div>
-          <div class="welcome-pack">
-            <div class="pack-item">
-              <div class="pack-char">符</div>
-              <div><div class="pack-num">88,888</div><div class="pack-name">虎符</div></div>
+          <div class="pack-grid">
+            <div class="pack-card">
+              <div class="pack-icon">符</div>
+              <div><div class="pack-val">88,888</div><div class="pack-sub">虎符</div></div>
             </div>
-            <div class="pack-item">
-              <div class="pack-char">将</div>
-              <div><div class="pack-num">×3 自选</div><div class="pack-name">五星武将箱</div></div>
+            <div class="pack-card">
+              <div class="pack-icon">将</div>
+              <div><div class="pack-val">×3 自选</div><div class="pack-sub">五星武将箱</div></div>
             </div>
-            <div class="pack-item">
-              <div class="pack-char">法</div>
-              <div><div class="pack-num">9,999,999</div><div class="pack-name">战法经验</div></div>
+            <div class="pack-card">
+              <div class="pack-icon">法</div>
+              <div><div class="pack-val">9,999,999</div><div class="pack-sub">战法经验</div></div>
             </div>
-            <div class="pack-item">
-              <div class="pack-char">粮</div>
-              <div><div class="pack-num">各200万</div><div class="pack-name">木/铁/粮/石</div></div>
+            <div class="pack-card">
+              <div class="pack-icon">粮</div>
+              <div><div class="pack-val">各200万</div><div class="pack-sub">木/铁/粮/石</div></div>
             </div>
           </div>
         </div>
 
+        <!-- 抽卡 -->
         <div class="sec">
-          <div class="sec-title">
-            <div class="sec-badge">抽</div>
+          <div class="sec-hd">
+            <div class="sec-icon">抽</div>
             <span class="sec-name">抽卡概率</span>
             <span class="sec-tag">无暗箱 · 无屏蔽</span>
           </div>
-          <div class="stat-grid">
-            <div class="stat-item"><div class="stat-val">25%</div><div class="stat-key">五星武将概率</div></div>
-            <div class="stat-item"><div class="stat-val">必出</div><div class="stat-key">十连必出五星</div></div>
+          <div class="stat-grid" style="grid-template-columns:1fr 1fr">
+            <div class="stat-cell"><div class="stat-v">25%</div><div class="stat-k">五星武将概率</div></div>
+            <div class="stat-cell"><div class="stat-v">必出</div><div class="stat-k">十连必出五星</div></div>
           </div>
-          <div class="hl-box">
-            全武将正常概率开放 · 曹操、刘备、孙权、张机、吕蒙、马超、赵云…… 无任何屏蔽
-          </div>
+          <div class="note">全武将正常概率开放 · 曹操、刘备、孙权、张机、吕蒙、马超、赵云…… 无任何屏蔽</div>
         </div>
 
+        <!-- 加速倍率 -->
         <div class="sec">
-          <div class="sec-title">
-            <div class="sec-badge">速</div>
+          <div class="sec-hd">
+            <div class="sec-icon">速</div>
             <span class="sec-name">专属加速倍率</span>
           </div>
           <div class="stat-grid">
-            <div class="stat-item"><div class="stat-val">×3</div><div class="stat-key">资源产量</div></div>
-            <div class="stat-item"><div class="stat-val">×3</div><div class="stat-key">建筑速度</div></div>
-            <div class="stat-item"><div class="stat-val">×3</div><div class="stat-key">征兵速度</div></div>
-            <div class="stat-item"><div class="stat-val">×1.5</div><div class="stat-key">行军速度</div></div>
+            <div class="stat-cell"><div class="stat-v">×3</div><div class="stat-k">资源产量</div></div>
+            <div class="stat-cell"><div class="stat-v">×3</div><div class="stat-k">建筑速度</div></div>
+            <div class="stat-cell"><div class="stat-v">×3</div><div class="stat-k">征兵速度</div></div>
+            <div class="stat-cell"><div class="stat-v">×1.5</div><div class="stat-k">行军速度</div></div>
           </div>
-          <div class="hl-box">
-            体力消耗减半 · 屯田次数/资源翻倍 · 战损降低 30% · 领地上限提高 · 要塞共享全开
-          </div>
+          <div class="note">体力消耗减半 · 屯田次数/资源翻倍 · 战损降低30% · 领地上限提高 · 要塞共享全开</div>
         </div>
 
+        <!-- 赛季节奏 -->
         <div class="sec">
-          <div class="sec-title">
-            <div class="sec-badge">历</div>
+          <div class="sec-hd">
+            <div class="sec-icon">历</div>
             <span class="sec-name">21天赛季节奏</span>
           </div>
-          <div class="timeline">
-            <div class="tl-item">
+          <div class="tl">
+            <div class="tl-row">
               <div class="tl-dot">1</div>
-              <div class="tl-body">
-                <div class="tl-days">DAY 1 – 3</div>
-                <div class="tl-phase">开荒发育</div>
-                <div class="tl-desc">新手保护 · 资源翻倍 · 加盟打3/4/5级城 · 势力冲榜开荒奖励</div>
+              <div class="tl-b">
+                <div class="tl-d">DAY 1 – 3</div>
+                <div class="tl-p">开荒发育</div>
+                <div class="tl-s">新手保护 · 资源翻倍 · 加盟打3/4/5级城 · 势力冲榜开荒奖励</div>
               </div>
             </div>
-            <div class="tl-item">
+            <div class="tl-row">
               <div class="tl-dot">2</div>
-              <div class="tl-body">
-                <div class="tl-days">DAY 4 – 7</div>
-                <div class="tl-phase">州战开启</div>
-                <div class="tl-desc">开放关卡 · 州内攻城 · 战功排行 · 联盟奖励爆发</div>
+              <div class="tl-b">
+                <div class="tl-d">DAY 4 – 7</div>
+                <div class="tl-p">州战开启</div>
+                <div class="tl-s">开放关卡 · 州内攻城 · 战功排行 · 联盟奖励爆发</div>
               </div>
             </div>
-            <div class="tl-item">
+            <div class="tl-row">
               <div class="tl-dot">3</div>
-              <div class="tl-body">
-                <div class="tl-days">DAY 8 – 14</div>
-                <div class="tl-phase">资源州争霸</div>
-                <div class="tl-desc">进入资源州 · 大型团战 · 全图势力争夺</div>
+              <div class="tl-b">
+                <div class="tl-d">DAY 8 – 14</div>
+                <div class="tl-p">资源州争霸</div>
+                <div class="tl-s">进入资源州 · 大型团战 · 全图势力争夺</div>
               </div>
             </div>
-            <div class="tl-item">
-              <div class="tl-dot final">终</div>
-              <div class="tl-body">
-                <div class="tl-days">DAY 15 – 21</div>
-                <div class="tl-phase">洛阳征服 · 赛季结算</div>
-                <div class="tl-desc">攻打洛阳 · 征服/割据/群雄奖励结算 · 全服大礼包</div>
+            <div class="tl-row">
+              <div class="tl-dot fin">终</div>
+              <div class="tl-b">
+                <div class="tl-d">DAY 15 – 21</div>
+                <div class="tl-p">洛阳征服 · 赛季结算</div>
+                <div class="tl-s">攻打洛阳 · 征服/割据/群雄奖励结算 · 全服大礼包</div>
               </div>
             </div>
           </div>
         </div>
 
+        <!-- 7天狂欢 -->
         <div class="sec">
-          <div class="sec-title">
-            <div class="sec-badge">欢</div>
+          <div class="sec-hd">
+            <div class="sec-icon">欢</div>
             <span class="sec-name">开服7天狂欢</span>
           </div>
-          <ul class="ann-list">
-            <li><div class="li-num">1</div><span>上线即送 <strong>88888虎符 + 五星自选×3</strong></span></li>
-            <li><div class="li-num">2</div><span>首充任意金额，送 <strong>国家队建制一套</strong></span></li>
-            <li><div class="li-num">3</div><span>势力冲榜前10，送 <strong>绝版称号 + 虎符奖励</strong></span></li>
-            <li><div class="li-num">4</div><span>首占城池发 <strong>全盟大礼包</strong>（见攻城奖励表）</span></li>
-            <li><div class="li-num">5</div><span>每日签到领 <strong>五星碎片 + 资源</strong>，连续7天加倍</span></li>
-            <li><div class="li-num">6</div><span>每日战功排行 <strong>天天结算</strong> 奖励</span></li>
+          <ul class="ilist">
+            <li><div class="li-n">1</div><span>上线即送 <strong>88888虎符 + 五星自选×3</strong></span></li>
+            <li><div class="li-n">2</div><span>首充任意金额，送 <strong>国家队建制一套</strong></span></li>
+            <li><div class="li-n">3</div><span>势力冲榜前10，送 <strong>绝版称号 + 虎符奖励</strong></span></li>
+            <li><div class="li-n">4</div><span>首占城池发 <strong>全盟大礼包</strong>（见攻城奖励表）</span></li>
+            <li><div class="li-n">5</div><span>每日签到领 <strong>五星碎片 + 资源</strong>，连续7天加倍</span></li>
+            <li><div class="li-n">6</div><span>每日战功排行 <strong>天天结算</strong>奖励</span></li>
           </ul>
-          <div class="hl-box" style="margin-top:10px;">
-            常驻每日活动：每日签到 · 在线礼包 · 每日任务 · 离线收益
-          </div>
+          <div class="note" style="margin-top:10px">常驻每日活动：每日签到 · 在线礼包 · 每日任务 · 离线收益</div>
         </div>
 
+        <!-- 攻城奖励 -->
         <div class="sec">
-          <div class="sec-title">
-            <div class="sec-badge">城</div>
+          <div class="sec-hd">
+            <div class="sec-icon">城</div>
             <span class="sec-name">攻城首占 · 全盟奖励</span>
           </div>
-          <table class="rtable">
+          <table class="rt">
             <thead><tr><th>城池</th><th>全盟奖励</th></tr></thead>
             <tbody>
-              <tr><td>首占 3级城</td><td class="td-gold">2,000 虎符</td></tr>
-              <tr><td>首占 4级城</td><td class="td-gold">5,000 虎符</td></tr>
-              <tr><td>首占 5级城</td><td class="td-gold">10,000 虎符</td></tr>
-              <tr><td>首占 州府</td><td class="td-gold">30,000 虎符</td></tr>
-              <tr><td>首占 洛阳</td><td class="td-gold">50,000 虎符</td></tr>
+              <tr><td>首占 3级城</td><td class="tdg">2,000 虎符</td></tr>
+              <tr><td>首占 4级城</td><td class="tdg">5,000 虎符</td></tr>
+              <tr><td>首占 5级城</td><td class="tdg">10,000 虎符</td></tr>
+              <tr><td>首占 州府</td><td class="tdg">30,000 虎符</td></tr>
+              <tr><td>首占 洛阳</td><td class="tdg">50,000 虎符</td></tr>
             </tbody>
           </table>
         </div>
 
+        <!-- 赛季结算 -->
         <div class="sec">
-          <div class="sec-title">
-            <div class="sec-badge">季</div>
+          <div class="sec-hd">
+            <div class="sec-icon">季</div>
             <span class="sec-name">赛季结算奖励</span>
           </div>
-          <table class="rtable">
+          <table class="rt">
             <thead><tr><th>阵营</th><th>个人奖励</th></tr></thead>
             <tbody>
-              <tr><td>征服盟</td><td class="td-gold">50,000 虎符 + 绝版称号</td></tr>
-              <tr><td>割据盟</td><td class="td-gold">30,000 虎符</td></tr>
-              <tr><td>群雄盟</td><td class="td-gold">10,000 虎符</td></tr>
-              <tr><td>全服玩家</td><td class="td-gold">赛季结算大礼包</td></tr>
+              <tr><td>征服盟</td><td class="tdg">50,000 虎符 + 绝版称号</td></tr>
+              <tr><td>割据盟</td><td class="tdg">30,000 虎符</td></tr>
+              <tr><td>群雄盟</td><td class="tdg">10,000 虎符</td></tr>
+              <tr><td>全服玩家</td><td class="tdg">赛季结算大礼包</td></tr>
             </tbody>
           </table>
         </div>
 
-      </div>
+      </div><!-- /m-body -->
 
-      <div class="modal-footer">
-        <a class="btn-primary" href="你的下载链接" style="max-width:100%;">
-          <span class="btn-ic">载</span><span>立即预约下载</span>
+      <div class="m-foot">
+        <a class="btn btn-red" href="https://qun.qq.com/universal-share/share?ac=1&authKey=JAAxXnQOTjw8AmPoY4T85ARdL8%2FRt0%2BI34O81lIucehnKbymJoSHKeukATkqfa2U&busi_data=eyJncm91cENvZGUiOiIxMDE1MjY3ODg2IiwidG9rZW4iOiJ6YkN5eTV3c01JQ1BMSnNETTRQMmpLV2dIM2xNZzhYS0hwaVFwMjE1Mk5USytXbWdUWURMQ1lRVWcxY3NPeUJxIiwidWluIjoiMzI0Njc0NTU5NyJ9&data=u2PZ78EPYp1HtaNV628wI55Ggt_8c4fZHUQcBIO99gNKSIJKTO6EMyk3GvMW-LFkOARDclOimRcj4D6DEtA3_Q&svctype=4&tempid=h5_group_info" style="max-width:100%">
+          <span class="bi">载</span><span>立即预约下载</span>
         </a>
-        <a class="btn-qq" href="https://qun.qq.com/universal-share/share?ac=1&authKey=JAAxXnQOTjw8AmPoY4T85ARdL8%2FRt0%2BI34O81lIucehnKbymJoSHKeukATkqfa2U&busi_data=eyJncm91cENvZGUiOiIxMDE1MjY3ODg2IiwidG9rZW4iOiJ6YkN5eTV3c01JQ1BMSnNETTRQMmpLV2dIM2xNZzhYS0hwaVFwMjE1Mk5USytXbWdUWURMQ1lRVWcxY3NPeUJxIiwidWluIjoiMzI0Njc0NTU5NyJ9&data=u2PZ78EPYp1HtaNV628wI55Ggt_8c4fZHUQcBIO99gNKSIJKTO6EMyk3GvMW-LFkOARDclOimRcj4D6DEtA3_Q&svctype=4&tempid=h5_group_info" target="_blank" style="max-width:100%;">
-          <span class="btn-ic">群</span><span>加入玩家交流群</span>
+        <a class="btn btn-blue" href="https://qun.qq.com/universal-share/share?ac=1&authKey=JAAxXnQOTjw8AmPoY4T85ARdL8%2FRt0%2BI34O81lIucehnKbymJoSHKeukATkqfa2U&busi_data=eyJncm91cENvZGUiOiIxMDE1MjY3ODg2IiwidG9rZW4iOiJ6YkN5eTV3c01JQ1BMSnNETTRQMmpLV2dIM2xNZzhYS0hwaVFwMjE1Mk5USytXbWdUWURMQ1lRVWcxY3NPeUJxIiwidWluIjoiMzI0Njc0NTU5NyJ9&data=u2PZ78EPYp1HtaNV628wI55Ggt_8c4fZHUQcBIO99gNKSIJKTO6EMyk3GvMW-LFkOARDclOimRcj4D6DEtA3_Q&svctype=4&tempid=h5_group_info" target="_blank" style="max-width:100%">
+          <span class="bi">群</span><span>加入玩家交流群</span>
         </a>
       </div>
     </div>
@@ -753,55 +673,75 @@ body { margin: 0; font-family: var(--font-body); -webkit-font-smoothing: antiali
 </div>
 
 <script>
-function togglePanel() {
+/* ── 面板开关 ── */
+function togglePanel(){
   document.getElementById('panel').classList.toggle('show');
-  document.getElementById('centerBtn').classList.toggle('active');
+  document.getElementById('enterBtn').classList.toggle('open');
 }
-function openVersion() {
-  document.getElementById('versionModal').style.display = 'block';
-  document.body.style.overflow = 'hidden';
+/* ── 弹窗 ── */
+function openModal(){
+  document.getElementById('modal').style.display='block';
+  document.body.style.overflow='hidden';
 }
-function closeVersion() {
-  document.getElementById('versionModal').style.display = 'none';
-  document.body.style.overflow = '';
+function closeModal(){
+  document.getElementById('modal').style.display='none';
+  document.body.style.overflow='';
 }
-document.getElementById('versionModal').addEventListener('click', function(e) {
-  if (e.target === this || e.target.classList.contains('modal-bg')) closeVersion();
+document.getElementById('modal').addEventListener('click',function(e){
+  if(e.target===this||e.target.classList.contains('m-bg')) closeModal();
 });
 
-/* 倒计时 */
-const TARGET = new Date('2025-03-31T00:00:00+08:00').getTime();
-const EL = {
-  d: document.getElementById('cd-d'),
-  h: document.getElementById('cd-h'),
-  m: document.getElementById('cd-m'),
-  s: document.getElementById('cd-s'),
-};
-function pad(n) { return String(n).padStart(2,'0'); }
-function setNum(el, val) {
-  if (el.textContent === val) return;
-  el.classList.remove('tick');
-  void el.offsetWidth;
-  el.textContent = val;
-  el.classList.add('tick');
-}
-function tick() {
-  const diff = TARGET - Date.now();
-  if (diff <= 0) {
-    document.getElementById('cdWrap').classList.add('ended');
-    document.getElementById('cdLabel').textContent = '服务器已正式开启';
-    ['d','h','m','s'].forEach(k => setNum(EL[k],'00'));
-    clearInterval(timer); return;
-  }
-  setNum(EL.d, pad(Math.floor(diff / 86400000)));
-  setNum(EL.h, pad(Math.floor((diff % 86400000) / 3600000)));
-  setNum(EL.m, pad(Math.floor((diff % 3600000) / 60000)));
-  setNum(EL.s, pad(Math.floor((diff % 60000) / 1000)));
-}
-tick();
-const timer = setInterval(tick, 1000);
+/* ── 倒计时（两套DOM同步驱动）── */
+// 开服时间：2025-03-31 16:00:00 北京时间 (UTC+8)
+const TARGET = new Date('2025-03-31T16:00:00+08:00').getTime();
 
-setTimeout(openVersion, 1800);
+const P = { d:document.getElementById('p-d'), h:document.getElementById('p-h'),
+            m:document.getElementById('p-m'), s:document.getElementById('p-s') };
+const M = { d:document.getElementById('m-d'), h:document.getElementById('m-h'),
+            m:document.getElementById('m-m'), s:document.getElementById('m-s') };
+
+function pad(n){ return String(n).padStart(2,'0'); }
+
+function setEl(el,val){
+  if(!el||el.textContent===val) return;
+  el.classList.remove('flip');
+  void el.offsetWidth;
+  el.textContent=val;
+  el.classList.add('flip');
+}
+
+let ended=false;
+function tick(){
+  const diff=TARGET-Date.now();
+
+  if(diff<=0 && !ended){
+    ended=true;
+    // 面板
+    document.getElementById('pLabel').textContent='服务器已正式开启';
+    document.querySelector('.p-cd').classList.add('cd-ended');
+    // 弹窗
+    document.getElementById('mLabel').textContent='服务器已正式开启';
+    document.querySelector('.m-cd').classList.add('cd-ended');
+    ['d','h','m','s'].forEach(k=>{ setEl(P[k],'00'); setEl(M[k],'00'); });
+    clearInterval(timer);
+    return;
+  }
+  if(ended) return;
+
+  const vals={
+    d: pad(Math.floor(diff/86400000)),
+    h: pad(Math.floor((diff%86400000)/3600000)),
+    m: pad(Math.floor((diff%3600000)/60000)),
+    s: pad(Math.floor((diff%60000)/1000))
+  };
+  ['d','h','m','s'].forEach(k=>{ setEl(P[k],vals[k]); setEl(M[k],vals[k]); });
+}
+
+tick();
+const timer=setInterval(tick,1000);
+
+/* ── 1.8s后自动弹开区公告 ── */
+setTimeout(openModal,1800);
 </script>
 </body>
 </html>
