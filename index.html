@@ -190,19 +190,76 @@ body{margin:0;font-family:var(--ff-b);-webkit-font-smoothing:antialiased}
 /* ════════════════════════════════
    弹窗
 ════════════════════════════════ */
-#modal{display:none;position:fixed;inset:0;z-index:9999;overflow-y:auto;-webkit-overflow-scrolling:touch}
-.m-bg{position:fixed;inset:0;background:url("https://raw.githubusercontent.com/QingMing-game/ST0.1/main/BKG.gif") center/cover;filter:brightness(.18);z-index:0}
-.m-wrap{position:relative;z-index:1;min-height:100%;display:flex;align-items:flex-start;justify-content:center;padding:max(18px,env(safe-area-inset-top)) 14px max(18px,env(safe-area-inset-bottom))}
-.m-card{position:relative;width:100%;max-width:600px;background:var(--modal);border:1px solid var(--bd);border-radius:18px;overflow:hidden}
-
-/* 关闭 */
-.m-close{
-  position:absolute;top:14px;right:14px;width:32px;height:32px;
-  background:rgba(184,50,30,.7);border:1px solid rgba(184,134,42,.38);
-  color:var(--gold3);border-radius:50%;font-size:18px;line-height:32px;
-  text-align:center;cursor:pointer;z-index:10;transition:background .2s;
+/* Samsung Internet & iOS fix: never scroll #modal itself */
+#modal{
+  display:none;
+  position:fixed;inset:0;z-index:9999;
+  /* NO overflow here — scroll lives on .m-wrap */
 }
-.m-close:hover{background:var(--red2)}
+.m-bg{
+  position:absolute;inset:0;
+  background:url("https://raw.githubusercontent.com/QingMing-game/ST0.1/main/BKG.gif") center/cover;
+  filter:brightness(.18);z-index:0;
+}
+.m-wrap{
+  position:absolute;inset:0;z-index:1;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+  overscroll-behavior:contain;
+  display:flex;align-items:flex-start;justify-content:center;
+  padding:max(18px,env(safe-area-inset-top)) 14px 0;
+  /* bottom padding handled by m-close-bar */
+  padding-bottom:calc(70px + max(14px,env(safe-area-inset-bottom)));
+}
+.m-card{
+  position:relative;width:100%;max-width:600px;
+  background:var(--modal);border:1px solid var(--bd);
+  border-radius:18px;overflow:hidden;
+  /* no overflow:hidden on card so inner content flows */
+}
+
+/* 关闭按钮 — 顶部小X保留但更醒目 */
+.m-close-x{
+  position:absolute;top:12px;right:12px;
+  width:36px;height:36px;
+  background:rgba(184,50,30,.85);
+  border:1px solid rgba(232,187,92,.5);
+  color:var(--gold3);border-radius:50%;
+  font-size:20px;font-weight:bold;line-height:36px;
+  text-align:center;cursor:pointer;z-index:20;
+  box-shadow:0 2px 8px rgba(0,0,0,.6);
+  transition:background .18s,transform .18s;
+  -webkit-tap-highlight-color:transparent;
+  user-select:none;
+}
+.m-close-x:active{transform:scale(.92);background:var(--red2)}
+
+/* 关闭按钮 — 底部悬浮大按钮条（主要关闭入口，Samsung友好） */
+.m-close-bar{
+  position:fixed;
+  bottom:0;left:0;right:0;
+  z-index:10000;
+  display:none; /* shown only when modal is open */
+  padding:10px 16px calc(10px + max(10px,env(safe-area-inset-bottom)));
+  background:linear-gradient(to top,rgba(5,1,0,.96) 60%,transparent);
+  pointer-events:none;
+}
+.m-close-bar.visible{display:block;pointer-events:auto}
+.m-close-bar-btn{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  width:100%;max-width:600px;margin:0 auto;
+  padding:15px;border-radius:12px;
+  background:rgba(184,50,30,.82);
+  border:1px solid rgba(232,187,92,.45);
+  color:var(--gold3);
+  font-family:var(--ff-t);font-size:15px;letter-spacing:3px;
+  cursor:pointer;
+  box-shadow:0 -2px 20px rgba(0,0,0,.5),0 3px 12px rgba(184,50,30,.3);
+  -webkit-tap-highlight-color:transparent;
+  user-select:none;
+  transition:background .18s,transform .14s;
+}
+.m-close-bar-btn:active{transform:scale(.98);background:rgba(217,64,48,.9)}
 
 /* 弹窗头部 */
 .m-head{
@@ -424,7 +481,7 @@ body{margin:0;font-family:var(--ff-b);-webkit-font-smoothing:antialiased}
         <span class="cd-lbl">秒</span>
       </div>
     </div>
-    <div class="p-cd-date">开服时间 <span>2025年3月31日 16:00（北京时间）</span></div>
+    <div class="p-cd-date">开服时间 <span>2026年3月31日 16:00（北京时间）</span></div>
   </div>
 
   <!-- 面板核心信息 -->
@@ -449,7 +506,7 @@ body{margin:0;font-family:var(--ff-b);-webkit-font-smoothing:antialiased}
 
   <!-- 按钮区 -->
   <div class="p-btns">
-    <a class="btn btn-red" href="https://qun.qq.com/universal-share/share?ac=1&authKey=JAAxXnQOTjw8AmPoY4T85ARdL8%2FRt0%2BI34O81lIucehnKbymJoSHKeukATkqfa2U&busi_data=eyJncm91cENvZGUiOiIxMDE1MjY3ODg2IiwidG9rZW4iOiJ6YkN5eTV3c01JQ1BMSnNETTRQMmpLV2dIM2xNZzhYS0hwaVFwMjE1Mk5USytXbWdUWURMQ1lRVWcxY3NPeUJxIiwidWluIjoiMzI0Njc0NTU5NyJ9&data=u2PZ78EPYp1HtaNV628wI55Ggt_8c4fZHUQcBIO99gNKSIJKTO6EMyk3GvMW-LFkOARDclOimRcj4D6DEtA3_Q&svctype=4&tempid=h5_group_info">
+    <a class="btn btn-red" href="你的下载链接">
       <span class="bi">载</span><span>立即预约下载</span>
     </a>
     <a class="btn btn-blue" href="https://qun.qq.com/universal-share/share?ac=1&authKey=JAAxXnQOTjw8AmPoY4T85ARdL8%2FRt0%2BI34O81lIucehnKbymJoSHKeukATkqfa2U&busi_data=eyJncm91cENvZGUiOiIxMDE1MjY3ODg2IiwidG9rZW4iOiJ6YkN5eTV3c01JQ1BMSnNETTRQMmpLV2dIM2xNZzhYS0hwaVFwMjE1Mk5USytXbWdUWURMQ1lRVWcxY3NPeUJxIiwidWluIjoiMzI0Njc0NTU5NyJ9&data=u2PZ78EPYp1HtaNV628wI55Ggt_8c4fZHUQcBIO99gNKSIJKTO6EMyk3GvMW-LFkOARDclOimRcj4D6DEtA3_Q&svctype=4&tempid=h5_group_info" target="_blank">
@@ -466,12 +523,12 @@ body{margin:0;font-family:var(--ff-b);-webkit-font-smoothing:antialiased}
   <div class="m-bg"></div>
   <div class="m-wrap">
     <div class="m-card">
-      <div class="m-close" onclick="closeModal()">×</div>
+      <div class="m-close-x" onclick="closeModal()">×</div>
 
       <!-- 弹窗标题 -->
       <div class="m-head">
         <div class="m-head-title">情谊率土 · 热血福利服</div>
-        <div class="m-head-sub">高福利爽服 · 21天极速赛季</div>
+        <div class="m-head-sub">高福利爽服 · 21天极速赛季 · 2026年3月31日开服</div>
 
         <!-- 弹窗内倒计时 -->
         <div class="m-cd">
@@ -501,7 +558,7 @@ body{margin:0;font-family:var(--ff-b);-webkit-font-smoothing:antialiased}
               <span class="m-cd-lbl">秒</span>
             </div>
           </div>
-          <div class="m-cd-date">正式开服 <span>2025年3月31日 16:00 · 北京时间</span></div>
+          <div class="m-cd-date">正式开服 <span>2026年3月31日 16:00 · 北京时间</span></div>
         </div>
       </div>
 
@@ -661,7 +718,7 @@ body{margin:0;font-family:var(--ff-b);-webkit-font-smoothing:antialiased}
       </div><!-- /m-body -->
 
       <div class="m-foot">
-        <a class="btn btn-red" href="你的下载链接" style="max-width:100%">
+        <a class="btn btn-red" href="https://qun.qq.com/universal-share/share?ac=1&authKey=JAAxXnQOTjw8AmPoY4T85ARdL8%2FRt0%2BI34O81lIucehnKbymJoSHKeukATkqfa2U&busi_data=eyJncm91cENvZGUiOiIxMDE1MjY3ODg2IiwidG9rZW4iOiJ6YkN5eTV3c01JQ1BMSnNETTRQMmpLV2dIM2xNZzhYS0hwaVFwMjE1Mk5USytXbWdUWURMQ1lRVWcxY3NPeUJxIiwidWluIjoiMzI0Njc0NTU5NyJ9&data=u2PZ78EPYp1HtaNV628wI55Ggt_8c4fZHUQcBIO99gNKSIJKTO6EMyk3GvMW-LFkOARDclOimRcj4D6DEtA3_Q&svctype=4&tempid=h5_group_info" style="max-width:100%">
           <span class="bi">载</span><span>立即预约下载</span>
         </a>
         <a class="btn btn-blue" href="https://qun.qq.com/universal-share/share?ac=1&authKey=JAAxXnQOTjw8AmPoY4T85ARdL8%2FRt0%2BI34O81lIucehnKbymJoSHKeukATkqfa2U&busi_data=eyJncm91cENvZGUiOiIxMDE1MjY3ODg2IiwidG9rZW4iOiJ6YkN5eTV3c01JQ1BMSnNETTRQMmpLV2dIM2xNZzhYS0hwaVFwMjE1Mk5USytXbWdUWURMQ1lRVWcxY3NPeUJxIiwidWluIjoiMzI0Njc0NTU5NyJ9&data=u2PZ78EPYp1HtaNV628wI55Ggt_8c4fZHUQcBIO99gNKSIJKTO6EMyk3GvMW-LFkOARDclOimRcj4D6DEtA3_Q&svctype=4&tempid=h5_group_info" target="_blank" style="max-width:100%">
@@ -672,28 +729,44 @@ body{margin:0;font-family:var(--ff-b);-webkit-font-smoothing:antialiased}
   </div>
 </div>
 
+<!-- 底部关闭悬浮条（弹窗打开时显示） -->
+<div class="m-close-bar" id="closeBar">
+  <div class="m-close-bar-btn" onclick="closeModal()">
+    <span style="font-size:16px">✕</span><span>关闭公告</span>
+  </div>
+</div>
+
 <script>
 /* ── 面板开关 ── */
 function togglePanel(){
   document.getElementById('panel').classList.toggle('show');
   document.getElementById('enterBtn').classList.toggle('open');
 }
+
 /* ── 弹窗 ── */
 function openModal(){
   document.getElementById('modal').style.display='block';
+  document.getElementById('closeBar').classList.add('visible');
+  // Samsung Internet: lock body scroll by fixing it
+  document.body.style.position='fixed';
+  document.body.style.width='100%';
   document.body.style.overflow='hidden';
 }
 function closeModal(){
   document.getElementById('modal').style.display='none';
+  document.getElementById('closeBar').classList.remove('visible');
+  document.body.style.position='';
+  document.body.style.width='';
   document.body.style.overflow='';
 }
+// 点背景关闭（只有点到最外层才触发）
 document.getElementById('modal').addEventListener('click',function(e){
-  if(e.target===this||e.target.classList.contains('m-bg')) closeModal();
+  if(e.target===this) closeModal();
 });
 
 /* ── 倒计时（两套DOM同步驱动）── */
-// 开服时间：2025-03-31 16:00:00 北京时间 (UTC+8)
-const TARGET = new Date('2025-03-31T16:00:00+08:00').getTime();
+// 开服时间：2026-03-31 16:00:00 北京时间 (UTC+8)
+const TARGET = new Date('2026-03-31T16:00:00+08:00').getTime();
 
 const P = { d:document.getElementById('p-d'), h:document.getElementById('p-h'),
             m:document.getElementById('p-m'), s:document.getElementById('p-s') };
