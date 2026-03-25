@@ -3,47 +3,37 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
-<title>情谊率土 · 热血福利服</title>
+<title>情谊率土·热血福利服</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Ma+Shan+Zheng&family=ZCOOL+XiaoWei&family=Bebas+Neue&display=swap" rel="stylesheet">
 <style>
 /* ════════════════════════════════
-   变量 (保留原色调，微调对比度)
+   变量
 ════════════════════════════════ */
 :root{
   --red:#b8311f; --red2:#d94030; --red3:#e05a4a;
   --gold:#b8862a; --gold2:#e8bb5c; --gold3:#f8d888; --gold4:#fff0b8;
   --cream:#fff8e8;
   --panel:#0e0400f5; --modal:#090200f8;
-  --bd:rgba(184,134,42,0.35);
+  --bd:rgba(184,134,42,0.32);
   --bd2:rgba(184,134,42,0.18);
   --ff-d:'Ma Shan Zheng',serif;
   --ff-t:'ZCOOL XiaoWei','Noto Serif SC',serif;
   --ff-b:'Noto Serif SC',serif;
   --ff-n:'Bebas Neue',monospace;
 }
-
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
 /* ════════════════════════════════
-   背景与高级质感增强
+   背景
 ════════════════════════════════ */
-body{margin:0;font-family:var(--ff-b);-webkit-font-smoothing:antialiased;background:#000;overflow-x:hidden;}
-
-/* 视频背景：增加模糊过渡 */
 video.bg{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%;z-index:-2}
-
-/* 噪点遮罩层：提升整体UI的电影感 */
-body::after {
-  content: ""; position: fixed; inset: 0; z-index: -1; opacity: 0.03; pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-
 body::before{content:"";position:fixed;inset:0;z-index:-1;
-  background:linear-gradient(180deg,rgba(6,0,0,.68) 0%,rgba(6,0,0,.2) 45%,rgba(6,0,0,.88) 100%)}
+  background:linear-gradient(180deg,rgba(6,0,0,.62) 0%,rgba(6,0,0,.2) 45%,rgba(6,0,0,.85) 100%)}
+body{margin:0;font-family:var(--ff-b);-webkit-font-smoothing:antialiased}
 
 /* ════════════════════════════════
-   顶部标题 (保留 Claude 原版布局)
+   顶部标题
 ════════════════════════════════ */
 .top{
   position:fixed;top:max(16px,env(safe-area-inset-top));
@@ -62,7 +52,7 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;
 .top-sub{font-family:var(--ff-b);font-size:clamp(9px,1.9vw,11px);color:rgba(255,248,232,.4);letter-spacing:5px}
 
 /* ════════════════════════════════
-   中心按钮 (打磨呼吸动效)
+   中心按钮
 ════════════════════════════════ */
 .enter-btn{
   position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
@@ -74,7 +64,7 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;
   color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
   cursor:pointer;z-index:10;user-select:none;
   animation:breathe 3.2s ease-in-out infinite,pulse 3.2s infinite;
-  transition:all .35s cubic-bezier(.34,1.56,.64,1);
+  transition:transform .35s cubic-bezier(.34,1.56,.64,1);
 }
 .enter-btn .ec{font-family:var(--ff-d);font-size:clamp(24px,5.2vw,32px);letter-spacing:4px;line-height:1;text-shadow:0 1px 5px rgba(0,0,0,.7)}
 .enter-btn .es{font-family:var(--ff-b);font-size:10px;letter-spacing:3px;opacity:.55}
@@ -84,10 +74,10 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;
   70%{box-shadow:0 0 0 28px rgba(184,50,30,0),0 0 0 14px rgba(184,134,42,0)}
   100%{box-shadow:0 0 0 0 rgba(184,50,30,0),0 0 0 0 rgba(184,134,42,0)}
 }
-.enter-btn.open{transform:translate(-50%,-50%) rotate(45deg) scale(0.9); opacity:0; pointer-events:none;}
+.enter-btn.open{animation:none;transform:translate(-50%,-50%) rotate(45deg) scale(1.05);background:radial-gradient(circle,#555,#222)}
 
 /* ════════════════════════════════
-   面板 (打磨细节感)
+   面板
 ════════════════════════════════ */
 .panel{
   position:fixed;bottom:0;left:0;right:0;z-index:30;
@@ -96,312 +86,735 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;
   border:1px solid var(--bd);border-bottom:none;border-radius:24px 24px 0 0;
   padding:0 0 calc(env(safe-area-inset-bottom));
   max-height:88vh;overflow-y:auto;-webkit-overflow-scrolling:touch;
-  transform:translateY(100%);transition:transform .5s cubic-bezier(.22,1,.36,1);
+  transform:translateY(100%);transition:transform .45s cubic-bezier(.22,1,.36,1);
   scrollbar-width:none;
 }
 .panel::-webkit-scrollbar{display:none}
-.panel.show{transform:translateY(0);box-shadow:0 -10px 40px rgba(0,0,0,0.8)}
+.panel.show{transform:translateY(0)}
 
+/* 拖把手 */
 .p-handle{height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer}
 .p-handle::after{content:"";width:40px;height:4px;border-radius:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.4}
 
-.p-head{padding:0 20px 16px;text-align:center;border-bottom:1px solid var(--bd2)}
+/* 面板头 */
+.p-head{
+  padding:0 20px 16px;text-align:center;
+  border-bottom:1px solid var(--bd2);
+}
 .p-title{font-family:var(--ff-d);font-size:clamp(17px,4.2vw,22px);color:var(--gold2);letter-spacing:3px;text-shadow:0 0 18px rgba(232,187,92,.4)}
 .p-sub{font-family:var(--ff-b);font-size:11px;color:rgba(255,248,232,.35);letter-spacing:4px;margin-top:3px}
 
-/* ════════════════════════════════
-   倒计时打磨 (增加动态翻转感)
-════════════════════════════════ */
+/* 倒计时区（面板） */
+.p-cd{padding:16px 20px;border-bottom:1px solid var(--bd2)}
+.p-cd-label{font-family:var(--ff-t);font-size:11px;color:rgba(255,248,232,.42);letter-spacing:3px;text-align:center;margin-bottom:12px}
+
+.cd-row{display:flex;justify-content:center;align-items:flex-start;gap:6px}
+.cd-unit{display:flex;flex-direction:column;align-items:center;gap:5px}
 .cd-box{
-  position:relative; width:clamp(52px,12.5vw,66px);height:clamp(60px,14.5vw,76px);
+  position:relative;
+  width:clamp(52px,12.5vw,66px);height:clamp(60px,14.5vw,76px);
   border-radius:9px;overflow:hidden;
   background:linear-gradient(160deg,#280700,#160300);
-  border:1px solid rgba(184,134,42,.45);
-  box-shadow:0 2px 0 rgba(0,0,0,.7),inset 0 1px 0 rgba(184,134,42,.1);
+  border:1px solid rgba(184,134,42,.42);
+  box-shadow:0 2px 0 rgba(0,0,0,.7),inset 0 1px 0 rgba(184,134,42,.1),0 0 20px rgba(184,50,30,.16);
   display:flex;align-items:center;justify-content:center;
 }
+.cd-box::before{content:"";position:absolute;left:0;right:0;top:0;height:50%;background:rgba(255,255,255,.025);z-index:1}
+.cd-box::after{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:rgba(0,0,0,.55);z-index:2}
 .cd-n{
   font-family:var(--ff-n);font-size:clamp(30px,8vw,42px);
   color:#fff;letter-spacing:1px;line-height:1;position:relative;z-index:3;
   text-shadow:0 0 16px rgba(255,80,50,.55),0 2px 4px rgba(0,0,0,.9);
-  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
-/* 数字变化时的微缩放动效 */
-.cd-n.pop { animation: pop 0.4s ease-out; }
-@keyframes pop { 0% { transform: scale(1.2); opacity: 0.7; } 100% { transform: scale(1); opacity: 1; } }
+.cd-n.flip{animation:flip .18s ease}
+@keyframes flip{0%{transform:scaleY(.8);opacity:.3}100%{transform:scaleY(1);opacity:1}}
+.cd-lbl{font-family:var(--ff-t);font-size:clamp(10px,2vw,12px);color:rgba(255,248,232,.38);letter-spacing:2px}
+.cd-sep{
+  font-family:var(--ff-n);font-size:clamp(22px,5.5vw,30px);
+  color:var(--gold);opacity:.48;margin-top:clamp(12px,3vw,18px);line-height:1;
+  animation:blink 1s step-end infinite;
+}
+@keyframes blink{0%,49%{opacity:.48}50%,100%{opacity:.14}}
+.p-cd-date{font-family:var(--ff-t);font-size:11px;color:rgba(255,248,232,.28);letter-spacing:2px;text-align:center;margin-top:10px}
+.p-cd-date span{color:rgba(232,187,92,.5)}
+
+/* 面板核心信息 */
+.p-info{padding:14px 20px;border-bottom:1px solid var(--bd2)}
+.info-item{display:flex;align-items:flex-start;gap:10px;padding:6px 0;color:rgba(255,248,232,.83);font-size:13px;line-height:1.65;text-align:left}
+.info-item + .info-item{border-top:1px solid rgba(255,248,232,.04)}
+.ib{
+  flex-shrink:0;width:26px;height:26px;border-radius:7px;margin-top:0;
+  background:linear-gradient(135deg,rgba(184,50,30,.35),rgba(100,15,5,.7));
+  border:1px solid rgba(184,134,42,.38);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--ff-t);font-size:12px;color:var(--gold2);
+}
+.info-item strong{color:var(--gold2);font-weight:600}
+
+/* 面板按钮区 */
+.p-btns{padding:14px 20px;display:flex;flex-direction:column;gap:9px}
 
 /* ════════════════════════════════
-   按钮扫光打磨 (原版布局保留)
+   公用按钮样式
 ════════════════════════════════ */
 .btn{
-  position:relative; overflow:hidden; /* 为扫光准备 */
   display:flex;align-items:center;justify-content:center;gap:9px;
   width:100%;padding:14px 20px;border-radius:10px;
   font-family:var(--ff-t);font-size:15px;letter-spacing:3px;
   cursor:pointer;text-decoration:none;border:none;
-  transition:transform .14s, box-shadow .14s;
+  transition:transform .14s,opacity .14s;
   -webkit-tap-highlight-color:transparent;
 }
-.btn:active{transform:scale(.97)}
-
+.btn:active{transform:scale(.97);opacity:.88}
 .btn-red{
   background:linear-gradient(135deg,#c93520 0%,#8c1808 100%);
-  color:var(--gold3);border:1px solid rgba(184,134,42,0.5);
-  box-shadow:0 4px 16px rgba(184,50,30,.4);
+  color:var(--gold3);border:1px solid rgba(184,134,42,.42);
+  box-shadow:0 3px 16px rgba(184,50,30,.4),inset 0 1px 0 rgba(255,255,255,.07);
 }
-/* 扫光动画伪元素 */
-.btn-red::after {
-  content: ""; position: absolute; top: -50%; left: -150%;
-  width: 50%; height: 200%;
-  background: linear-gradient(to right, transparent, rgba(255,255,255,0.25), transparent);
-  transform: rotate(35deg);
-  animation: sweep 4s infinite;
-}
-@keyframes sweep {
-  0% { left: -150%; }
-  15% { left: 150%; }
-  100% { left: 150%; }
-}
-
 .btn-blue{
   background:linear-gradient(135deg,#1860b0,#0b4280);
-  color:#cce0ff;border:1px solid rgba(70,130,240,.3);
+  color:#cce0ff;border:1px solid rgba(70,130,240,.28);
+  box-shadow:0 3px 14px rgba(11,66,128,.44);
+}
+.btn-ghost{
+  background:rgba(184,134,42,.07);
+  color:rgba(232,187,92,.72);border:1px solid rgba(184,134,42,.26);
+}
+.bi{
+  width:22px;height:22px;border-radius:6px;
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.14);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--ff-t);font-size:11px;flex-shrink:0;
 }
 
 /* ════════════════════════════════
-   弹窗细节打磨
+   弹窗
 ════════════════════════════════ */
-#modal{display:none;position:fixed;inset:0;z-index:9999;}
+/* Samsung Internet & iOS fix: never scroll #modal itself */
+#modal{
+  display:none;
+  position:fixed;inset:0;z-index:9999;
+  /* NO overflow here — scroll lives on .m-wrap */
+}
 .m-bg{
   position:absolute;inset:0;
   background:url("https://raw.githubusercontent.com/QingMing-game/ST0.1/main/BKG.gif") center/cover;
-  filter:brightness(.15);z-index:0;
+  filter:brightness(.18);z-index:0;
 }
 .m-wrap{
-  position:absolute;inset:0;z-index:1;overflow-y:auto;
-  -webkit-overflow-scrolling:touch;display:flex;align-items:flex-start;justify-content:center;
-  padding:max(18px,env(safe-area-inset-top)) 14px 100px;
+  position:absolute;inset:0;z-index:1;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+  overscroll-behavior:contain;
+  display:flex;align-items:flex-start;justify-content:center;
+  padding:max(18px,env(safe-area-inset-top)) 14px 0;
+  /* bottom padding handled by m-close-bar */
+  padding-bottom:calc(70px + max(14px,env(safe-area-inset-bottom)));
 }
 .m-card{
   position:relative;width:100%;max-width:600px;
   background:var(--modal);border:1px solid var(--bd);
   border-radius:18px;overflow:hidden;
-  animation: cardIn 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  /* no overflow:hidden on card so inner content flows */
 }
-@keyframes cardIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
-/* 底部悬浮关闭条适配打磨 */
+/* 关闭按钮 — 顶部小X保留但更醒目 */
+.m-close-x{
+  position:absolute;top:12px;right:12px;
+  width:36px;height:36px;
+  background:rgba(184,50,30,.85);
+  border:1px solid rgba(232,187,92,.5);
+  color:var(--gold3);border-radius:50%;
+  font-size:20px;font-weight:bold;line-height:36px;
+  text-align:center;cursor:pointer;z-index:20;
+  box-shadow:0 2px 8px rgba(0,0,0,.6);
+  transition:background .18s,transform .18s;
+  -webkit-tap-highlight-color:transparent;
+  user-select:none;
+}
+.m-close-x:active{transform:scale(.92);background:var(--red2)}
+
+/* 关闭按钮 — 底部悬浮大按钮条（主要关闭入口，Samsung友好） */
 .m-close-bar{
-  position:fixed;bottom:0;left:0;right:0;z-index:10000;
-  display:none;padding:12px 16px calc(12px + max(12px,env(safe-area-inset-bottom)));
-  background:linear-gradient(to top,rgba(5,1,0,0.98) 70%,transparent);
+  position:fixed;
+  bottom:0;left:0;right:0;
+  z-index:10000;
+  display:none; /* shown only when modal is open */
+  padding:10px 16px calc(10px + max(10px,env(safe-area-inset-bottom)));
+  background:linear-gradient(to top,rgba(5,1,0,.96) 60%,transparent);
   pointer-events:none;
 }
-.m-close-bar.visible{display:block;pointer-events:auto;}
+.m-close-bar.visible{display:block;pointer-events:auto}
 .m-close-bar-btn{
   display:flex;align-items:center;justify-content:center;gap:8px;
-  width:100%;max-width:500px;margin:0 auto;
-  padding:14px;border-radius:12px;
-  background:rgba(184,50,30,0.9);border:1px solid var(--gold2);
-  color:var(--gold3);font-family:var(--ff-t);font-size:15px;
-  box-shadow:0 0 20px rgba(0,0,0,0.5);
+  width:100%;max-width:600px;margin:0 auto;
+  padding:15px;border-radius:12px;
+  background:rgba(184,50,30,.82);
+  border:1px solid rgba(232,187,92,.45);
+  color:var(--gold3);
+  font-family:var(--ff-t);font-size:15px;letter-spacing:3px;
+  cursor:pointer;
+  box-shadow:0 -2px 20px rgba(0,0,0,.5),0 3px 12px rgba(184,50,30,.3);
+  -webkit-tap-highlight-color:transparent;
+  user-select:none;
+  transition:background .18s,transform .14s;
+}
+.m-close-bar-btn:active{transform:scale(.98);background:rgba(217,64,48,.9)}
+
+/* 弹窗头部 */
+.m-head{
+  background:linear-gradient(135deg,rgba(130,25,12,.72) 0%,rgba(9,2,0,.96) 100%);
+  border-bottom:1px solid var(--bd);
+  padding:22px 52px 0 22px;
+}
+.m-head-title{font-family:var(--ff-d);font-size:clamp(18px,4.5vw,24px);color:var(--gold2);letter-spacing:4px;text-shadow:0 0 20px rgba(232,187,92,.38);text-align:center}
+.m-head-sub{font-family:var(--ff-b);font-size:11px;color:rgba(255,248,232,.35);letter-spacing:2px;text-align:center;margin-top:5px}
+
+/* 弹窗内倒计时 */
+.m-cd{
+  padding:18px 20px 16px;
+  border-bottom:1px solid var(--bd2);
+  background:rgba(0,0,0,.25);
+}
+.m-cd-top{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:14px}
+.m-cd-line{flex:1;height:1px;background:linear-gradient(to right,transparent,rgba(184,50,30,.45))}
+.m-cd-line.r{background:linear-gradient(to left,transparent,rgba(184,50,30,.45))}
+.m-cd-tag{font-family:var(--ff-t);font-size:11px;color:rgba(255,248,232,.42);letter-spacing:3px;white-space:nowrap}
+.m-cd-cards{display:flex;justify-content:center;align-items:flex-start;gap:7px}
+.m-cd-unit{display:flex;flex-direction:column;align-items:center;gap:5px}
+.m-cd-box{
+  position:relative;
+  width:clamp(58px,14vw,74px);height:clamp(68px,16vw,86px);
+  border-radius:10px;overflow:hidden;
+  background:linear-gradient(160deg,#2c0800,#170300);
+  border:1px solid rgba(184,134,42,.4);
+  box-shadow:0 3px 0 rgba(0,0,0,.6),inset 0 1px 0 rgba(184,134,42,.1),0 0 24px rgba(184,50,30,.18);
+  display:flex;align-items:center;justify-content:center;
+}
+.m-cd-box::before{content:"";position:absolute;left:0;right:0;top:0;height:50%;background:rgba(255,255,255,.03);z-index:1}
+.m-cd-box::after{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:rgba(0,0,0,.55);z-index:2}
+.m-cd-n{
+  font-family:var(--ff-n);font-size:clamp(34px,9vw,50px);
+  color:#fff;letter-spacing:1px;line-height:1;position:relative;z-index:3;
+  text-shadow:0 0 20px rgba(255,90,55,.55),0 2px 6px rgba(0,0,0,.9);
+}
+.m-cd-n.flip{animation:flip .18s ease}
+.m-cd-lbl{font-family:var(--ff-t);font-size:clamp(10px,2.2vw,13px);color:rgba(255,248,232,.38);letter-spacing:2px}
+.m-cd-sep{
+  font-family:var(--ff-n);font-size:clamp(26px,6.5vw,38px);
+  color:var(--gold2);opacity:.5;margin-top:clamp(16px,3.8vw,22px);line-height:1;
+  animation:blink 1s step-end infinite;
+}
+.m-cd-date{font-family:var(--ff-t);font-size:11px;color:rgba(255,248,232,.28);letter-spacing:2px;text-align:center;margin-top:12px}
+.m-cd-date span{color:rgba(232,187,92,.55)}
+
+/* ended 状态 */
+.cd-ended .m-cd-box,.cd-ended .cd-box{
+  border-color:rgba(50,190,70,.42);
+  box-shadow:0 0 20px rgba(50,190,70,.2);
+}
+.cd-ended .m-cd-n,.cd-ended .cd-n{color:#80f090;text-shadow:0 0 16px rgba(50,240,80,.5)}
+.cd-ended .m-cd-tag,.cd-ended .p-cd-label{color:rgba(80,240,100,.7)}
+
+/* 弹窗正文 */
+.m-body{padding:18px 16px}
+
+/* 区块 */
+.sec{margin-bottom:20px}
+.sec-hd{
+  display:flex;align-items:center;gap:10px;
+  margin-bottom:11px;padding-bottom:8px;
+  border-bottom:1px solid var(--bd2);
+}
+.sec-icon{
+  flex-shrink:0;width:28px;height:28px;border-radius:7px;
+  background:linear-gradient(135deg,rgba(184,50,30,.52),rgba(110,18,6,.85));
+  border:1px solid rgba(184,134,42,.42);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--ff-t);font-size:13px;color:var(--gold2);
+  box-shadow:0 0 8px rgba(184,50,30,.22);
+}
+.sec-name{font-family:var(--ff-t);font-size:15px;color:var(--gold2);letter-spacing:2px}
+.sec-tag{
+  margin-left:auto;font-family:var(--ff-b);font-size:10px;
+  color:rgba(255,248,232,.28);letter-spacing:1px;
+  border:1px solid var(--bd2);border-radius:4px;padding:1px 7px;
 }
 
-/* ════════════════════════════════
-   列表与文字打磨 (保留原样式)
-════════════════════════════════ */
-.p-info{padding:14px 20px;border-bottom:1px solid var(--bd2)}
-.info-item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;color:rgba(255,248,232,.85);font-size:13px;line-height:1.6}
-.ib{flex-shrink:0;width:24px;height:24px;border-radius:6px;background:rgba(184,50,30,.35);border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;font-family:var(--ff-t);color:var(--gold2);font-size:12px;}
+/* 礼包 2×2 */
+.pack-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pack-card{
+  display:flex;align-items:center;gap:10px;
+  background:linear-gradient(135deg,rgba(170,38,18,.1),rgba(8,2,0,.55));
+  border:1px solid var(--bd2);border-radius:10px;padding:11px 12px;
+}
+.pack-icon{
+  flex-shrink:0;width:36px;height:36px;border-radius:9px;
+  background:linear-gradient(135deg,rgba(184,50,30,.4),rgba(80,12,4,.85));
+  border:1px solid rgba(184,134,42,.32);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--ff-t);font-size:15px;color:var(--gold2);
+}
+.pack-val{font-family:var(--ff-n);font-size:20px;color:var(--gold2);letter-spacing:1px;line-height:1.1}
+.pack-sub{font-family:var(--ff-b);font-size:11px;color:rgba(255,248,232,.4);margin-top:2px}
 
-.sec-hd{display:flex;align-items:center;gap:10px;margin-bottom:12px;border-bottom:1px solid var(--bd2);padding-bottom:8px}
-.sec-icon{width:28px;height:28px;background:linear-gradient(135deg,var(--red),#6e1206);border:1px solid var(--bd);border-radius:7px;display:flex;align-items:center;justify-content:center;font-family:var(--ff-t);color:var(--gold2)}
-.sec-name{font-family:var(--ff-t);font-size:15px;color:var(--gold2);letter-spacing:1px}
+/* 数值网格 */
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+@media(max-width:380px){.stat-grid{grid-template-columns:repeat(2,1fr)}}
+.stat-cell{
+  background:rgba(184,134,42,.06);border:1px solid var(--bd2);
+  border-radius:9px;padding:10px 6px;text-align:center;
+}
+.stat-v{font-family:var(--ff-n);font-size:24px;color:var(--gold2);line-height:1}
+.stat-k{font-family:var(--ff-b);font-size:10px;color:rgba(255,248,232,.4);margin-top:4px;letter-spacing:1px}
 
-.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.stat-cell{background:rgba(184,134,42,.08);border:1px solid var(--bd2);border-radius:8px;padding:10px 5px;text-align:center}
-.stat-v{font-family:var(--ff-n);font-size:22px;color:var(--gold2);line-height:1}
-.stat-k{font-family:var(--ff-b);font-size:10px;color:rgba(255,248,232,0.4);margin-top:4px}
+/* 说明框 */
+.note{
+  background:rgba(184,50,30,.09);border:1px solid rgba(184,50,30,.22);
+  border-radius:8px;padding:10px 13px;margin-top:8px;
+  font-family:var(--ff-b);font-size:12px;color:rgba(255,248,232,.58);line-height:1.88;
+}
 
-.note{background:rgba(184,50,30,.08);border:1px solid rgba(184,50,30,.2);border-radius:8px;padding:10px 12px;margin-top:10px;font-size:12px;color:rgba(255,248,232,.55);line-height:1.8}
+/* 列表 */
+.ilist{list-style:none;display:flex;flex-direction:column;gap:7px}
+.ilist li{display:flex;gap:9px;font-family:var(--ff-b);font-size:13px;color:rgba(255,248,232,.78);line-height:1.7}
+.ilist li strong{color:var(--gold2);font-weight:600}
+.li-n{
+  flex-shrink:0;width:20px;height:20px;border-radius:50%;margin-top:2px;
+  background:rgba(184,50,30,.3);border:1px solid rgba(184,134,42,.28);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--ff-n);font-size:11px;color:var(--gold2);
+}
 
-/* 适配 PC */
+/* 时间线 */
+.tl{display:flex;flex-direction:column}
+.tl-row{display:flex;gap:12px;position:relative}
+.tl-row:not(:last-child)::before{content:"";position:absolute;left:13px;top:28px;bottom:0;width:1px;background:linear-gradient(to bottom,rgba(184,134,42,.3),rgba(184,134,42,.04))}
+.tl-dot{
+  flex-shrink:0;margin-top:6px;width:27px;height:27px;border-radius:50%;
+  background:linear-gradient(135deg,var(--red2),var(--red));
+  border:2px solid var(--gold2);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--ff-n);font-size:12px;color:var(--gold2);
+  box-shadow:0 0 8px rgba(184,50,30,.45);z-index:1;
+}
+.tl-dot.fin{background:linear-gradient(135deg,var(--gold2),var(--gold));border-color:var(--gold4);color:var(--dark);box-shadow:0 0 12px rgba(232,187,92,.45)}
+.tl-b{padding-bottom:16px;flex:1}
+.tl-d{font-family:var(--ff-n);font-size:11px;color:rgba(232,187,92,.58);letter-spacing:1px;margin-bottom:2px}
+.tl-p{font-family:var(--ff-t);font-size:14px;color:#fff;margin-bottom:3px}
+.tl-s{font-family:var(--ff-b);font-size:12px;color:rgba(255,248,232,.46);line-height:1.75}
+
+/* 表格 */
+.rt{width:100%;border-collapse:collapse;margin-top:8px;font-size:12px}
+.rt th{font-family:var(--ff-t);font-weight:400;background:rgba(184,134,42,.09);color:rgba(232,187,92,.72);letter-spacing:1px;padding:8px 10px;text-align:left;border-bottom:1px solid var(--bd2)}
+.rt td{font-family:var(--ff-b);padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.04);color:rgba(255,248,232,.68)}
+.rt tr:last-child td{border-bottom:none}
+.rt tr:hover td{background:rgba(255,255,255,.02)}
+.tdg{font-family:var(--ff-t) !important;color:var(--gold2) !important}
+
+/* 弹窗底部 */
+.m-foot{padding:14px 16px calc(14px + env(safe-area-inset-bottom));border-top:1px solid var(--bd);display:flex;flex-direction:column;gap:9px}
+
+/* PC 右下角面板 */
 @media(min-width:768px){
   .panel{left:auto;right:40px;bottom:40px;border-radius:18px;border:1px solid var(--bd);max-height:84vh}
+  .panel.show{transform:translateY(0)}
+}
+@media(max-width:767px){
+  .panel{border-radius:24px 24px 0 0;border-bottom:none}
 }
 </style>
 </head>
 <body>
 
-<!-- 背景视频补丁: 增加 poster 避免首屏空白 -->
-<video class="bg" autoplay muted loop playsinline poster="https://raw.githubusercontent.com/QingMing-game/ST0.1/main/BKG.gif">
+<video class="bg" autoplay muted loop playsinline>
   <source src="https://raw.githubusercontent.com/QingMing-game/ST0.1/main/VD1.mp4" type="video/mp4">
 </video>
 
+<!-- 顶部标题 -->
 <div class="top">
-  <div class="top-title">情谊率土 · 热血福利服</div>
-  <div class="top-rule"><div class="top-rule-line"></div><span class="top-sub">HIGH WELFARE · SPECIAL SERVER</span><div class="top-rule-line r"></div></div>
+  <div class="top-title">情谊率土·热血福利服</div>
+  <div class="top-rule">
+    <div class="top-rule-line"></div>
+    <span class="top-sub">HIGH WELFARE · SPECIAL SERVER</span>
+    <div class="top-rule-line r"></div>
+  </div>
 </div>
 
+<!-- 进入按钮 -->
 <div class="enter-btn" id="enterBtn" onclick="togglePanel()">
-  <span class="ec">进入</span><span class="es">ENTER</span>
+  <span class="ec">进入</span>
+  <span class="es">ENTER</span>
 </div>
 
-<!-- 面板 (UI 结构保持 Claude 原版) -->
+<!-- ═══════════════ 面板 ═══════════════ -->
 <div class="panel" id="panel">
   <div class="p-handle" onclick="togglePanel()"></div>
+
+  <!-- 面板头 -->
   <div class="p-head">
     <div class="p-title">情谊率土 · 热血福利服</div>
     <div class="p-sub">不肝 · 不氪 · 平衡 · 耐玩</div>
   </div>
 
+  <!-- 面板倒计时 -->
   <div class="p-cd">
-    <div style="text-align:center; color:rgba(255,248,232,.4); font-size:11px; margin:16px 0 12px; letter-spacing:2px" id="pLabel">距正式开服还有</div>
-    <div style="display:flex; justify-content:center; align-items:flex-start; gap:6px">
-      <div style="text-align:center"><div class="cd-box"><span class="cd-n" id="p-d">--</span></div><span style="font-size:10px; color:rgba(255,248,232,.3); margin-top:4px; display:block">天</span></div>
-      <div style="padding-top:18px; color:var(--gold); opacity:.4; animation:blink 1s infinite">:</div>
-      <div style="text-align:center"><div class="cd-box"><span class="cd-n" id="p-h">--</span></div><span style="font-size:10px; color:rgba(255,248,232,.3); margin-top:4px; display:block">时</span></div>
-      <div style="padding-top:18px; color:var(--gold); opacity:.4; animation:blink 1s infinite">:</div>
-      <div style="text-align:center"><div class="cd-box"><span class="cd-n" id="p-m">--</span></div><span style="font-size:10px; color:rgba(255,248,232,.3); margin-top:4px; display:block">分</span></div>
-      <div style="padding-top:18px; color:var(--gold); opacity:.4; animation:blink 1s infinite">:</div>
-      <div style="text-align:center"><div class="cd-box"><span class="cd-n" id="p-s">--</span></div><span style="font-size:10px; color:rgba(255,248,232,.3); margin-top:4px; display:block">秒</span></div>
+    <div class="p-cd-label" id="pLabel">距正式开服还有</div>
+    <div class="cd-row">
+      <div class="cd-unit">
+        <div class="cd-box"><span class="cd-n" id="p-d">--</span></div>
+        <span class="cd-lbl">天</span>
+      </div>
+      <div class="cd-sep">:</div>
+      <div class="cd-unit">
+        <div class="cd-box"><span class="cd-n" id="p-h">--</span></div>
+        <span class="cd-lbl">时</span>
+      </div>
+      <div class="cd-sep">:</div>
+      <div class="cd-unit">
+        <div class="cd-box"><span class="cd-n" id="p-m">--</span></div>
+        <span class="cd-lbl">分</span>
+      </div>
+      <div class="cd-sep">:</div>
+      <div class="cd-unit">
+        <div class="cd-box"><span class="cd-n" id="p-s">--</span></div>
+        <span class="cd-lbl">秒</span>
+      </div>
+    </div>
+    <div class="p-cd-date">开服时间 <span>2026年3月31日 16:00（北京时间）</span></div>
+  </div>
+
+  <!-- 面板核心信息 -->
+  <div class="p-info">
+    <div class="info-item">
+      <span class="ib">礼</span>
+      <span>上线即送 <strong>88888虎符</strong> + <strong>五星自选×3</strong> + 满战法经验 + 各类资源200万</span>
+    </div>
+    <div class="info-item">
+      <span class="ib">抽</span>
+      <span>五星概率 <strong>25%</strong>，十连<strong>必出五星</strong>，曹操/刘备/张机等全武将<strong>无屏蔽</strong></span>
+    </div>
+    <div class="info-item">
+      <span class="ib">速</span>
+      <span>资源<strong>×3</strong> · 建造<strong>×3</strong> · 征兵<strong>×3</strong> · 体力减半 · 战损降低<strong>30%</strong></span>
+    </div>
+    <div class="info-item">
+      <span class="ib">盟</span>
+      <span><strong>21天极速赛季</strong>，联盟平衡，散人小盟也能逆袭</span>
     </div>
   </div>
 
-  <div class="p-info">
-    <div class="info-item"><span class="ib">礼</span><span>上线即送 <strong>88888虎符</strong> + <strong>五星自选×3</strong> + 满战法经验</span></div>
-    <div class="info-item"><span class="ib">抽</span><span>五星概率 <strong>25%</strong>，十连<strong>必出五星</strong>，全武将<strong>无屏蔽</strong></span></div>
-    <div class="info-item"><span class="ib">速</span><span>资源/建造/征兵 <strong>×3倍</strong> · 战损降低 <strong>30%</strong></span></div>
-  </div>
-
+  <!-- 按钮区 -->
   <div class="p-btns">
-    <a class="btn btn-red" href="你的下载链接"><span style="font-size:12px; background:rgba(255,255,255,.2); width:20px; height:20px; border-radius:4px; display:flex; align-items:center; justify-content:center">载</span><span>立即预约下载</span></a>
-    <a class="btn btn-blue" href="你的QQ群链接" target="_blank"><span>加入玩家交流群</span></a>
-    <button class="btn" style="background:rgba(184,134,42,.1); color:var(--gold2); border:1px solid var(--bd2)" onclick="openModal()">查看完整版本设定</button>
+    <a class="btn btn-red" href="你的下载链接">
+      <span class="bi">载</span><span>立即预约下载</span>
+    </a>
+    <a class="btn btn-blue" href="https://qun.qq.com/universal-share/share?ac=1&authKey=JAAxXnQOTjw8AmPoY4T85ARdL8%2FRt0%2BI34O81lIucehnKbymJoSHKeukATkqfa2U&busi_data=eyJncm91cENvZGUiOiIxMDE1MjY3ODg2IiwidG9rZW4iOiJ6YkN5eTV3c01JQ1BMSnNETTRQMmpLV2dIM2xNZzhYS0hwaVFwMjE1Mk5USytXbWdUWURMQ1lRVWcxY3NPeUJxIiwidWluIjoiMzI0Njc0NTU5NyJ9&data=u2PZ78EPYp1HtaNV628wI55Ggt_8c4fZHUQcBIO99gNKSIJKTO6EMyk3GvMW-LFkOARDclOimRcj4D6DEtA3_Q&svctype=4&tempid=h5_group_info" target="_blank">
+      <span class="bi">群</span><span>加入玩家交流群</span>
+    </a>
+    <button class="btn btn-ghost" onclick="openModal()">
+      <span class="bi">设</span><span>查看完整版设定</span>
+    </button>
   </div>
 </div>
 
-<!-- 弹窗 (结构保持 Claude 原版) -->
+<!-- ═══════════════ 弹窗 ═══════════════ -->
 <div id="modal">
-  <div class="m-bg" onclick="closeModal()"></div>
+  <div class="m-bg"></div>
   <div class="m-wrap">
     <div class="m-card">
-      <div style="padding:22px; text-align:center; border-bottom:1px solid var(--bd2)">
-        <div style="font-family:var(--ff-d); font-size:22px; color:var(--gold2)">版本核心设定</div>
-        <div style="font-size:11px; color:rgba(255,248,232,0.3); margin-top:4px">21天极速赛季 · 高倍率爽服</div>
+      <div class="m-close-x" onclick="closeModal()">×</div>
+
+      <!-- 弹窗标题 -->
+      <div class="m-head">
+        <div class="m-head-title">情谊率土 · 热血福利服</div>
+        <div class="m-head-sub">高福利爽服 · 21天极速赛季 · 2026年3月31日开服</div>
+
+        <!-- 弹窗内倒计时 -->
+        <div class="m-cd">
+          <div class="m-cd-top">
+            <div class="m-cd-line"></div>
+            <span class="m-cd-tag" id="mLabel">距离开服还有</span>
+            <div class="m-cd-line r"></div>
+          </div>
+          <div class="m-cd-cards">
+            <div class="m-cd-unit">
+              <div class="m-cd-box"><span class="m-cd-n" id="m-d">--</span></div>
+              <span class="m-cd-lbl">天</span>
+            </div>
+            <div class="m-cd-sep">:</div>
+            <div class="m-cd-unit">
+              <div class="m-cd-box"><span class="m-cd-n" id="m-h">--</span></div>
+              <span class="m-cd-lbl">时</span>
+            </div>
+            <div class="m-cd-sep">:</div>
+            <div class="m-cd-unit">
+              <div class="m-cd-box"><span class="m-cd-n" id="m-m">--</span></div>
+              <span class="m-cd-lbl">分</span>
+            </div>
+            <div class="m-cd-sep">:</div>
+            <div class="m-cd-unit">
+              <div class="m-cd-box"><span class="m-cd-n" id="m-s">--</span></div>
+              <span class="m-cd-lbl">秒</span>
+            </div>
+          </div>
+          <div class="m-cd-date">正式开服 <span>2026年3月31日 16:00 · 北京时间</span></div>
+        </div>
       </div>
-      
-      <div style="padding:20px">
+
+      <!-- 弹窗正文 -->
+      <div class="m-body">
+
+        <!-- 上线大礼包 -->
         <div class="sec">
-          <div class="sec-hd"><div class="sec-icon">礼</div><span class="sec-name">上线福利</span></div>
-          <div class="stat-grid">
-            <div class="stat-cell"><div class="stat-v">88888</div><div class="stat-k">初始虎符</div></div>
-            <div class="stat-cell"><div class="stat-v">×3</div><div class="stat-k">五星自选</div></div>
-            <div class="stat-cell"><div class="stat-v">999万</div><div class="stat-k">战法经验</div></div>
-            <div class="stat-cell"><div class="stat-v">200万</div><div class="stat-k">起手资源</div></div>
+          <div class="sec-hd">
+            <div class="sec-icon">礼</div>
+            <span class="sec-name">上线大礼包</span>
+            <span class="sec-tag">上线直接到手</span>
+          </div>
+          <div class="pack-grid">
+            <div class="pack-card">
+              <div class="pack-icon">符</div>
+              <div><div class="pack-val">88,888</div><div class="pack-sub">虎符</div></div>
+            </div>
+            <div class="pack-card">
+              <div class="pack-icon">将</div>
+              <div><div class="pack-val">×3 自选</div><div class="pack-sub">五星武将箱</div></div>
+            </div>
+            <div class="pack-card">
+              <div class="pack-icon">法</div>
+              <div><div class="pack-val">9,999,999</div><div class="pack-sub">战法经验</div></div>
+            </div>
+            <div class="pack-card">
+              <div class="pack-icon">粮</div>
+              <div><div class="pack-val">各200万</div><div class="pack-sub">木/铁/粮/石</div></div>
+            </div>
           </div>
         </div>
 
+        <!-- 抽卡 -->
         <div class="sec">
-          <div class="sec-hd"><div class="sec-icon">速</div><span class="sec-name">倍率调整</span></div>
+          <div class="sec-hd">
+            <div class="sec-icon">抽</div>
+            <span class="sec-name">抽卡概率</span>
+            <span class="sec-tag">无暗箱 · 无屏蔽</span>
+          </div>
+          <div class="stat-grid" style="grid-template-columns:1fr 1fr">
+            <div class="stat-cell"><div class="stat-v">25%</div><div class="stat-k">五星武将概率</div></div>
+            <div class="stat-cell"><div class="stat-v">必出</div><div class="stat-k">十连必出五星</div></div>
+          </div>
+          <div class="note">全武将正常概率开放 · 曹操、刘备、孙权、张机、吕蒙、马超、赵云…… 无任何屏蔽</div>
+        </div>
+
+        <!-- 加速倍率 -->
+        <div class="sec">
+          <div class="sec-hd">
+            <div class="sec-icon">速</div>
+            <span class="sec-name">专属加速倍率</span>
+          </div>
           <div class="stat-grid">
             <div class="stat-cell"><div class="stat-v">×3</div><div class="stat-k">资源产量</div></div>
             <div class="stat-cell"><div class="stat-v">×3</div><div class="stat-k">建筑速度</div></div>
             <div class="stat-cell"><div class="stat-v">×3</div><div class="stat-k">征兵速度</div></div>
-            <div class="stat-cell"><div class="stat-v">50%</div><div class="stat-k">体力消耗</div></div>
+            <div class="stat-cell"><div class="stat-v">×1.5</div><div class="stat-k">行军速度</div></div>
           </div>
-          <div class="note">全图 1.5 倍行军速度 · 战损降低 30% · 极速发育开荒。</div>
+          <div class="note">体力消耗减半 · 屯田次数/资源翻倍 · 战损降低30% · 领地上限提高 · 要塞共享全开</div>
         </div>
 
+        <!-- 赛季节奏 -->
         <div class="sec">
-          <div class="sec-hd"><div class="sec-icon">抽</div><span class="sec-name">招募概率</span></div>
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px">
-            <div class="stat-cell"><div class="stat-v">25%</div><div class="stat-k">五星概率 (核心无屏蔽)</div></div>
-            <div class="stat-cell"><div class="stat-v">10连</div><div class="stat-k">保底五星武将</div></div>
+          <div class="sec-hd">
+            <div class="sec-icon">历</div>
+            <span class="sec-name">21天赛季节奏</span>
+          </div>
+          <div class="tl">
+            <div class="tl-row">
+              <div class="tl-dot">1</div>
+              <div class="tl-b">
+                <div class="tl-d">DAY 1 – 3</div>
+                <div class="tl-p">开荒发育</div>
+                <div class="tl-s">新手保护 · 资源翻倍 · 加盟打3/4/5级城 · 势力冲榜开荒奖励</div>
+              </div>
+            </div>
+            <div class="tl-row">
+              <div class="tl-dot">2</div>
+              <div class="tl-b">
+                <div class="tl-d">DAY 4 – 7</div>
+                <div class="tl-p">州战开启</div>
+                <div class="tl-s">开放关卡 · 州内攻城 · 战功排行 · 联盟奖励爆发</div>
+              </div>
+            </div>
+            <div class="tl-row">
+              <div class="tl-dot">3</div>
+              <div class="tl-b">
+                <div class="tl-d">DAY 8 – 14</div>
+                <div class="tl-p">资源州争霸</div>
+                <div class="tl-s">进入资源州 · 大型团战 · 全图势力争夺</div>
+              </div>
+            </div>
+            <div class="tl-row">
+              <div class="tl-dot fin">终</div>
+              <div class="tl-b">
+                <div class="tl-d">DAY 15 – 21</div>
+                <div class="tl-p">洛阳征服 · 赛季结算</div>
+                <div class="tl-s">攻打洛阳 · 征服/割据/群雄奖励结算 · 全服大礼包</div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div style="padding:16px; display:flex; flex-direction:column; gap:10px">
-        <a class="btn btn-red" href="你的下载链接"><span>立即预约下载</span></a>
+        <!-- 7天狂欢 -->
+        <div class="sec">
+          <div class="sec-hd">
+            <div class="sec-icon">欢</div>
+            <span class="sec-name">开服7天狂欢</span>
+          </div>
+          <ul class="ilist">
+            <li><div class="li-n">1</div><span>上线即送 <strong>88888虎符 + 五星自选×3</strong></span></li>
+            <li><div class="li-n">2</div><span>首充任意金额，送 <strong>国家队建制一套</strong></span></li>
+            <li><div class="li-n">3</div><span>势力冲榜前10，送 <strong>绝版称号 + 虎符奖励</strong></span></li>
+            <li><div class="li-n">4</div><span>首占城池发 <strong>全盟大礼包</strong>（见攻城奖励表）</span></li>
+            <li><div class="li-n">5</div><span>每日签到领 <strong>五星碎片 + 资源</strong>，连续7天加倍</span></li>
+            <li><div class="li-n">6</div><span>每日战功排行 <strong>天天结算</strong>奖励</span></li>
+          </ul>
+          <div class="note" style="margin-top:10px">常驻每日活动：每日签到 · 在线礼包 · 每日任务 · 离线收益</div>
+        </div>
+
+        <!-- 攻城奖励 -->
+        <div class="sec">
+          <div class="sec-hd">
+            <div class="sec-icon">城</div>
+            <span class="sec-name">攻城首占 · 全盟奖励</span>
+          </div>
+          <table class="rt">
+            <thead><tr><th>城池</th><th>全盟奖励</th></tr></thead>
+            <tbody>
+              <tr><td>首占 3级城</td><td class="tdg">2,000 虎符</td></tr>
+              <tr><td>首占 4级城</td><td class="tdg">5,000 虎符</td></tr>
+              <tr><td>首占 5级城</td><td class="tdg">10,000 虎符</td></tr>
+              <tr><td>首占 州府</td><td class="tdg">30,000 虎符</td></tr>
+              <tr><td>首占 洛阳</td><td class="tdg">50,000 虎符</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 赛季结算 -->
+        <div class="sec">
+          <div class="sec-hd">
+            <div class="sec-icon">季</div>
+            <span class="sec-name">赛季结算奖励</span>
+          </div>
+          <table class="rt">
+            <thead><tr><th>阵营</th><th>个人奖励</th></tr></thead>
+            <tbody>
+              <tr><td>征服盟</td><td class="tdg">50,000 虎符 + 绝版称号</td></tr>
+              <tr><td>割据盟</td><td class="tdg">30,000 虎符</td></tr>
+              <tr><td>群雄盟</td><td class="tdg">10,000 虎符</td></tr>
+              <tr><td>全服玩家</td><td class="tdg">赛季结算大礼包</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div><!-- /m-body -->
+
+      <div class="m-foot">
+        <a class="btn btn-red" href="https://qun.qq.com/universal-share/share?ac=1&authKey=JAAxXnQOTjw8AmPoY4T85ARdL8%2FRt0%2BI34O81lIucehnKbymJoSHKeukATkqfa2U&busi_data=eyJncm91cENvZGUiOiIxMDE1MjY3ODg2IiwidG9rZW4iOiJ6YkN5eTV3c01JQ1BMSnNETTRQMmpLV2dIM2xNZzhYS0hwaVFwMjE1Mk5USytXbWdUWURMQ1lRVWcxY3NPeUJxIiwidWluIjoiMzI0Njc0NTU5NyJ9&data=u2PZ78EPYp1HtaNV628wI55Ggt_8c4fZHUQcBIO99gNKSIJKTO6EMyk3GvMW-LFkOARDclOimRcj4D6DEtA3_Q&svctype=4&tempid=h5_group_info" style="max-width:100%">
+          <span class="bi">载</span><span>立即预约下载</span>
+        </a>
+        <a class="btn btn-blue" href="https://qun.qq.com/universal-share/share?ac=1&authKey=JAAxXnQOTjw8AmPoY4T85ARdL8%2FRt0%2BI34O81lIucehnKbymJoSHKeukATkqfa2U&busi_data=eyJncm91cENvZGUiOiIxMDE1MjY3ODg2IiwidG9rZW4iOiJ6YkN5eTV3c01JQ1BMSnNETTRQMmpLV2dIM2xNZzhYS0hwaVFwMjE1Mk5USytXbWdUWURMQ1lRVWcxY3NPeUJxIiwidWluIjoiMzI0Njc0NTU5NyJ9&data=u2PZ78EPYp1HtaNV628wI55Ggt_8c4fZHUQcBIO99gNKSIJKTO6EMyk3GvMW-LFkOARDclOimRcj4D6DEtA3_Q&svctype=4&tempid=h5_group_info" target="_blank" style="max-width:100%">
+          <span class="bi">群</span><span>加入玩家交流群</span>
+        </a>
       </div>
     </div>
   </div>
 </div>
 
+<!-- 底部关闭悬浮条（弹窗打开时显示） -->
 <div class="m-close-bar" id="closeBar">
-  <div class="m-close-bar-btn" onclick="closeModal()">✕ 关闭公告</div>
+  <div class="m-close-bar-btn" onclick="closeModal()">
+    <span style="font-size:16px">✕</span><span>关闭公告</span>
+  </div>
 </div>
 
 <script>
-/* ── 核心打磨：性能驱动型倒计时 ── */
-const TARGET = new Date('2026-03-31T16:00:00+08:00').getTime();
-const displayState = { d: '', h: '', m: '', s: '' };
-
-// 获取面板和潜在的弹窗倒计时元素（如果弹窗里也有倒计时可以共用）
-const els = {
-  d: [document.getElementById('p-d')],
-  h: [document.getElementById('p-h')],
-  m: [document.getElementById('p-m')],
-  s: [document.getElementById('p-s')]
-};
-
-function update() {
-  const diff = TARGET - Date.now();
-  
-  if (diff <= 0) {
-    document.getElementById('pLabel').textContent = '服务器已正式开启';
-    ['d','h','m','s'].forEach(k => updateDOM(k, '00'));
-    return;
-  }
-
-  const vals = {
-    d: String(Math.floor(diff / 86400000)).padStart(2, '0'),
-    h: String(Math.floor((diff % 86400000) / 3600000)).padStart(2, '0'),
-    m: String(Math.floor((diff % 3600000) / 60000)).padStart(2, '0'),
-    s: String(Math.floor((diff % 60000) / 1000)).padStart(2, '0')
-  };
-
-  for (const k in vals) {
-    if (vals[k] !== displayState[k]) {
-      displayState[k] = vals[k];
-      updateDOM(k, vals[k]);
-    }
-  }
-  requestAnimationFrame(update);
-}
-
-function updateDOM(key, val) {
-  els[key].forEach(el => {
-    if (!el) return;
-    el.textContent = val;
-    el.classList.remove('pop');
-    void el.offsetWidth; // 触发重绘
-    el.classList.add('pop');
-  });
-}
-
-/* ── 交互控制 ── */
-function togglePanel() {
+/* ── 面板开关 ── */
+function togglePanel(){
   document.getElementById('panel').classList.toggle('show');
   document.getElementById('enterBtn').classList.toggle('open');
 }
 
-function openModal() {
-  document.getElementById('modal').style.display = 'block';
+/* ── 弹窗 ── */
+function openModal(){
+  document.getElementById('modal').style.display='block';
   document.getElementById('closeBar').classList.add('visible');
-  document.body.style.overflow = 'hidden';
+  // Samsung Internet: lock body scroll by fixing it
+  document.body.style.position='fixed';
+  document.body.style.width='100%';
+  document.body.style.overflow='hidden';
 }
-
-function closeModal() {
-  document.getElementById('modal').style.display = 'none';
+function closeModal(){
+  document.getElementById('modal').style.display='none';
   document.getElementById('closeBar').classList.remove('visible');
-  document.body.style.overflow = '';
+  document.body.style.position='';
+  document.body.style.width='';
+  document.body.style.overflow='';
+}
+// 点背景关闭（只有点到最外层才触发）
+document.getElementById('modal').addEventListener('click',function(e){
+  if(e.target===this) closeModal();
+});
+
+/* ── 倒计时（两套DOM同步驱动）── */
+// 开服时间：2026-03-31 16:00:00 北京时间 (UTC+8)
+const TARGET = new Date('2026-03-31T16:00:00+08:00').getTime();
+
+const P = { d:document.getElementById('p-d'), h:document.getElementById('p-h'),
+            m:document.getElementById('p-m'), s:document.getElementById('p-s') };
+const M = { d:document.getElementById('m-d'), h:document.getElementById('m-h'),
+            m:document.getElementById('m-m'), s:document.getElementById('m-s') };
+
+function pad(n){ return String(n).padStart(2,'0'); }
+
+function setEl(el,val){
+  if(!el||el.textContent===val) return;
+  el.classList.remove('flip');
+  void el.offsetWidth;
+  el.textContent=val;
+  el.classList.add('flip');
 }
 
-// 初始化
-requestAnimationFrame(update);
-setTimeout(openModal, 1800);
+let ended=false;
+function tick(){
+  const diff=TARGET-Date.now();
+
+  if(diff<=0 && !ended){
+    ended=true;
+    // 面板
+    document.getElementById('pLabel').textContent='服务器已正式开启';
+    document.querySelector('.p-cd').classList.add('cd-ended');
+    // 弹窗
+    document.getElementById('mLabel').textContent='服务器已正式开启';
+    document.querySelector('.m-cd').classList.add('cd-ended');
+    ['d','h','m','s'].forEach(k=>{ setEl(P[k],'00'); setEl(M[k],'00'); });
+    clearInterval(timer);
+    return;
+  }
+  if(ended) return;
+
+  const vals={
+    d: pad(Math.floor(diff/86400000)),
+    h: pad(Math.floor((diff%86400000)/3600000)),
+    m: pad(Math.floor((diff%3600000)/60000)),
+    s: pad(Math.floor((diff%60000)/1000))
+  };
+  ['d','h','m','s'].forEach(k=>{ setEl(P[k],vals[k]); setEl(M[k],vals[k]); });
+}
+
+tick();
+const timer=setInterval(tick,1000);
+
+/* ── 1.8s后自动弹开区公告 ── */
+setTimeout(openModal,1800);
 </script>
 </body>
 </html>
