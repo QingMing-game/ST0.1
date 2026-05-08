@@ -11,18 +11,13 @@
 :root{
   --red:#c03020;--red2:#de4535;--red3:#e8604e;
   --gold:#c49a2e;--gold2:#ecc45e;--gold3:#f8d880;--gold4:#fff2c0;
-  /* UI改①：计时器统一为琥珀暖黄，融入古风色调 */
   --amber:#f8c94a;--amber-dim:#b8872a;--amber-bg:#1a0e02;
   --panel:rgba(28,9,2,0.93);--modal:rgba(20,6,1,0.96);
   --bd:rgba(196,154,46,0.32);--bd2:rgba(196,154,46,0.15);
-  --font-decorative:'Noto Serif SC',serif;
-  --font-title:'ZCOOL XiaoWei','Noto Serif SC',serif;
-  --font-body:'Noto Serif SC',serif;
-  --font-num:'Bebas Neue',monospace;
-  --ff-d:var(--font-decorative);
-  --ff-t:var(--font-title);
-  --ff-b:var(--font-body);
-  --ff-n:var(--font-num);
+  --ff-d:'Noto Serif SC',serif;
+  --ff-t:'ZCOOL XiaoWei','Noto Serif SC',serif;
+  --ff-b:'Noto Serif SC',serif;
+  --ff-n:'Bebas Neue',monospace;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
@@ -31,24 +26,67 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;
   background:linear-gradient(180deg,rgba(10,2,0,.5) 0%,rgba(6,0,0,.06) 40%,rgba(8,1,0,.78) 100%)}
 body{margin:0;font-family:var(--ff-b);-webkit-font-smoothing:antialiased}
 
-/* 顶部 — 金辉保留，这是重点发光区 */
+/* 顶部 */
 .top{position:fixed;top:max(16px,env(safe-area-inset-top));left:50%;transform:translateX(-50%);z-index:20;text-align:center;pointer-events:none;width:max-content}
 .top-title{font-family:var(--ff-d);font-weight:900;font-size:clamp(20px,5.2vw,34px);color:var(--gold2);letter-spacing:8px;white-space:nowrap;
-  /* UI改②：顶部标题保留强金辉，其余元素发光全部克制 */
   text-shadow:0 0 28px rgba(236,196,94,.7),0 0 56px rgba(196,154,46,.3),0 2px 0 rgba(0,0,0,.95)}
 .top-rule{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:7px}
 .top-rule-line{height:1px;width:36px;background:linear-gradient(to right,transparent,var(--gold));opacity:.45}
 .top-rule-line.r{background:linear-gradient(to left,transparent,var(--gold))}
-/* UI改③：副标题降透明度，不与主标题抢权重 */
 .top-sub{font-family:var(--ff-b);font-weight:400;font-size:clamp(9px,1.9vw,11px);color:rgba(255,251,240,.38);letter-spacing:6px}
 
-/* 进入按钮 */
-.enter-btn{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:clamp(86px,15vw,124px);height:clamp(86px,15vw,124px);border-radius:50%;background:radial-gradient(circle at 36% 30%,var(--red3),#8a1808);border:2px solid var(--gold2);outline:1px solid rgba(196,154,46,.22);outline-offset:7px;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;z-index:10;user-select:none;animation:breathe 3.2s ease-in-out infinite,pulse 3.2s infinite}
-.enter-btn .ec{font-family:var(--ff-d);font-weight:900;font-size:clamp(22px,5vw,30px);letter-spacing:5px;line-height:1;text-shadow:0 1px 6px rgba(0,0,0,.8)}
+/* ═══ 符文光环容器 ═══ */
+.enter-wrap{
+  position:fixed;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:clamp(180px,38vw,230px);
+  height:clamp(180px,38vw,230px);
+  z-index:10;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+.enter-wrap.open .enter-btn{
+  animation:none;
+  transform:translate(-50%,-50%) rotate(45deg) scale(1.05);
+  background:radial-gradient(circle,#555,#222);
+}
+/* 光环停转+淡出 */
+.enter-wrap.open .rune-svg{opacity:0;transition:opacity .4s}
+
+/* 符文 SVG — 绝对定位填满容器 */
+.rune-svg{
+  position:absolute;inset:0;width:100%;height:100%;
+  pointer-events:none;
+  filter:drop-shadow(0 0 5px rgba(196,154,46,.55));
+  transition:opacity .4s;
+}
+/* 外圈顺时针 */
+.rune-outer{transform-origin:50% 50%;animation:spinCW 28s linear infinite}
+/* 中圈逆时针 */
+.rune-mid{transform-origin:50% 50%;animation:spinCCW 18s linear infinite}
+/* 内圈顺时针快 */
+.rune-inner{transform-origin:50% 50%;animation:spinCW 10s linear infinite}
+
+@keyframes spinCW{to{transform:rotate(360deg)}}
+@keyframes spinCCW{to{transform:rotate(-360deg)}}
+
+/* 进入按钮 — 改为绝对定位居中于容器内 */
+.enter-btn{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:clamp(82px,18vw,106px);height:clamp(82px,18vw,106px);
+  border-radius:50%;
+  background:radial-gradient(circle at 36% 30%,var(--red3),#8a1808);
+  border:2px solid var(--gold2);
+  color:#fff;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  user-select:none;
+  animation:breathe 3.2s ease-in-out infinite,pulse 3.2s infinite;
+}
+.enter-btn .ec{font-family:var(--ff-d);font-weight:900;font-size:clamp(20px,4.5vw,28px);letter-spacing:5px;line-height:1;text-shadow:0 1px 6px rgba(0,0,0,.8)}
 .enter-btn .es{font-family:var(--ff-b);font-weight:400;font-size:10px;letter-spacing:4px;opacity:.5}
 @keyframes breathe{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.07)}}
 @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(184,50,30,.65),0 0 0 0 rgba(184,134,42,.2)}70%{box-shadow:0 0 0 28px rgba(184,50,30,0),0 0 0 14px rgba(184,134,42,0)}100%{box-shadow:0 0 0 0 rgba(184,50,30,0),0 0 0 0 rgba(184,134,42,0)}}
-.enter-btn.open{animation:none;transform:translate(-50%,-50%) rotate(45deg) scale(1.05);background:radial-gradient(circle,#555,#222)}
 
 /* 面板 */
 .panel{position:fixed;bottom:0;left:0;right:0;z-index:30;max-width:500px;margin:0 auto;background:var(--panel);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid var(--bd);border-bottom:none;border-radius:24px 24px 0 0;padding:0 0 calc(env(safe-area-inset-bottom));max-height:88vh;overflow-y:auto;-webkit-overflow-scrolling:touch;transform:translateY(100%);transition:transform .45s cubic-bezier(.22,1,.36,1);scrollbar-width:none}
@@ -58,35 +96,23 @@ body{margin:0;font-family:var(--ff-b);-webkit-font-smoothing:antialiased}
 .p-handle::after{content:"";width:40px;height:4px;border-radius:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.35}
 
 .p-head{padding:2px 22px 18px;text-align:center;border-bottom:1px solid var(--bd2);position:relative}
-/* UI改⑦：面板顶部装裱金线，提升精致感 */
 .p-head::before{content:"";display:block;height:1px;background:linear-gradient(90deg,transparent,rgba(236,196,94,.55),transparent);margin-bottom:14px}
-.p-title{font-family:var(--ff-d);font-weight:700;font-size:clamp(17px,4.2vw,22px);color:var(--gold2);letter-spacing:4px;
-  /* UI改②：面板标题发光降至极弱，让顶部主标题独占光辉 */
-  text-shadow:none}
+.p-title{font-family:var(--ff-d);font-weight:700;font-size:clamp(17px,4.2vw,22px);color:var(--gold2);letter-spacing:4px;text-shadow:none}
 .p-sub{font-family:var(--ff-b);font-size:10px;color:rgba(255,251,240,.32);letter-spacing:4px;margin-top:5px}
 
-/* 计时器区 — UI改①：整体改为琥珀暖色系，脱离绿色孤岛 */
+/* 计时器 */
 .p-cd{padding:18px 22px 16px;border-bottom:1px solid var(--bd2);background:linear-gradient(135deg,rgba(180,100,20,.07),rgba(20,8,1,.5))}
 .p-cd-status{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:14px}
-/* 状态点改为琥珀黄 */
 .status-dot{width:8px;height:8px;border-radius:50%;background:var(--amber);box-shadow:0 0 8px rgba(248,201,74,.7);animation:statusPulse 2s ease-in-out infinite;flex-shrink:0}
 @keyframes statusPulse{0%,100%{opacity:1;box-shadow:0 0 8px rgba(248,201,74,.7)}50%{opacity:.55;box-shadow:0 0 14px rgba(248,201,74,.4)}}
 .p-cd-label{font-family:var(--ff-t);font-size:12px;color:rgba(255,251,240,.5);letter-spacing:3px}
 .p-cd-label.live{color:rgba(248,201,74,.8)}
-
 .cd-row{display:flex;justify-content:center;align-items:flex-start;gap:6px}
 .cd-unit{display:flex;flex-direction:column;align-items:center;gap:6px}
-/* 计时器底色改为深褐，数字用琥珀黄 */
-.cd-box{position:relative;width:clamp(52px,12.5vw,66px);height:clamp(60px,14.5vw,74px);border-radius:10px;overflow:hidden;
-  background:linear-gradient(160deg,#1c0e02,#0d0501);
-  border:1px solid rgba(248,201,74,.35);
-  box-shadow:0 2px 0 rgba(0,0,0,.7),inset 0 1px 0 rgba(248,201,74,.08);
-  display:flex;align-items:center;justify-content:center}
+.cd-box{position:relative;width:clamp(52px,12.5vw,66px);height:clamp(60px,14.5vw,74px);border-radius:10px;overflow:hidden;background:linear-gradient(160deg,#1c0e02,#0d0501);border:1px solid rgba(248,201,74,.35);box-shadow:0 2px 0 rgba(0,0,0,.7),inset 0 1px 0 rgba(248,201,74,.08);display:flex;align-items:center;justify-content:center}
 .cd-box::before{content:"";position:absolute;left:0;right:0;top:0;height:50%;background:rgba(255,255,255,.025);z-index:1}
 .cd-box::after{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:rgba(0,0,0,.6);z-index:2}
-/* UI改①：数字颜色改为琥珀黄，保留强发光（此处是第二个合法发光区） */
-.cd-n{font-family:var(--ff-n);font-size:clamp(30px,8vw,42px);color:var(--amber);letter-spacing:1px;line-height:1;position:relative;z-index:3;
-  text-shadow:0 0 18px rgba(248,201,74,.8),0 2px 4px rgba(0,0,0,.95)}
+.cd-n{font-family:var(--ff-n);font-size:clamp(30px,8vw,42px);color:var(--amber);letter-spacing:1px;line-height:1;position:relative;z-index:3;text-shadow:0 0 18px rgba(248,201,74,.8),0 2px 4px rgba(0,0,0,.95)}
 .cd-n.flip{animation:flip .18s ease}
 @keyframes flip{0%{transform:scaleY(.8);opacity:.25}100%{transform:scaleY(1);opacity:1}}
 .cd-lbl{font-family:var(--ff-b);font-weight:600;font-size:11px;color:rgba(255,251,240,.35);letter-spacing:2px}
@@ -95,47 +121,20 @@ body{margin:0;font-family:var(--ff-b);-webkit-font-smoothing:antialiased}
 .p-cd-date{font-family:var(--ff-b);font-size:10px;color:rgba(255,251,240,.22);letter-spacing:2px;text-align:center;margin-top:11px}
 .p-cd-date span{color:rgba(248,201,74,.55)}
 
-/* 信息条 — UI改③：正文透明度降低，strong保留金色权重 */
+/* 信息条 */
 .p-info{padding:16px 22px;border-bottom:1px solid var(--bd2)}
 .info-item{display:flex;align-items:flex-start;gap:11px;padding:8px 0;color:rgba(255,251,240,.72);font-size:12px;line-height:1.8;text-align:left}
 .info-item+.info-item{border-top:1px solid rgba(255,255,255,.04)}
 .ib{flex-shrink:0;width:26px;height:26px;border-radius:7px;margin-top:1px;background:linear-gradient(135deg,rgba(192,48,32,.35),rgba(90,14,4,.9));border:1px solid rgba(196,154,46,.38);display:flex;align-items:center;justify-content:center;font-family:var(--ff-t);font-size:12px;font-weight:600;color:var(--gold2)}
-/* UI改③：strong用金色保持权重对比，周围文字已降暗 */
 .info-item strong{color:var(--gold2);font-weight:700}
 
-/* 按钮 — UI改⑥：三个按钮拉开尺寸层级 */
+/* 按钮组 */
 .p-btns{padding:16px 22px;display:flex;flex-direction:column;gap:9px}
-.btn{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;border-radius:11px;font-family:var(--ff-d);font-weight:700;letter-spacing:4px;cursor:pointer;text-decoration:none;border:none;transition:transform .14s,opacity .14s,box-shadow .14s;-webkit-tap-highlight-color:transparent}
+.btn{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;border-radius:11px;font-family:var(--ff-d);font-weight:700;letter-spacing:4px;cursor:pointer;text-decoration:none;border:none;transition:transform .14s,opacity .14s;-webkit-tap-highlight-color:transparent}
 .btn:active{transform:scale(.97);opacity:.85}
-
-/* 主按钮：下载 — 最大最重，56px高，浮雕光泽 */
-.btn-red{
-  padding:0 20px;height:56px;font-size:16px;
-  background:linear-gradient(160deg,#e04030 0%,#a02010 60%,#7a1508 100%);
-  color:var(--gold3);
-  border:1px solid rgba(236,196,94,.55);
-  /* 浮雕感：顶部内高光 + 底部阴影 */
-  box-shadow:0 5px 20px rgba(192,48,32,.5),inset 0 1px 0 rgba(255,220,120,.2),inset 0 -2px 0 rgba(0,0,0,.3);
-}
-
-/* 次按钮：QQ群 — 48px，蓝色降饱和 */
-.btn-blue{
-  padding:0 20px;height:48px;font-size:14px;
-  background:linear-gradient(135deg,#1558a0,#0b3870);
-  color:rgba(200,225,255,.85);
-  border:1px solid rgba(60,110,200,.28);
-  box-shadow:0 3px 14px rgba(10,55,110,.4);
-}
-
-/* 第三按钮：公告 — 40px，ghost最轻 */
-.btn-ghost{
-  padding:0 16px;height:40px;font-size:13px;
-  background:rgba(196,154,46,.06);
-  color:rgba(236,196,94,.65);
-  border:1px solid rgba(196,154,46,.22);
-  box-shadow:none;
-}
-
+.btn-red{padding:0 20px;height:56px;font-size:16px;background:linear-gradient(160deg,#e04030 0%,#a02010 60%,#7a1508 100%);color:var(--gold3);border:1px solid rgba(236,196,94,.55);box-shadow:0 5px 20px rgba(192,48,32,.5),inset 0 1px 0 rgba(255,220,120,.2),inset 0 -2px 0 rgba(0,0,0,.3)}
+.btn-blue{padding:0 20px;height:48px;font-size:14px;background:linear-gradient(135deg,#1558a0,#0b3870);color:rgba(200,225,255,.85);border:1px solid rgba(60,110,200,.28);box-shadow:0 3px 14px rgba(10,55,110,.4)}
+.btn-ghost{padding:0 16px;height:40px;font-size:13px;background:rgba(196,154,46,.06);color:rgba(236,196,94,.65);border:1px solid rgba(196,154,46,.22)}
 .bi{width:22px;height:22px;border-radius:6px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-family:var(--ff-t);font-size:11px;flex-shrink:0}
 
 /* 弹窗 */
@@ -144,70 +143,59 @@ body{margin:0;font-family:var(--ff-b);-webkit-font-smoothing:antialiased}
 .m-handle{height:28px;display:flex;align-items:center;justify-content:center}
 .m-handle::after{content:"";width:40px;height:4px;border-radius:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.3}
 .m-head{padding:0 20px 18px;text-align:center;border-bottom:1px solid var(--bd2);position:relative}
-/* UI改⑦：弹窗头部同样加装裱金线 */
 .m-head::before{content:"";display:block;height:1px;background:linear-gradient(90deg,transparent,rgba(236,196,94,.5),transparent);margin-bottom:14px}
-.m-head-title{font-family:var(--ff-d);font-weight:900;font-size:clamp(18px,4.5vw,24px);color:var(--gold2);letter-spacing:5px;text-shadow:none}
+.m-head-title{font-family:var(--ff-d);font-weight:900;font-size:clamp(18px,4.5vw,24px);color:var(--gold2);letter-spacing:5px}
 .m-head-sub{font-family:var(--ff-b);font-size:10px;color:rgba(255,251,240,.28);letter-spacing:4px;margin-top:5px}
-.m-banner{width:100%;display:block;max-height:180px;object-fit:cover;object-position:center top}
 
-/* UI改④：section 间距节奏分层 — body 间距24px，内部元素10px */
+/* banner 图 — 宣传图为竖版，全宽展示，不裁切 */
+.m-banner{
+  width:100%;display:block;
+  /* 不限高度，完整展示整张宣传图 */
+  height:auto;
+  object-fit:contain;
+  background:#0a0200;
+}
+
 .m-body{padding:20px 18px;display:flex;flex-direction:column;gap:24px}
 .m-foot{padding:12px 18px 22px;display:flex;flex-direction:column;gap:9px;border-top:1px solid var(--bd2)}
 
-/* 分区标题 */
 .sec{}
 .sec-hd{display:flex;align-items:center;gap:8px;margin-bottom:12px}
 .sec-icon{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,var(--red),#6e1206);border:1px solid rgba(196,154,46,.35);display:flex;align-items:center;justify-content:center;font-family:var(--ff-t);font-size:12px;font-weight:700;color:var(--gold2);flex-shrink:0}
-/* UI改③：section 名字稍降透明，只有数字是金色重心 */
 .sec-name{font-family:var(--ff-d);font-weight:700;font-size:14px;color:rgba(236,196,94,.85);letter-spacing:2px}
 .sec-tag{margin-left:auto;font-family:var(--ff-b);font-size:10px;color:rgba(222,69,53,.8);background:rgba(192,48,32,.12);border:1px solid rgba(192,48,32,.28);border-radius:4px;padding:2px 7px;letter-spacing:2px}
-
-/* UI改⑤：排行榜 section 前加金线视觉停顿 */
 .sec.sec-rank{border-top:1px solid rgba(196,154,46,.22);padding-top:22px}
 
-/* 四大福利 — UI改②：数字放大为视觉锚点，UI改④：奇数卡偏移制造节奏 */
 .four-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .four-card{background:linear-gradient(145deg,rgba(192,48,32,.08),rgba(22,7,1,.7));border:1px solid var(--bd2);border-radius:11px;padding:14px 13px;position:relative;overflow:hidden}
 .four-card::before{content:"";position:absolute;top:-16px;right:-16px;width:60px;height:60px;border-radius:50%;background:radial-gradient(circle,rgba(236,196,94,.05),transparent)}
-/* UI改④：奇数卡微微上移，打破均匀网格感 */
 .four-card:nth-child(odd){transform:translateY(-4px)}
 .fc-num{font-family:var(--ff-n);font-size:10px;color:rgba(255,251,240,.2);letter-spacing:3px;margin-bottom:6px}
-/* UI改②：核心数字从22px放大到36px，成为视觉锚点 */
-.fc-val{font-family:var(--ff-d);font-weight:900;font-size:clamp(28px,7vw,36px);color:var(--gold2);letter-spacing:1px;
-  /* UI改②：只有核心数字保留金辉，其余都去掉 */
-  text-shadow:0 0 20px rgba(236,196,94,.28)}
+.fc-val{font-family:var(--ff-d);font-weight:900;font-size:clamp(28px,7vw,36px);color:var(--gold2);letter-spacing:1px;text-shadow:0 0 20px rgba(236,196,94,.28)}
 .fc-label{font-family:var(--ff-b);font-size:11px;color:rgba(255,251,240,.42);line-height:1.75;margin-top:6px}
 
-/* 首充礼包 */
 .pack-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .pack-card{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.025);border:1px solid var(--bd2);border-radius:9px;padding:11px 12px}
 .pack-icon{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,rgba(192,48,32,.28),rgba(50,8,1,.9));border:1px solid rgba(196,154,46,.28);display:flex;align-items:center;justify-content:center;font-family:var(--ff-t);font-size:13px;font-weight:700;color:var(--gold2);flex-shrink:0}
-/* UI改③：礼包数值略降，不与四大福利主数字争抢 */
 .pack-val{font-family:var(--ff-d);font-weight:700;font-size:13px;color:rgba(236,196,94,.88);letter-spacing:1px}
 .pack-sub{font-family:var(--ff-b);font-size:10px;color:rgba(255,251,240,.35);letter-spacing:1px;margin-top:2px}
 
-/* 排行榜 */
 .rank-top3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
 .rank-card{background:linear-gradient(160deg,rgba(192,48,32,.1),rgba(22,7,1,.75));border:1px solid rgba(196,154,46,.2);border-radius:10px;padding:12px 8px;text-align:center}
 .rank-pos{font-family:var(--ff-b);font-size:11px;color:rgba(255,251,240,.5);margin-bottom:5px}
-/* UI改②：排行榜金额放大为主视觉 */
 .rank-val{font-family:var(--ff-d);font-weight:700;font-size:clamp(20px,5vw,24px);color:var(--gold2);text-shadow:0 0 16px rgba(236,196,94,.22)}
 .rank-day{font-family:var(--ff-b);font-size:10px;color:rgba(255,251,240,.3);margin-top:3px}
 .rank-others{display:flex;flex-direction:column}
 .rank-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.04);font-family:var(--ff-b);font-size:11px;color:rgba(255,251,240,.5)}
 .rank-row:last-child{border-bottom:none}
-/* UI改③：奖励数字用金色，说明文字灰 */
 .rank-row span:last-child{color:rgba(248,215,100,.8);font-weight:600}
 .note{font-family:var(--ff-b);font-size:10px;color:rgba(255,251,240,.25);letter-spacing:1px;margin-top:10px;padding:8px 11px;background:rgba(255,255,255,.018);border-radius:6px;border-left:2px solid rgba(196,154,46,.25);line-height:1.8}
 
-/* 属性 */
 .attr-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .attr-cell{background:rgba(255,255,255,.025);border:1px solid var(--bd2);border-radius:9px;padding:13px 8px;text-align:center}
-/* UI改②：属性数值也放大 */
 .attr-v{font-family:var(--ff-d);font-weight:700;font-size:clamp(18px,4.5vw,22px);color:var(--gold2);letter-spacing:1px;text-shadow:0 0 14px rgba(236,196,94,.2)}
 .attr-k{font-family:var(--ff-b);font-size:10px;color:rgba(255,251,240,.38);line-height:1.8;margin-top:5px}
 
-/* 关闭条 */
 .m-close-bar{display:none;position:fixed;bottom:0;left:0;right:0;z-index:101;padding:10px 20px calc(env(safe-area-inset-bottom) + 10px);background:rgba(8,2,0,.92);border-top:1px solid var(--bd2)}
 .m-close-bar.visible{display:block}
 .m-close-bar-btn{display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;border-radius:10px;background:rgba(196,154,46,.08);border:1px solid rgba(196,154,46,.2);font-family:var(--ff-b);font-size:13px;color:rgba(236,196,94,.6);letter-spacing:3px;cursor:pointer;-webkit-tap-highlight-color:transparent}
@@ -229,10 +217,120 @@ body{margin:0;font-family:var(--ff-b);-webkit-font-smoothing:antialiased}
   </div>
 </div>
 
-<div class="enter-btn" id="enterBtn" onclick="togglePanel()">
-  <span class="ec">进入</span>
-  <span class="es">ENTER</span>
+<!-- ═══ 符文光环按钮 ═══ -->
+<div class="enter-wrap" id="enterWrap" onclick="togglePanel()">
+
+  <!-- SVG 符文光环 — 三层独立旋转 -->
+  <svg class="rune-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <!-- 金色渐变描边 -->
+      <linearGradient id="gGold" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#f8d880" stop-opacity="0.9"/>
+        <stop offset="50%" stop-color="#c49a2e" stop-opacity="0.6"/>
+        <stop offset="100%" stop-color="#f8d880" stop-opacity="0.9"/>
+      </linearGradient>
+    </defs>
+
+    <!-- ── 外圈：虚线大圆 + 12刻度 + 8个菱形节点，顺时针慢转 ── -->
+    <g class="rune-outer">
+      <!-- 外圈虚线 -->
+      <circle cx="100" cy="100" r="91"
+        fill="none" stroke="rgba(196,154,46,0.45)" stroke-width="1"
+        stroke-dasharray="3 9"/>
+      <!-- 12个刻度线 -->
+      <g stroke="rgba(236,196,94,0.6)" stroke-width="1.2">
+        <line x1="100" y1="9"  x2="100" y2="18"/>
+        <line x1="100" y1="9"  x2="100" y2="18" transform="rotate(30,100,100)"/>
+        <line x1="100" y1="9"  x2="100" y2="18" transform="rotate(60,100,100)"/>
+        <line x1="100" y1="9"  x2="100" y2="18" transform="rotate(90,100,100)"/>
+        <line x1="100" y1="9"  x2="100" y2="18" transform="rotate(120,100,100)"/>
+        <line x1="100" y1="9"  x2="100" y2="18" transform="rotate(150,100,100)"/>
+        <line x1="100" y1="9"  x2="100" y2="18" transform="rotate(180,100,100)"/>
+        <line x1="100" y1="9"  x2="100" y2="18" transform="rotate(210,100,100)"/>
+        <line x1="100" y1="9"  x2="100" y2="18" transform="rotate(240,100,100)"/>
+        <line x1="100" y1="9"  x2="100" y2="18" transform="rotate(270,100,100)"/>
+        <line x1="100" y1="9"  x2="100" y2="18" transform="rotate(300,100,100)"/>
+        <line x1="100" y1="9"  x2="100" y2="18" transform="rotate(330,100,100)"/>
+      </g>
+      <!-- 4个主方位大刻度（更长更亮） -->
+      <g stroke="rgba(248,216,128,0.85)" stroke-width="1.8">
+        <line x1="100" y1="7"  x2="100" y2="20"/>
+        <line x1="100" y1="7"  x2="100" y2="20" transform="rotate(90,100,100)"/>
+        <line x1="100" y1="7"  x2="100" y2="20" transform="rotate(180,100,100)"/>
+        <line x1="100" y1="7"  x2="100" y2="20" transform="rotate(270,100,100)"/>
+      </g>
+      <!-- 8个菱形节点，均布在r=91 -->
+      <g fill="rgba(236,196,94,0.7)" stroke="rgba(196,154,46,0.4)" stroke-width="0.5">
+        <polygon points="100,6 103,9 100,12 97,9"  />
+        <polygon points="100,6 103,9 100,12 97,9" transform="rotate(45,100,100)"/>
+        <polygon points="100,6 103,9 100,12 97,9" transform="rotate(90,100,100)"/>
+        <polygon points="100,6 103,9 100,12 97,9" transform="rotate(135,100,100)"/>
+        <polygon points="100,6 103,9 100,12 97,9" transform="rotate(180,100,100)"/>
+        <polygon points="100,6 103,9 100,12 97,9" transform="rotate(225,100,100)"/>
+        <polygon points="100,6 103,9 100,12 97,9" transform="rotate(270,100,100)"/>
+        <polygon points="100,6 103,9 100,12 97,9" transform="rotate(315,100,100)"/>
+      </g>
+    </g>
+
+    <!-- ── 中圈：八卦式古风字符 + 细弧线，逆时针中速 ── -->
+    <g class="rune-mid">
+      <!-- 中圈细圆 -->
+      <circle cx="100" cy="100" r="76"
+        fill="none" stroke="rgba(196,154,46,0.3)" stroke-width="0.8"
+        stroke-dasharray="1 5"/>
+      <!-- 8个古风汉字，沿r=76均布 —— 用 textPath 沿路径分布 -->
+      <!-- 直接用 transform 旋转定位每个字 -->
+      <g font-family="'ZCOOL XiaoWei','Noto Serif SC',serif" font-size="10"
+         fill="rgba(236,196,94,0.72)" text-anchor="middle">
+        <!-- 天 -->
+        <text transform="translate(100,28)">天</text>
+        <!-- 地 -->
+        <text transform="translate(100,28) rotate(45,0,-72)">地</text>
+        <!-- 玄 -->
+        <text transform="translate(100,28) rotate(90,0,-72)">玄</text>
+        <!-- 黄 -->
+        <text transform="translate(100,28) rotate(135,0,-72)">黄</text>
+        <!-- 将 -->
+        <text transform="translate(100,28) rotate(180,0,-72)">将</text>
+        <!-- 战 -->
+        <text transform="translate(100,28) rotate(225,0,-72)">战</text>
+        <!-- 霸 -->
+        <text transform="translate(100,28) rotate(270,0,-72)">霸</text>
+        <!-- 业 -->
+        <text transform="translate(100,28) rotate(315,0,-72)">业</text>
+      </g>
+      <!-- 4段弧线装饰（每90°一段） -->
+      <g fill="none" stroke="rgba(236,196,94,0.35)" stroke-width="1.2">
+        <path d="M 100,24 A 76,76 0 0,1 176,100"/>
+        <path d="M 176,100 A 76,76 0 0,1 100,176"/>
+        <path d="M 100,176 A 76,76 0 0,1 24,100"/>
+        <path d="M 24,100 A 76,76 0 0,1 100,24"/>
+      </g>
+    </g>
+
+    <!-- ── 内圈：细密虚线圆 + 4个三角，顺时针快转 ── -->
+    <g class="rune-inner">
+      <circle cx="100" cy="100" r="60"
+        fill="none" stroke="rgba(196,154,46,0.22)" stroke-width="0.8"
+        stroke-dasharray="2 4"/>
+      <!-- 4个小三角，指向外 -->
+      <g fill="rgba(236,196,94,0.45)" stroke="none">
+        <polygon points="100,40 103.5,48 96.5,48"/>
+        <polygon points="100,40 103.5,48 96.5,48" transform="rotate(90,100,100)"/>
+        <polygon points="100,40 103.5,48 96.5,48" transform="rotate(180,100,100)"/>
+        <polygon points="100,40 103.5,48 96.5,48" transform="rotate(270,100,100)"/>
+      </g>
+    </g>
+  </svg>
+
+  <!-- 按钮本体 -->
+  <div class="enter-btn" id="enterBtn">
+    <span class="ec">进入</span>
+    <span class="es">ENTER</span>
+  </div>
+
 </div>
+<!-- ═══ 符文光环结束 ═══ -->
 
 <div class="panel" id="panel">
   <div class="p-handle" onclick="togglePanel()"></div>
@@ -289,7 +387,6 @@ body{margin:0;font-family:var(--ff-b);-webkit-font-smoothing:antialiased}
     </div>
   </div>
 
-  <!-- UI改⑥：按钮顺序调整：主→次→第三，视觉权重从上到下递减 -->
   <div class="p-btns">
     <a class="btn btn-red" href="https://sjxz.mzshgkj.com/gvAj"><span class="bi">载</span><span>立即下载游戏</span></a>
     <a class="btn btn-blue" href="https://qun.qq.com/universal-share/share?ac=1&authKey=JAAxXnQOTjw8AmPoY4T85ARdL8%2FRt0%2BI34O81lIucehnKbymJoSHKeukATkqfa2U&busi_data=eyJncm91cENvZGUiOiIxMDE1MjY3ODg2IiwidG9rZW4iOiJ6YkN5eTV3c01JQ1BMSnNETTRQMmpLV2dIM2xNZzhYS0hwaVFwMjE1Mk5USytXbWdUWURMQ1lRVWcxY3NPeUJxIiwidWluIjoiMzI0Njc0NTU5NyJ9&data=u2PZ78EPYp1HtaNV628wI55Ggt_8c4fZHUQcBIO99gNKSIJKTO6EMyk3GvMW-LFkOARDclOimRcj4D6DEtA3_Q&svctype=4&tempid=h5_group_info" target="_blank"><span class="bi">群</span><span>QQ群 每日发放福利</span></a>
@@ -305,12 +402,12 @@ body{margin:0;font-family:var(--ff-b);-webkit-font-smoothing:antialiased}
       <div class="m-head-sub">WELFARE SERVER · OFFICIAL ANNOUNCEMENT</div>
     </div>
 
-    <img class="m-banner" src="banner.jpg" alt="率土之滨福利公告" loading="lazy"
+    <!-- 宣传图完整展示，不裁切 -->
+    <img class="m-banner" src="STXC.png" alt="率土之滨福利公告" loading="lazy"
       onerror="this.style.display='none'"/>
 
     <div class="m-body">
 
-      <!-- 4大核心福利 -->
       <div class="sec">
         <div class="sec-hd"><div class="sec-icon">核</div><span class="sec-name">四大核心福利</span><span class="sec-tag">内测专属</span></div>
         <div class="four-grid">
@@ -337,7 +434,6 @@ body{margin:0;font-family:var(--ff-b);-webkit-font-smoothing:antialiased}
         </div>
       </div>
 
-      <!-- 首充30元 -->
       <div class="sec">
         <div class="sec-hd"><div class="sec-icon">充</div><span class="sec-name">首充30元礼包</span><span class="sec-tag">仅限首次</span></div>
         <div class="pack-grid">
@@ -348,7 +444,6 @@ body{margin:0;font-family:var(--ff-b);-webkit-font-smoothing:antialiased}
         </div>
       </div>
 
-      <!-- UI改⑤：排行榜前加 sec-rank class，触发顶部金线分隔 -->
       <div class="sec sec-rank">
         <div class="sec-hd"><div class="sec-icon">榜</div><span class="sec-name">势力排行 · 每日现金结算</span></div>
         <div class="rank-top3">
@@ -378,7 +473,6 @@ body{margin:0;font-family:var(--ff-b);-webkit-font-smoothing:antialiased}
         <div class="note">现金奖励可在内部商城提现 · 第一名额外领取2–300名全部行军外观</div>
       </div>
 
-      <!-- 外显属性 -->
       <div class="sec">
         <div class="sec-hd"><div class="sec-icon">属</div><span class="sec-name">外显属性加点调整</span></div>
         <div class="attr-grid">
@@ -390,7 +484,6 @@ body{margin:0;font-family:var(--ff-b);-webkit-font-smoothing:antialiased}
 
     </div>
 
-    <!-- UI改⑥：弹窗内按钮同样拉开层级 -->
     <div class="m-foot">
       <a class="btn btn-red" href="https://sjxz.mzshgkj.com/gvAj" style="max-width:100%"><span class="bi">载</span><span>立即下载游戏</span></a>
       <a class="btn btn-blue" href="https://qun.qq.com/universal-share/share?ac=1&authKey=JAAxXnQOTjw8AmPoY4T85ARdL8%2FRt0%2BI34O81lIucehnKbymJoSHKeukATkqfa2U&busi_data=eyJncm91cENvZGUiOiIxMDE1MjY3ODg2IiwidG9rZW4iOiJ6YkN5eTV3c01JQ1BMSnNETTRQMmpLV2dIM2xNZzhYS0hwaVFwMjE1Mk5USytXbWdUWURMQ1lRVWcxY3NPeUJxIiwidWluIjoiMzI0Njc0NTU5NyJ9&data=u2PZ78EPYp1HtaNV628wI55Ggt_8c4fZHUQcBIO99gNKSIJKTO6EMyk3GvMW-LFkOARDclOimRcj4D6DEtA3_Q&svctype=4&tempid=h5_group_info" target="_blank" style="max-width:100%"><span class="bi">群</span><span>QQ群 每日发放福利</span></a>
@@ -405,7 +498,7 @@ body{margin:0;font-family:var(--ff-b);-webkit-font-smoothing:antialiased}
 <script>
 function togglePanel(){
   document.getElementById('panel').classList.toggle('show');
-  document.getElementById('enterBtn').classList.toggle('open');
+  document.getElementById('enterWrap').classList.toggle('open');
 }
 
 let _scrollY = 0;
