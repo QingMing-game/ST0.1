@@ -50,27 +50,21 @@ body{margin:0;font-family:var(--ff-b);-webkit-font-smoothing:antialiased}
   transform:translate(-50%,-50%) rotate(45deg) scale(1.05);
   background:radial-gradient(circle,#555,#222);
 }
-/* 光环停转+淡出 */
 .enter-wrap.open .rune-svg{opacity:0;transition:opacity .4s}
 
-/* 符文 SVG — 绝对定位填满容器 */
 .rune-svg{
   position:absolute;inset:0;width:100%;height:100%;
   pointer-events:none;
   filter:drop-shadow(0 0 5px rgba(196,154,46,.55));
   transition:opacity .4s;
 }
-/* 外圈顺时针 */
 .rune-outer{transform-origin:50% 50%;animation:spinCW 28s linear infinite}
-/* 中圈逆时针 */
 .rune-mid{transform-origin:50% 50%;animation:spinCCW 18s linear infinite}
-/* 内圈顺时针快 */
 .rune-inner{transform-origin:50% 50%;animation:spinCW 10s linear infinite}
 
 @keyframes spinCW{to{transform:rotate(360deg)}}
 @keyframes spinCCW{to{transform:rotate(-360deg)}}
 
-/* 进入按钮 — 改为绝对定位居中于容器内 */
 .enter-btn{
   position:absolute;top:50%;left:50%;
   transform:translate(-50%,-50%);
@@ -99,6 +93,67 @@ body{margin:0;font-family:var(--ff-b);-webkit-font-smoothing:antialiased}
 .p-head::before{content:"";display:block;height:1px;background:linear-gradient(90deg,transparent,rgba(236,196,94,.55),transparent);margin-bottom:14px}
 .p-title{font-family:var(--ff-d);font-weight:700;font-size:clamp(17px,4.2vw,22px);color:var(--gold2);letter-spacing:4px;text-shadow:none}
 .p-sub{font-family:var(--ff-b);font-size:10px;color:rgba(255,251,240,.32);letter-spacing:4px;margin-top:5px}
+
+/* ══ 邀请码提醒横幅 ══ */
+.invite-banner{
+  margin:14px 16px 0;
+  padding:14px 16px;
+  border-radius:12px;
+  background:linear-gradient(135deg,rgba(192,48,32,.22),rgba(140,20,8,.45));
+  border:1.5px solid rgba(236,196,94,.55);
+  box-shadow:0 0 18px rgba(192,48,32,.25),inset 0 1px 0 rgba(255,220,120,.1);
+  position:relative;
+  overflow:hidden;
+}
+.invite-banner::before{
+  content:"";position:absolute;top:-30px;right:-30px;
+  width:90px;height:90px;border-radius:50%;
+  background:radial-gradient(circle,rgba(248,201,74,.08),transparent);
+}
+.invite-banner-top{
+  display:flex;align-items:center;gap:8px;margin-bottom:10px;
+}
+.invite-flash{
+  width:8px;height:8px;border-radius:50%;
+  background:var(--amber);
+  box-shadow:0 0 8px rgba(248,201,74,.9);
+  animation:statusPulse 1.4s ease-in-out infinite;
+  flex-shrink:0;
+}
+.invite-banner-title{
+  font-family:var(--ff-d);font-weight:700;font-size:13px;
+  color:var(--gold2);letter-spacing:3px;
+}
+.invite-steps{
+  display:flex;flex-direction:column;gap:7px;
+}
+.invite-step{
+  display:flex;align-items:center;gap:9px;
+  font-family:var(--ff-b);font-size:12px;
+  color:rgba(255,251,240,.75);line-height:1.5;
+}
+.step-num{
+  flex-shrink:0;width:20px;height:20px;border-radius:50%;
+  background:linear-gradient(135deg,var(--red),#6e1206);
+  border:1px solid rgba(196,154,46,.45);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--ff-d);font-size:10px;font-weight:700;color:var(--gold3);
+}
+.invite-code-chip{
+  display:inline-flex;align-items:center;gap:5px;
+  background:rgba(0,0,0,.45);border:1px solid rgba(248,201,74,.55);
+  border-radius:6px;padding:2px 9px;
+  font-family:'Courier New',Courier,monospace;font-size:16px;letter-spacing:3px;font-weight:700;
+  color:var(--amber);
+  text-shadow:0 0 10px rgba(248,201,74,.7);
+}
+.invite-note{
+  margin-top:9px;padding:7px 10px;
+  background:rgba(0,0,0,.3);border-radius:7px;
+  border-left:2px solid rgba(248,201,74,.5);
+  font-family:var(--ff-b);font-size:10px;
+  color:rgba(255,251,240,.45);letter-spacing:1px;line-height:1.7;
+}
 
 /* 计时器 */
 .p-cd{padding:18px 22px 16px;border-bottom:1px solid var(--bd2);background:linear-gradient(135deg,rgba(180,100,20,.07),rgba(20,8,1,.5))}
@@ -147,13 +202,59 @@ body{margin:0;font-family:var(--ff-b);-webkit-font-smoothing:antialiased}
 .m-head-title{font-family:var(--ff-d);font-weight:900;font-size:clamp(18px,4.5vw,24px);color:var(--gold2);letter-spacing:5px}
 .m-head-sub{font-family:var(--ff-b);font-size:10px;color:rgba(255,251,240,.28);letter-spacing:4px;margin-top:5px}
 
-/* banner 图 — 宣传图为竖版，全宽展示，不裁切 */
 .m-banner{
   width:100%;display:block;
-  /* 不限高度，完整展示整张宣传图 */
   height:auto;
   object-fit:contain;
   background:#0a0200;
+}
+
+/* ══ 弹窗内邀请码横幅 ══ */
+.m-invite{
+  margin:18px 18px 0;
+  padding:16px 16px 14px;
+  border-radius:13px;
+  background:linear-gradient(135deg,rgba(192,48,32,.18),rgba(100,14,4,.55));
+  border:1.5px solid rgba(248,201,74,.55);
+  box-shadow:0 0 24px rgba(192,48,32,.2),inset 0 1px 0 rgba(255,220,120,.12);
+}
+.m-invite-title{
+  display:flex;align-items:center;gap:8px;
+  font-family:var(--ff-d);font-weight:700;font-size:14px;
+  color:var(--gold2);letter-spacing:3px;margin-bottom:12px;
+}
+.m-invite-title::before{
+  content:"⚠";font-size:14px;color:var(--amber);
+}
+.m-invite-steps{display:flex;flex-direction:column;gap:8px;}
+.m-invite-step{
+  display:flex;align-items:center;gap:10px;
+  font-family:var(--ff-b);font-size:12px;
+  color:rgba(255,251,240,.8);line-height:1.6;
+}
+.m-step-num{
+  flex-shrink:0;width:22px;height:22px;border-radius:50%;
+  background:linear-gradient(135deg,var(--red),#6e1206);
+  border:1px solid rgba(196,154,46,.5);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--ff-d);font-size:11px;font-weight:700;color:var(--gold3);
+}
+.m-code-chip{
+  display:inline-block;
+  background:rgba(0,0,0,.5);
+  border:1.5px solid rgba(248,201,74,.65);
+  border-radius:7px;padding:3px 12px;
+  font-family:'Courier New',Courier,monospace;font-size:18px;letter-spacing:4px;font-weight:700;
+  color:var(--amber);
+  text-shadow:0 0 12px rgba(248,201,74,.8);
+  vertical-align:middle;
+}
+.m-invite-note{
+  margin-top:10px;padding:8px 11px;
+  background:rgba(0,0,0,.35);border-radius:7px;
+  border-left:2px solid rgba(248,201,74,.5);
+  font-family:var(--ff-b);font-size:10px;
+  color:rgba(255,251,240,.45);letter-spacing:1px;line-height:1.8;
 }
 
 .m-body{padding:20px 18px;display:flex;flex-direction:column;gap:24px}
@@ -219,25 +320,16 @@ body{margin:0;font-family:var(--ff-b);-webkit-font-smoothing:antialiased}
 
 <!-- ═══ 符文光环按钮 ═══ -->
 <div class="enter-wrap" id="enterWrap" onclick="togglePanel()">
-
-  <!-- SVG 符文光环 — 三层独立旋转 -->
   <svg class="rune-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
     <defs>
-      <!-- 金色渐变描边 -->
       <linearGradient id="gGold" x1="0%" y1="0%" x2="100%" y2="100%">
         <stop offset="0%" stop-color="#f8d880" stop-opacity="0.9"/>
         <stop offset="50%" stop-color="#c49a2e" stop-opacity="0.6"/>
         <stop offset="100%" stop-color="#f8d880" stop-opacity="0.9"/>
       </linearGradient>
     </defs>
-
-    <!-- ── 外圈：虚线大圆 + 12刻度 + 8个菱形节点，顺时针慢转 ── -->
     <g class="rune-outer">
-      <!-- 外圈虚线 -->
-      <circle cx="100" cy="100" r="91"
-        fill="none" stroke="rgba(196,154,46,0.45)" stroke-width="1"
-        stroke-dasharray="3 9"/>
-      <!-- 12个刻度线 -->
+      <circle cx="100" cy="100" r="91" fill="none" stroke="rgba(196,154,46,0.45)" stroke-width="1" stroke-dasharray="3 9"/>
       <g stroke="rgba(236,196,94,0.6)" stroke-width="1.2">
         <line x1="100" y1="9"  x2="100" y2="18"/>
         <line x1="100" y1="9"  x2="100" y2="18" transform="rotate(30,100,100)"/>
@@ -252,14 +344,12 @@ body{margin:0;font-family:var(--ff-b);-webkit-font-smoothing:antialiased}
         <line x1="100" y1="9"  x2="100" y2="18" transform="rotate(300,100,100)"/>
         <line x1="100" y1="9"  x2="100" y2="18" transform="rotate(330,100,100)"/>
       </g>
-      <!-- 4个主方位大刻度（更长更亮） -->
       <g stroke="rgba(248,216,128,0.85)" stroke-width="1.8">
         <line x1="100" y1="7"  x2="100" y2="20"/>
         <line x1="100" y1="7"  x2="100" y2="20" transform="rotate(90,100,100)"/>
         <line x1="100" y1="7"  x2="100" y2="20" transform="rotate(180,100,100)"/>
         <line x1="100" y1="7"  x2="100" y2="20" transform="rotate(270,100,100)"/>
       </g>
-      <!-- 8个菱形节点，均布在r=91 -->
       <g fill="rgba(236,196,94,0.7)" stroke="rgba(196,154,46,0.4)" stroke-width="0.5">
         <polygon points="100,6 103,9 100,12 97,9"  />
         <polygon points="100,6 103,9 100,12 97,9" transform="rotate(45,100,100)"/>
@@ -271,35 +361,18 @@ body{margin:0;font-family:var(--ff-b);-webkit-font-smoothing:antialiased}
         <polygon points="100,6 103,9 100,12 97,9" transform="rotate(315,100,100)"/>
       </g>
     </g>
-
-    <!-- ── 中圈：八卦式古风字符 + 细弧线，逆时针中速 ── -->
     <g class="rune-mid">
-      <!-- 中圈细圆 -->
-      <circle cx="100" cy="100" r="76"
-        fill="none" stroke="rgba(196,154,46,0.3)" stroke-width="0.8"
-        stroke-dasharray="1 5"/>
-      <!-- 8个古风汉字，沿r=76均布 —— 用 textPath 沿路径分布 -->
-      <!-- 直接用 transform 旋转定位每个字 -->
-      <g font-family="'ZCOOL XiaoWei','Noto Serif SC',serif" font-size="10"
-         fill="rgba(236,196,94,0.72)" text-anchor="middle">
-        <!-- 天 -->
+      <circle cx="100" cy="100" r="76" fill="none" stroke="rgba(196,154,46,0.3)" stroke-width="0.8" stroke-dasharray="1 5"/>
+      <g font-family="'ZCOOL XiaoWei','Noto Serif SC',serif" font-size="10" fill="rgba(236,196,94,0.72)" text-anchor="middle">
         <text transform="translate(100,28)">天</text>
-        <!-- 地 -->
         <text transform="translate(100,28) rotate(45,0,-72)">地</text>
-        <!-- 玄 -->
         <text transform="translate(100,28) rotate(90,0,-72)">玄</text>
-        <!-- 黄 -->
         <text transform="translate(100,28) rotate(135,0,-72)">黄</text>
-        <!-- 将 -->
         <text transform="translate(100,28) rotate(180,0,-72)">将</text>
-        <!-- 战 -->
         <text transform="translate(100,28) rotate(225,0,-72)">战</text>
-        <!-- 霸 -->
         <text transform="translate(100,28) rotate(270,0,-72)">霸</text>
-        <!-- 业 -->
         <text transform="translate(100,28) rotate(315,0,-72)">业</text>
       </g>
-      <!-- 4段弧线装饰（每90°一段） -->
       <g fill="none" stroke="rgba(236,196,94,0.35)" stroke-width="1.2">
         <path d="M 100,24 A 76,76 0 0,1 176,100"/>
         <path d="M 176,100 A 76,76 0 0,1 100,176"/>
@@ -307,13 +380,8 @@ body{margin:0;font-family:var(--ff-b);-webkit-font-smoothing:antialiased}
         <path d="M 24,100 A 76,76 0 0,1 100,24"/>
       </g>
     </g>
-
-    <!-- ── 内圈：细密虚线圆 + 4个三角，顺时针快转 ── -->
     <g class="rune-inner">
-      <circle cx="100" cy="100" r="60"
-        fill="none" stroke="rgba(196,154,46,0.22)" stroke-width="0.8"
-        stroke-dasharray="2 4"/>
-      <!-- 4个小三角，指向外 -->
+      <circle cx="100" cy="100" r="60" fill="none" stroke="rgba(196,154,46,0.22)" stroke-width="0.8" stroke-dasharray="2 4"/>
       <g fill="rgba(236,196,94,0.45)" stroke="none">
         <polygon points="100,40 103.5,48 96.5,48"/>
         <polygon points="100,40 103.5,48 96.5,48" transform="rotate(90,100,100)"/>
@@ -322,21 +390,69 @@ body{margin:0;font-family:var(--ff-b);-webkit-font-smoothing:antialiased}
       </g>
     </g>
   </svg>
-
-  <!-- 按钮本体 -->
   <div class="enter-btn" id="enterBtn">
     <span class="ec">进入</span>
     <span class="es">ENTER</span>
   </div>
-
 </div>
-<!-- ═══ 符文光环结束 ═══ -->
 
 <div class="panel" id="panel">
   <div class="p-handle" onclick="togglePanel()"></div>
   <div class="p-head">
     <div class="p-title">热血福利服</div>
     <div class="p-sub">OPEN SERVER · WELFARE EDITION</div>
+  </div>
+
+  <!-- ══ 邀请码重点提醒（面板内） ══ -->
+  <div class="invite-banner">
+    <div class="invite-banner-top">
+      <div class="invite-flash"></div>
+      <div class="invite-banner-title">⚡ 专属邀请码 · 独家权益通道</div>
+    </div>
+
+    <!-- 邀请码大展示 -->
+    <div style="text-align:center;margin:10px 0 14px;">
+      <div style="font-family:var(--ff-b);font-size:10px;color:rgba(255,251,240,.4);letter-spacing:3px;margin-bottom:6px;">注册时填写邀请码</div>
+      <span class="invite-code-chip" style="font-size:22px;letter-spacing:6px;padding:5px 20px;">y12345</span>
+      <div style="font-family:var(--ff-b);font-size:10px;color:rgba(248,201,74,.55);letter-spacing:2px;margin-top:7px;">注意：y 为小写字母</div>
+    </div>
+
+    <!-- 独家权益列表 -->
+    <div style="background:rgba(0,0,0,.3);border-radius:9px;padding:11px 12px;margin-bottom:10px;">
+      <div style="font-family:var(--ff-d);font-size:11px;color:rgba(236,196,94,.7);letter-spacing:2px;margin-bottom:9px;">使用此邀请码注册，专享以下权益：</div>
+      <div class="invite-steps">
+        <div class="invite-step">
+          <div class="step-num" style="background:linear-gradient(135deg,#b87020,#6e3a06);">售</div>
+          <span><strong style="color:var(--gold2)">账号售后服务保障</strong> · 专属客服跟进，问题优先处理</span>
+        </div>
+        <div class="invite-step">
+          <div class="step-num" style="background:linear-gradient(135deg,#b87020,#6e3a06);">福</div>
+          <span><strong style="color:var(--gold2)">后续游戏福利待遇</strong> · 专属礼包、活动奖励持续发放</span>
+        </div>
+        <div class="invite-step">
+          <div class="step-num" style="background:linear-gradient(135deg,#b87020,#6e3a06);">享</div>
+          <span><strong style="color:var(--gold2)">别人那里享受不到的待遇</strong> · 仅限此邀请码玩家专属</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 注册步骤 -->
+    <div class="invite-steps" style="margin-bottom:4px;">
+      <div class="invite-step">
+        <div class="step-num">1</div>
+        <span>下载游戏后，<strong style="color:var(--gold2)">账号在游戏内注册</strong>，无需提前注册</span>
+      </div>
+      <div class="invite-step">
+        <div class="step-num">2</div>
+        <span>注册界面邀请码一栏填写&nbsp;<span class="invite-code-chip">y12345</span>&nbsp;（小写y）</span>
+      </div>
+      <div class="invite-step">
+        <div class="step-num">3</div>
+        <span>完成注册即自动绑定，全部专属权益立即生效</span>
+      </div>
+    </div>
+
+    <div class="invite-note">⚠ 邀请码<strong style="color:rgba(255,180,80,.7);">仅限注册时填写，注册后无法补填</strong>。未填写邀请码将无法享受售后服务及专属福利，请务必在注册时填写</div>
   </div>
 
   <div class="p-cd">
@@ -379,7 +495,7 @@ body{margin:0;font-family:var(--ff-b);-webkit-font-smoothing:antialiased}
     </div>
     <div class="info-item">
       <div class="ib">资</div>
-      <span>落地 <strong>无限资源</strong>，主城全满，免开荒，直接对战</span>
+      <span>公测同享 <strong>无限资源</strong>，主城全满，免开荒，直接对战</span>
     </div>
     <div class="info-item">
       <div class="ib">奖</div>
@@ -402,19 +518,67 @@ body{margin:0;font-family:var(--ff-b);-webkit-font-smoothing:antialiased}
       <div class="m-head-sub">WELFARE SERVER · OFFICIAL ANNOUNCEMENT</div>
     </div>
 
-    <!-- 宣传图完整展示，不裁切 -->
     <img class="m-banner" src="STXC.png" alt="率土之滨福利公告" loading="lazy"
       onerror="this.style.display='none'"/>
+
+    <!-- ══ 弹窗内邀请码重点提醒 ══ -->
+    <div class="m-invite">
+      <div class="m-invite-title">专属邀请码 · 独家权益通道</div>
+
+      <!-- 邀请码大展示 -->
+      <div style="text-align:center;margin:4px 0 14px;">
+        <div style="font-family:var(--ff-b);font-size:10px;color:rgba(255,251,240,.4);letter-spacing:3px;margin-bottom:6px;">注册时填写邀请码</div>
+        <span class="m-code-chip" style="font-size:22px;letter-spacing:6px;padding:5px 22px;">y12345</span>
+        <div style="font-family:var(--ff-b);font-size:10px;color:rgba(248,201,74,.55);letter-spacing:2px;margin-top:7px;">注意：y 为小写字母</div>
+      </div>
+
+      <!-- 独家权益列表 -->
+      <div style="background:rgba(0,0,0,.35);border-radius:9px;padding:12px 13px;margin-bottom:12px;">
+        <div style="font-family:var(--ff-d);font-size:11px;color:rgba(236,196,94,.7);letter-spacing:2px;margin-bottom:10px;">使用此邀请码注册，专享以下权益：</div>
+        <div class="m-invite-steps">
+          <div class="m-invite-step">
+            <div class="m-step-num" style="background:linear-gradient(135deg,#b87020,#6e3a06);border-color:rgba(248,180,80,.4);">售</div>
+            <span><strong style="color:var(--gold2)">账号售后服务保障</strong> · 专属客服跟进，问题优先处理，其他渠道无此待遇</span>
+          </div>
+          <div class="m-invite-step">
+            <div class="m-step-num" style="background:linear-gradient(135deg,#b87020,#6e3a06);border-color:rgba(248,180,80,.4);">福</div>
+            <span><strong style="color:var(--gold2)">后续专属福利持续发放</strong> · 礼包、活动、奖励仅对此邀请码玩家开放</span>
+          </div>
+          <div class="m-invite-step">
+            <div class="m-step-num" style="background:linear-gradient(135deg,#b87020,#6e3a06);border-color:rgba(248,180,80,.4);">享</div>
+            <span><strong style="color:var(--gold2)">别处绝对享受不到的专属待遇</strong> · 只有通过此邀请码注册才能获得</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 注册步骤 -->
+      <div class="m-invite-steps" style="margin-bottom:4px;">
+        <div class="m-invite-step">
+          <div class="m-step-num">1</div>
+          <span>下载后<strong style="color:var(--gold2)">在游戏内注册账号</strong>，无需提前注册</span>
+        </div>
+        <div class="m-invite-step">
+          <div class="m-step-num">2</div>
+          <span>注册界面邀请码填写&nbsp;<span class="m-code-chip" style="font-size:15px;padding:2px 10px;">y12345</span>&nbsp;（小写y）</span>
+        </div>
+        <div class="m-invite-step">
+          <div class="m-step-num">3</div>
+          <span>完成注册即自动绑定，全部专属权益立即生效</span>
+        </div>
+      </div>
+
+      <div class="m-invite-note">⚠ 邀请码<strong style="color:rgba(255,180,80,.75);">仅限注册时填写，注册后无法补填</strong>。未填写邀请码将无法享受售后服务及专属福利待遇，请务必在注册时填写</div>
+    </div>
 
     <div class="m-body">
 
       <div class="sec">
-        <div class="sec-hd"><div class="sec-icon">核</div><span class="sec-name">四大核心福利</span><span class="sec-tag">内测专属</span></div>
+        <div class="sec-hd"><div class="sec-icon">核</div><span class="sec-name">四大核心福利</span><span class="sec-tag">公测全服开放</span></div>
         <div class="four-grid">
           <div class="four-card">
             <div class="fc-num">01</div>
             <div class="fc-val">12万玉</div>
-            <div class="fc-label">势力值最高<br>免费获得<br>（第一赛季）</div>
+            <div class="fc-label">进游戏即可<br>领取12万玉<br>直接起飞</div>
           </div>
           <div class="four-card">
             <div class="fc-num">02</div>
@@ -424,7 +588,7 @@ body{margin:0;font-family:var(--ff-b);-webkit-font-smoothing:antialiased}
           <div class="four-card">
             <div class="fc-num">03</div>
             <div class="fc-val">无限</div>
-            <div class="fc-label">落地免开荒<br>无限资源<br>主城全满</div>
+            <div class="fc-label">公测同享<br>无限资源<br>主城全满免开荒</div>
           </div>
           <div class="four-card">
             <div class="fc-num">04</div>
